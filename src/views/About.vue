@@ -27,6 +27,7 @@
             { x: 270, y: 405, status: 0, obj: null },
         ],
         textTimer: "",
+        resources: null,
       }
     },
     mounted: function () {
@@ -56,13 +57,17 @@
       PIXI.Loader.shared.add(this.img2Path);
       // プリロード処理が終わったら呼び出されるイベント
       PIXI.Loader.shared.load((loader, resources) => {
-        this.createGameScene(resources)
+        this.resources = resources
+        this.createGameScene()
       })
     },
     methods: {
-      createGameScene(resources) {
+      createGameScene() {
+        this.timmer = 0
+        this.differences[0].status = 0
+        this.differences[1].status = 0
+        this.differences[2].status = 0
         // 他に表示しているシーンがあれば削除
-        console.log("テスターちゃん")
         this.removeAllScene()
         this.removeAllGameLoops()
 
@@ -71,12 +76,12 @@
         // ゲームシーンを画面に追加
         this.app.stage.addChild(gameScene)
 
-        const image1 = new PIXI.Sprite(resources[this.img1Path]?.texture)
+        const image1 = new PIXI.Sprite(this.resources[this.img1Path]?.texture)
         image1.x = 50;
         image1.y = 70;
         gameScene.addChild(image1); // ボールをシーンに追加
 
-        const image2 = new PIXI.Sprite(resources[this.img2Path].texture)
+        const image2 = new PIXI.Sprite(this.resources[this.img2Path].texture)
 
         image2.x = 50;
         image2.y = 350;
@@ -159,9 +164,8 @@
       },
       removeAllScene()
       {
-        console.log(this.app.stage.children)
-        this.app.stage.destroy
-        this.app.update()
+        //console.log(this.app.stage.children)
+        this.app.stage.removeChildren()
         // 既存のシーンを全部削除する
         //this.app.stage.destroy(this.app.stage.children)
         /*
@@ -208,8 +212,8 @@
         // 他に表示しているシーンがあれば削除
         this.removeAllScene();
         // 毎フレームイベントを削除
-        //this.removeAllGameLoops();
-/* 
+        this.removeAllGameLoops();
+
         // ゲーム用のシーン表示
         const endScene = new PIXI.Container();
         // シーンを画面に追加する
@@ -232,7 +236,7 @@
         //自作のボタン生成関数を使って、もう一度ボタンを生成
         //引数の内容はcreateButton関数を参考に
         const retryButton = this.createButton("もう一度", 120, 60, 0xf09199, () => {
-            // クリックした時の処理
+            // クリック"した時の処理
             this.createGameScene(); // ゲームシーンを生成する
         })
         retryButton.x = 40; // ボタンの座標指定
@@ -248,7 +252,6 @@
         tweetButton.x = 240; // ボタンの座標指定
         tweetButton.y = 500; // ボタンの座標指定
         endScene.addChild(tweetButton); // ボタンを結果画面シーンに追加
-        */
       },
       createButton(text, width, height, color, onClick) {
         const buttonAlpha = 1.0; // ボタン背景の透明度
