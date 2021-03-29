@@ -8,6 +8,12 @@
   </div>
 </template>
 
+<script>
+import firebase from "firebase/app";
+if(firebase.apps.length === 0) {
+  firebase.initializeApp(JSON.parse(process.env.VUE_APP_FIREBASE_CONFIG))
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -16,16 +22,13 @@
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
