@@ -9,12 +9,14 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuex": "^3.4.0",
+    "dotenv": "^8.2.0",
+    "element": "^0.1.4",
+    "firebase": "^7.13.1",
     "pixi-sound": "^3.0.5",
     "pixi.js": "^5.3.7",
-    "firebase": "^7.13.1"
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

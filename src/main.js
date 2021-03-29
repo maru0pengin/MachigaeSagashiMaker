@@ -7,8 +7,10 @@ import firebase from 'firebase/app'
 
 Vue.config.productionTip = true
 
+
 if (firebase.apps.length === 0) {
   firebase.initializeApp(JSON.parse(process.env.VUE_APP_FIREBASE_CONFIG))
+  console.log("test")
 }
 
 new Vue({

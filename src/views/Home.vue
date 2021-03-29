@@ -1,5 +1,11 @@
 <template>
+
   <div class="home">
+      <div>
+    <el-upload >
+    <el-button><i />写真アップロード</el-button>
+    </el-upload>
+  </div>
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
