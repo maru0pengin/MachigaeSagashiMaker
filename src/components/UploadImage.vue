@@ -47,7 +47,7 @@ export default {
     storagePath() {
       console.log("aiueo")
       console.log(this.id)
-      return `${this.id}`;
+      return `${this.id}.png`;
     },
   },
   methods: {

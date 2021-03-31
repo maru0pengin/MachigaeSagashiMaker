@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import firebase from 'firebase';
   const WIDTH = 400
   const HEIGHT = 600
 
@@ -14,7 +15,8 @@
   export default {
     data: function () {
       return {
-        img1Path: require('@/assets/image1.png'),
+        //img1Path: require('@/assets/image1.png'),
+        img1Path: ``,
         img2Path: require('@/assets/image2.png'),
         app: null,
         timmer: 0,
@@ -30,7 +32,14 @@
         resources: null,
       }
     },
-    mounted: function () {
+    mounted: async function () {
+      let ref = await firebase.storage().ref().child('t27ZewK8GmUBHnZjk9gh.png')
+      console.log(ref)
+      await ref.getDownloadURL().then((url) => {
+        console.log("test")
+        console.log(url)
+        this.img1Path = url
+      })
       this.app = new PIXI.Application({ width: WIDTH , height: HEIGHT })
       let el = document.getElementById("canvas")
       el.appendChild(this.app.view)
@@ -51,8 +60,10 @@
       this.app.view.addEventListener('pointermove', (ev) => {
           console.log(ev.clientX, ev.clientY)
       })*/
-
+      console.log(this.img1Path)
       PIXI.Loader.shared.reset().add(this.img1Path).add(this.img2Path)
+
+
       //PIXI.Loader.shared.reset().add(this.img2Path)
       // プリロード処理が終わったら呼び出されるイベント
       PIXI.Loader.shared.load((loader, resources) => {
@@ -63,6 +74,10 @@
     },
     methods: {
       createGameScene() {
+        console.log("うぉ＾ー")
+        console.log(this.img2Path)
+        console.log(this.img1Path)
+
         this.timmer = 0
         this.differences.forEach(difference =>{
           difference.status = 0
