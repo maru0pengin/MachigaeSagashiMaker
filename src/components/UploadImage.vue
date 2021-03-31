@@ -24,8 +24,7 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
-import "firebase/storage";
+import firebase from "firebase"
 const ALREADY_UPLOADED = Symbol("ALREADY_UPLOADED"); //ユニークで不変なデータ型
 const reader = new FileReader();
 const storageRef = firebase.storage().ref();
@@ -46,7 +45,9 @@ export default {
      * Cloud Storageの保存先
      */
     storagePath() {
-      return `${this.date}`;
+      console.log("aiueo")
+      console.log(this.id)
+      return `${this.id}`;
     },
   },
   methods: {
@@ -76,6 +77,7 @@ export default {
         // cloud storageにアップロード済みかつ、ユーザーが選択画像を変更していないとき
         return this.goNext();
       }
+      console.log("test")
       const ref = storageRef.child(this.storagePath);
       console.log(ref);
       ref
