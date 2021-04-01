@@ -35,6 +35,11 @@ export default {
   components: { UploadImage, UploadCoordinates },
   methods: {
       submit : function () {
+        let differences = [
+            { x: 104, y: 394 },
+            { x: 110, y: 425 },
+            { x: 270, y: 405 },
+        ]
         // 先程作った「sample」というコレクションを取得する
         let collection = this.db.collection("quizzes")
         // この先にあるthenでthisの参照が切れるのでselfに退避させておく
@@ -42,7 +47,8 @@ export default {
         // 「sample」というコレクションに対して {} で定義した情報を add する
         collection.add({
           title: this.title,
-          createdAt: new Date()
+          createdAt: new Date(),
+          differences: differences
         }).then(function(docRef) {
           // 保存に成功した時
           console.log("Document written with ID: ", docRef.id)

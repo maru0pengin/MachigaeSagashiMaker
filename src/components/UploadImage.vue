@@ -17,21 +17,24 @@
       style="margin: 1rem"
     />
     <div style="text-align: center">
-      <el-button type="primary" @click="save">登録して次へ</el-button>
+      <el-button type="primary" @click="save(true)">正解画像を保存</el-button>
+      <el-button type="primary" @click="save(false)"
+        >負正解画像を保存</el-button
+      >
     </div>
-    {{id}}
+    {{ id }}
   </div>
 </template>
 
 <script>
-import firebase from "firebase"
+import firebase from "firebase";
 const ALREADY_UPLOADED = Symbol("ALREADY_UPLOADED"); //ユニークで不変なデータ型
 const reader = new FileReader();
 const storageRef = firebase.storage().ref();
 export default {
   name: "UploadImage",
   props: {
-    id: String
+    id: String,
   },
   data: () => ({
     uploadedImages: {
@@ -44,10 +47,13 @@ export default {
     /**
      * Cloud Storageの保存先
      */
-    storagePath() {
-      console.log("aiueo")
-      console.log(this.id)
-      return `${this.id}`;
+    storagePathCorrect() {
+      console.log(this.id);
+      return `${this.id}/correct.png`;
+    },
+    storagePathIncorrect() {
+      console.log(this.id);
+      return `${this.id}/incorrect.png`;
     },
   },
   methods: {
@@ -70,16 +76,17 @@ export default {
           });
         });
     },
-    save() {
+    save(correct) {
       this.date = new Date();
       const { file } = this.uploadedImages;
       if (file === ALREADY_UPLOADED) {
         // cloud storageにアップロード済みかつ、ユーザーが選択画像を変更していないとき
         return this.goNext();
       }
-      console.log("test")
-      const ref = storageRef.child(this.storagePath);
-      console.log(ref);
+      console.log("test");
+      let ref;
+      if (correct) ref = storageRef.child(this.storagePathCorrect);
+      else ref = storageRef.child(this.storagePathIncorrect);
       ref
         .put(file)
         .then(() => {
