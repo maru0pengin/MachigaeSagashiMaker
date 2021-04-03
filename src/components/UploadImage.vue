@@ -40,7 +40,6 @@ export default {
     uploadedImages: {
       src: null, // 画像イメージのソース
       file: null, // 画像のFileオブジェクト。cloud storageに画像を保存済みの場合はFileオブジェクトではなくALREADY_UPLOADEDを入れる
-      date: null, //IDとして使用する日付
     },
   }),
   computed: {
@@ -58,6 +57,7 @@ export default {
   },
   methods: {
     upload({ file }) {
+      console.log({ file });
       return new Promise((resolve, reject) => {
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
@@ -77,8 +77,8 @@ export default {
         });
     },
     save(correct) {
-      this.date = new Date();
       const { file } = this.uploadedImages;
+      console.log(file);
       if (file === ALREADY_UPLOADED) {
         // cloud storageにアップロード済みかつ、ユーザーが選択画像を変更していないとき
         return this.goNext();
