@@ -39,6 +39,7 @@
         図形を表示するには、canvasタグをサポートしたブラウザが必要です。
       </canvas>
     </div>
+    <save-positions v-if="resizeImg" v-bind:imgURL="resizeImg" />
   </div>
 </template>
 
@@ -46,13 +47,13 @@
 import VueCropper from "vue-cropperjs";
 import "cropperjs/dist/cropper.css";
 
-//import firebase from "firebase";
+import SavePositions from "@/components/SavePositions";
 //const ALREADY_UPLOADED = Symbol("ALREADY_UPLOADED"); //ユニークで不変なデータ型
-//const storageRef = firebase.storage().ref();
 
 export default {
   components: {
     VueCropper,
+    SavePositions,
   },
   data() {
     return {
@@ -66,6 +67,7 @@ export default {
         src: null, // 画像イメージのソース
         file: null, // 画像のFileオブジェクト。cloud storageに画像を保存済みの場合はFileオブジェクトではなくALREADY_UPLOADEDを入れる
       },
+      imgURL: null,
     };
   },
   methods: {
