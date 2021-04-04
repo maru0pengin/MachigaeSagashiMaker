@@ -14,9 +14,8 @@ import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 export default {
   data: function () {
     return {
-      //img1Path: require('@/assets/image1.png'),
-      img1Path: ``,
-      img2Path: ``,
+      correctImgPath: ``,//正解画像のパスを入れる
+      incorrectImgPath: ``,//不正解画像のパスを入れる
       app: null,
       timmer: 0,
       displayTimmer: "",
@@ -38,47 +37,48 @@ export default {
     this.db = firebase.firestore(); // dbインスタンスを初期化
   },
   mounted: async function () {
-    var docRef = await this.db
+    //間違え位置の取得
+    let docRef = await this.db
       .collection("quizzes")
       .doc("xqyvaTfBCAXPCBRber5h");
     docRef
       .get()
       .then((doc) => {
-        if (doc.exists) {
+        if (doc.exists) {//データが存在しているか確認
           console.log("Document data:", doc.data());
           this.title = doc.data().title;
-          console.log(doc.data().differences.length);
+          //間違えの位置を取得し、ステータス情報等を追加してdifferencesへ保存
           for (let i = 0; i < doc.data().differences.length; i++) {
             this.differences[i] = {
               ...doc.data().differences[i],
               status: 0,
               obj: null,
+              circleObj: null,
             };
           }
-          console.log(this.differences);
-          //this.differences = doc.data.map(x => x * 2);
         } else {
-          // doc.data() will be undefined in this case
+          // doc.data() が未定義の場合
           console.log("No such document!");
         }
       })
       .catch((error) => {
         console.log("Error getting document:", error);
       });
+    //画像の取得
     let ref;
     ref = await firebase
       .storage()
       .ref()
       .child("xqyvaTfBCAXPCBRber5h/correct.png");
     await ref.getDownloadURL().then((url) => {
-      this.img1Path = url;
+      this.correctImgPath = url;
     });
     ref = await firebase
       .storage()
       .ref()
       .child("xqyvaTfBCAXPCBRber5h/incorrect.png");
     await ref.getDownloadURL().then((url) => {
-      this.img2Path = url;
+      this.incorrectImgPath = url;
     });
 
     this.app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
@@ -96,15 +96,10 @@ export default {
     this.app.renderer.view.style.border = "3px dashed #ffcccc";
     // canvasの背景色
     this.app.renderer.backgroundColor = 0xdeb887;
-    // 一座標確認に使用
-    /*
-      this.app.view.addEventListener('pointermove', (ev) => {
-          console.log(ev.clientX, ev.clientY)
-      })*/
-    console.log(this.img1Path);
-    PIXI.Loader.shared.reset().add(this.img1Path).add(this.img2Path);
 
-    //PIXI.Loader.shared.reset().add(this.img2Path)
+    PIXI.Loader.shared.reset().add(this.correctImgPath).add(this.incorrectImgPath);
+
+    //PIXI.Loader.shared.reset().add(this.incorrectImgPath)
     // プリロード処理が終わったら呼び出されるイベント
     PIXI.Loader.shared.load((loader, resources) => {
       //resources["../assets/crear.mp3"].sound.play() // クリックで音が鳴る
@@ -114,9 +109,19 @@ export default {
   },
   methods: {
     createGameScene() {
+      // 一座標確認に使用
+      this.app.view.addEventListener('pointerdown', (ev)=>{
+        console.log(ev.layerX,ev.layerY);
+      });
+      /*
+      this.app.view.addEventListener('pointerdown', (ev) => {
+        //console.log(ev.clientX, ev.clientY)
+        const position = ev.data.getLocalPosition(event.currentTarget);
+        console.log(position)
+      })*/
       console.log("うぉ＾ー");
-      console.log(this.img2Path);
-      console.log(this.img1Path);
+      console.log(this.incorrectImgPath);
+      console.log(this.correctImgPath);
 
       this.timmer = 0;
       this.differences.forEach((difference) => {
@@ -130,12 +135,13 @@ export default {
       // ゲームシーンを画面に追加
       this.app.stage.addChild(gameScene);
 
-      const image1 = new PIXI.Sprite(this.resources[this.img1Path]?.texture);
+      const image1 = new PIXI.Sprite(this.resources[this.correctImgPath]?.texture);
+      console.log(`あいうえお${image1}`)
       image1.x = 50;
       image1.y = 70;
       gameScene.addChild(image1); // ボールをシーンに追加
 
-      const image2 = new PIXI.Sprite(this.resources[this.img2Path].texture);
+      const image2 = new PIXI.Sprite(this.resources[this.incorrectImgPath].texture);
 
       image2.x = 50;
       image2.y = 350;
@@ -145,13 +151,14 @@ export default {
       const length = 30; //ヒットエリアの幅
       const radius = 20; //正解時に出す縁の半径
 
+      /*
       const correctCircles = [
         { x: 104, y: 394, status: 0, obj: null },
         { x: 110, y: 425, status: 0, obj: null },
         { x: 270, y: 405, status: 0, obj: null },
       ];
-
-      this.differences.forEach((difference, i) => {
+      */
+      this.differences.forEach((difference) => {
         difference.obj = new PIXI.Graphics();
         let rect = new PIXI.Rectangle(
           difference.x - length / 2,
@@ -171,15 +178,15 @@ export default {
           if (difference.status === 0) {
             //console.log(correctCircles[0])
             //正解を示す円を表示させる
-            correctCircles[i].obj = new PIXI.Graphics();
-            correctCircles[i].obj.lineStyle(5, 0xec6d71, 1);
-            correctCircles[i].obj.drawCircle(
+            difference.CircleObj = new PIXI.Graphics();
+            difference.CircleObj.lineStyle(5, 0xec6d71, 1);
+            difference.CircleObj.drawCircle(
               difference.x,
               difference.y - radius / 2,
               radius,
               radius
             );
-            gameScene.addChild(correctCircles[i].obj);
+            gameScene.addChild(difference.CircleObj);
             //正解数を増やす
             //this.upScore()
             //正解済みの間違えに設定
