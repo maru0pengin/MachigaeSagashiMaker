@@ -4,7 +4,7 @@
       action=""
       :http-request="upload"
       accept="image/*"
-      :show-file-list="false"
+      :show-file-list="true"
     >
       <el-button><i class="el-icon-top" />写真アップロード</el-button>
     </el-upload>

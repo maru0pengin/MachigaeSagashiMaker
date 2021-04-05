@@ -3,11 +3,11 @@
     <h2>画像のトリミング</h2>
     <hr />
     <h3>画像を選択</h3>
-    <input @change="setImage" type="file" name="image" accept="image/*" />
+    <input @change="setImage1" type="file" name="image" accept="image/*" />
     <br />
-    <div v-if="imgSrc !== ''" class="l_cropper_container">
+    <div v-if="imgSrc1 !== ''" class="l_cropper_container">
       <vue-cropper
-        ref="cropper"
+        ref="cropper1"
         :guides="true"
         :view-mode="2"
         :auto-crop-area="0.5"
@@ -15,14 +15,30 @@
         :min-container-height="500"
         :background="true"
         :rotatable="false"
-        :src="imgSrc"
+        :src="imgSrc1"
         :img-style="{ width: '500px', height: '500px' }"
         :aspect-ratio="targetWidth / targetHeight"
         drag-mode="crop"
       />
       <br />
 
-      <button @click="cropImage" v-if="imgSrc !== ''">トリミング</button>
+      <button @click="cropImage" v-if="imgSrc1 !== ''">トリミング</button>
+    </div>
+
+    <input @change="setImage2" type="file" name="image" accept="image/*" />
+    <br />
+
+    <div v-if="imgSrc2 !== ''">
+      <vue-cropper
+        ref="cropper2"
+        :src="imgSrc2"
+        class="l_in_cropper_container"
+      />
+      <br />
+
+      <button @click="cropImageIncorrect" v-if="imgSrc2 !== ''">
+        トリミング
+      </button>
     </div>
     <br />
     <br />
@@ -59,7 +75,8 @@ export default {
     return {
       targetWidth: 30,
       targetHeight: 18,
-      imgSrc: "",
+      imgSrc1: "",
+      imgSrc2: "",
       cropImg: "",
       resizeImg: "",
       filename: "",
@@ -68,10 +85,11 @@ export default {
         file: null, // 画像のFileオブジェクト。cloud storageに画像を保存済みの場合はFileオブジェクトではなくALREADY_UPLOADEDを入れる
       },
       imgURL: null,
+      Data: null,
     };
   },
   methods: {
-    setImage(e) {
+    setImage1(e) {
       const file = e.target.files[0];
       this.filename = file.name;
       if (!file.type.includes("image/")) {
@@ -81,7 +99,24 @@ export default {
       if (typeof FileReader === "function") {
         const reader = new FileReader();
         reader.onload = (event) => {
-          this.imgSrc = event.target.result;
+          this.imgSrc1 = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Sorry, FileReader API not supported");
+      }
+    },
+    setImage2(e) {
+      const file = e.target.files[0];
+      this.filename = file.name;
+      if (!file.type.includes("image/")) {
+        alert("Please select an image file");
+        return;
+      }
+      if (typeof FileReader === "function") {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          this.imgSrc2 = event.target.result;
         };
         reader.readAsDataURL(file);
       } else {
@@ -89,7 +124,15 @@ export default {
       }
     },
     cropImage() {
-      this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
+      console.log("test");
+      this.Data = this.$refs.cropper1.getData();
+      this.cropImg = this.$refs.cropper1.getCroppedCanvas().toDataURL();
+      this.resizeImage();
+    },
+    cropImageIncorrect() {
+      console.log("test");
+      this.$refs.cropper2.setData(this.Data);
+      this.cropImg = this.$refs.cropper2.getCroppedCanvas().toDataURL();
       this.resizeImage();
     },
     resizeImage() {
@@ -140,5 +183,9 @@ h3 {
   height: 500px;
   border: 1px solid gray;
   display: inline-block;
+}
+.l_in_cropper_container {
+  width: 0px;
+  height: 0px;
 }
 </style>
