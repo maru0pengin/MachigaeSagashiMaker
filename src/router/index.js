@@ -32,6 +32,7 @@ const routes = [
         path: 'trim',
         name: 'trim',
         component: () => import('@/views/upload/trim.vue'),
+        props: true,
       },
       {
         path: 'setDifferences',
