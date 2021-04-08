@@ -20,7 +20,6 @@ export default {
       app: null,
       resources: null,
       db: null,
-      blobUrl: null,
       imgPath: null,
       differences: [],
       gameScene: null,

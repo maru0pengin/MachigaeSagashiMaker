@@ -60,10 +60,6 @@ export default {
         reader.onerror = reject;
       })
         .then((imageSrc) => {
-          /*
-          if(this.correctImage.src) this.incorrectImage = { src: imageSrc, file };
-          else this.correctImage = { src: imageSrc, file };
-          */
           if(this.correctImage) this.incorrectImage = imageSrc;
           else this.correctImage = imageSrc;
         })

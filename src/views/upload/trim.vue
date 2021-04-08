@@ -22,21 +22,22 @@
 
       <button @click="cropImage" v-if="correctImage !== ''">トリミング</button>
     </div>
-    <div v-show=false>
-      <vue-cropper
-        ref="cropper2"
-        :src="incorrectImage"
-      />
+    <div v-show="false">
+      <vue-cropper ref="cropper2" :src="incorrectImage" />
+    </div>
+    <div v-show="false">
+      <canvas id="correct" width="100" height="100" />
+      <canvas id="incorrect" width="100" height="100" />
     </div>
     <br />
     <img
-      :src="cropCorrect"
+      :src="resizeCorrect"
       class="upload-img"
       width="300"
       style="margin: 1rem"
     />
     <img
-      :src="cropIncorrect"
+      :src="resizeIncorrect"
       class="upload-img"
       width="300"
       style="margin: 1rem"
@@ -63,20 +64,61 @@ export default {
   data() {
     return {
       cropCorrect: "",
-      cropIncorrect: null,
+      cropIncorrect: "",
+      resizeCorrect: "",
+      resizeIncorrect: "",
     };
   },
   methods: {
     cropImage() {
-      console.log("test");
       this.Data = this.$refs.cropper1.getData();
-      this.cropCorrect= this.$refs.cropper1.getCroppedCanvas().toDataURL();
+      this.cropCorrect = this.$refs.cropper1.getCroppedCanvas().toDataURL();
 
       this.$refs.cropper2.setData(this.Data);
       this.cropIncorrect = this.$refs.cropper2.getCroppedCanvas().toDataURL();
+
+      this.resizeImage("incorrect");
+      this.resizeImage("correct");
+    },
+    resizeImage(id) {
+      const width = 300;
+      const height = 180;
+      let img = new Image();
+      let canvas = document.getElementById(id);
+      canvas.width = width;
+      canvas.height = height;
+      let context = canvas?.getContext("2d");
+
+      //あらかじめimgロード時の処理を設定しておく
+      img.onload = () => {
+        context.drawImage(
+          img,
+          0,
+          0,
+          img.width,
+          img.height,
+          0,
+          0,
+          width,
+          height
+        );
+        let base64 = canvas.toDataURL("image/png");
+
+        if (id === "correct") this.resizeCorrect = base64;
+        else this.resizeIncorrect = base64;
+      };
+      if (id === "correct") img.src = this.cropCorrect;
+      else img.src = this.cropIncorrect;
     },
     gotoNext() {
-      this.$router.push({ name: "setDifferences", query: this.$route.query });
+      this.$router.push({
+        name: "setDifferences",
+        query: this.$route.query,
+        params: {
+          correctImage: this.resizeCorrect,
+          incorrectImage: this.resizeIncorrect,
+        },
+      });
     },
     gotoBack() {
       this.$router.push({ name: "imageUpload", query: this.$route.query });
