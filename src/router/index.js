@@ -47,6 +47,7 @@ const routes = [
         path: 'completed',
         name: 'completed',
         component: () => import('@/views/upload/completed.vue'),
+        props: true,
       }
     ]
   },

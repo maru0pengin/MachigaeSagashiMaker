@@ -14,8 +14,8 @@ import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 export default {
   data: function () {
     return {
-      correctImgPath: ``,//正解画像のパスを入れる
-      incorrectImgPath: ``,//不正解画像のパスを入れる
+      correctImgPath: ``, //正解画像のパスを入れる
+      incorrectImgPath: ``, //不正解画像のパスを入れる
       app: null,
       timmer: 0,
       displayTimmer: "",
@@ -40,11 +40,12 @@ export default {
     //間違え位置の取得
     let docRef = await this.db
       .collection("quizzes")
-      .doc("xqyvaTfBCAXPCBRber5h");
+      .doc("2gKy95233WjgWTJkrxSV");
     docRef
       .get()
       .then((doc) => {
-        if (doc.exists) {//データが存在しているか確認
+        if (doc.exists) {
+          //データが存在しているか確認
           console.log("Document data:", doc.data());
           this.title = doc.data().title;
           //間違えの位置を取得し、ステータス情報等を追加してdifferencesへ保存
@@ -69,14 +70,14 @@ export default {
     ref = await firebase
       .storage()
       .ref()
-      .child("xqyvaTfBCAXPCBRber5h/correct.png");
+      .child("2gKy95233WjgWTJkrxSV/correct.png");
     await ref.getDownloadURL().then((url) => {
       this.correctImgPath = url;
     });
     ref = await firebase
       .storage()
       .ref()
-      .child("xqyvaTfBCAXPCBRber5h/incorrect.png");
+      .child("2gKy95233WjgWTJkrxSV/incorrect.png");
     await ref.getDownloadURL().then((url) => {
       this.incorrectImgPath = url;
     });
@@ -97,7 +98,10 @@ export default {
     // canvasの背景色
     this.app.renderer.backgroundColor = 0xdeb887;
 
-    PIXI.Loader.shared.reset().add(this.correctImgPath).add(this.incorrectImgPath);
+    PIXI.Loader.shared
+      .reset()
+      .add(this.correctImgPath)
+      .add(this.incorrectImgPath);
 
     //PIXI.Loader.shared.reset().add(this.incorrectImgPath)
     // プリロード処理が終わったら呼び出されるイベント
@@ -110,8 +114,8 @@ export default {
   methods: {
     createGameScene() {
       // 一座標確認に使用
-      this.app.view.addEventListener('pointerdown', (ev)=>{
-        console.log(ev.layerX,ev.layerY);
+      this.app.view.addEventListener("pointerdown", (ev) => {
+        console.log(ev.layerX, ev.layerY);
       });
       /*
       this.app.view.addEventListener('pointerdown', (ev) => {
@@ -135,13 +139,17 @@ export default {
       // ゲームシーンを画面に追加
       this.app.stage.addChild(gameScene);
 
-      const image1 = new PIXI.Sprite(this.resources[this.correctImgPath]?.texture);
-      console.log(`あいうえお${image1}`)
+      const image1 = new PIXI.Sprite(
+        this.resources[this.correctImgPath]?.texture
+      );
+      console.log(`あいうえお${image1}`);
       image1.x = 50;
       image1.y = 70;
       gameScene.addChild(image1); // ボールをシーンに追加
 
-      const image2 = new PIXI.Sprite(this.resources[this.incorrectImgPath].texture);
+      const image2 = new PIXI.Sprite(
+        this.resources[this.incorrectImgPath].texture
+      );
 
       image2.x = 50;
       image2.y = 350;
@@ -166,7 +174,7 @@ export default {
           length,
           length
         );
-        difference.obj.beginFill(0xfff000, 0); //ヒットエリアは透明
+        difference.obj.beginFill(0xfff000, 0.5); //ヒットエリアは透明
         difference.obj.drawShape(rect);
         difference.obj.endFill();
 

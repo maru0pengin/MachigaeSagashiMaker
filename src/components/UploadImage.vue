@@ -67,7 +67,7 @@ export default {
           this.uploadedImages = { src: imageSrc, file };
         })
         .catch((err) => {
-          this.$rollbar.error(err);
+          //this.$rollbar.error(err);
           this.$notify({
             type: "error",
             title: "Error",
