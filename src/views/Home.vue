@@ -1,167 +1,54 @@
 <template>
-  <div style="font-size: 14px; text-align: center; width: 100vw">
-    <h2>画像のトリミング</h2>
-    <hr />
-    <h3>画像を選択</h3>
-    <input @change="setImage1" type="file" name="image" accept="image/*" />
-    <br />
-    <div v-if="imgSrc1 !== ''" class="l_cropper_container">
-      <vue-cropper
-        ref="cropper1"
-        :guides="true"
-        :view-mode="2"
-        :auto-crop-area="0.5"
-        :min-container-width="500"
-        :min-container-height="500"
-        :background="true"
-        :rotatable="false"
-        :src="imgSrc1"
-        :img-style="{ width: '500px', height: '500px' }"
-        :aspect-ratio="targetWidth / targetHeight"
-        drag-mode="crop"
-      />
-      <br />
-
-      <button @click="cropImage" v-if="imgSrc1 !== ''">トリミング</button>
+  <div>
+    <h2>間違え探し</h2>
+    <div v-for="quizze in quizzes" :key="quizze.id">
+      <el-button type="primary" @click="gotoGame(quizze.id)">{{
+        quizze.title
+      }}</el-button>
     </div>
-
-    <input @change="setImage2" type="file" name="image" accept="image/*" />
-    <br />
-
-    <div v-if="imgSrc2 !== ''">
-      <vue-cropper
-        ref="cropper2"
-        :src="imgSrc2"
-        class="l_in_cropper_container"
-      />
-      <br />
-
-      <button @click="cropImageIncorrect" v-if="imgSrc2 !== ''">
-        トリミング
-      </button>
-    </div>
-    <br />
-    <br />
-    <br />
-    <div v-if="cropImg !== ''">
-      <img :src="cropImg" alt="Cropped Image" class="c_cropped_image" />
-      <p>
-        <a :href="resizeImg" :download="filename">画像を保存</a>
-      </p>
-      <br />
-    </div>
-    <div>
-      <canvas id="sample" width="100" height="100">
-        図形を表示するには、canvasタグをサポートしたブラウザが必要です。
-      </canvas>
-    </div>
-    <save-positions v-if="resizeImg" v-bind:imgURL="resizeImg" />
   </div>
 </template>
 
 <script>
-import VueCropper from "vue-cropperjs";
-import "cropperjs/dist/cropper.css";
-
-import SavePositions from "@/components/SavePositions";
-//const ALREADY_UPLOADED = Symbol("ALREADY_UPLOADED"); //ユニークで不変なデータ型
-
+import firebase from "firebase";
 export default {
-  components: {
-    VueCropper,
-    SavePositions,
-  },
   data() {
     return {
-      targetWidth: 30,
-      targetHeight: 18,
-      imgSrc1: "",
-      imgSrc2: "",
-      cropImg: "",
-      resizeImg: "",
-      filename: "",
-      uploadedImages: {
-        src: null, // 画像イメージのソース
-        file: null, // 画像のFileオブジェクト。cloud storageに画像を保存済みの場合はFileオブジェクトではなくALREADY_UPLOADEDを入れる
-      },
-      imgURL: null,
-      Data: null,
+      quizzes: [],
     };
   },
+  created: function () {
+    this.db = firebase.firestore(); // dbインスタンスを初期化
+  },
+  mounted: async function () {
+    //間違え問題を取得
+    this.db
+      .collection("quizzes")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          this.quizzes.push({
+            id: doc.id,
+            title: doc.data().title,
+            name: doc.data().name,
+          });
+          //console.log(doc);
+          console.log(doc.id, " => ", doc.data());
+        });
+        console.log(this.quizzes);
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  },
   methods: {
-    setImage1(e) {
-      const file = e.target.files[0];
-      this.filename = file.name;
-      if (!file.type.includes("image/")) {
-        alert("Please select an image file");
-        return;
-      }
-      if (typeof FileReader === "function") {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          this.imgSrc1 = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert("Sorry, FileReader API not supported");
-      }
-    },
-    setImage2(e) {
-      const file = e.target.files[0];
-      this.filename = file.name;
-      if (!file.type.includes("image/")) {
-        alert("Please select an image file");
-        return;
-      }
-      if (typeof FileReader === "function") {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          this.imgSrc2 = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert("Sorry, FileReader API not supported");
-      }
-    },
-    cropImage() {
-      console.log("test");
-      this.Data = this.$refs.cropper1.getData();
-      this.cropImg = this.$refs.cropper1.getCroppedCanvas().toDataURL();
-      this.resizeImage();
-    },
-    cropImageIncorrect() {
-      console.log("test");
-      this.$refs.cropper2.setData(this.Data);
-      this.cropImg = this.$refs.cropper2.getCroppedCanvas().toDataURL();
-      this.resizeImage();
-    },
-    resizeImage() {
-      let width = 300;
-      let height = 180;
-      let img = new Image();
-
-      let canvas = document.getElementById("sample");
-      canvas.width = width;
-      canvas.height = height;
-      let context = canvas?.getContext("2d");
-
-      //あらかじめimgロード時の処理を設定しておく
-      img.onload = () => {
-        context.drawImage(
-          img,
-          0,
-          0,
-          img.width,
-          img.height,
-          0,
-          0,
-          width,
-          height
-        );
-        let base64 = canvas.toDataURL("image/png");
-        this.resizeImg = base64;
-      };
-      img.src = this.cropImg;
+    gotoGame(id) {
+      this.$router.push({
+        name: "About",
+        query: this.$route.query,
+        params: { id: id },
+      });
     },
   },
 };
