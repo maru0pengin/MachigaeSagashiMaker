@@ -30,12 +30,20 @@ export default {
   props: {
     correctImage: String,
     incorrectImage: String,
+    defaltCorrect: String,
+    defaltIncorrect: String,
     differences: Array,
   },
   created: function () {
     console.log(this.differences);
     this.db = firebase.firestore(); // dbインスタンスを初期化
     this.storageRef = firebase.storage().ref();
+  },
+  mounted() {
+    // 画像が渡されてない場合は、アップロード画面へ飛ばす
+    if (!this.correctImage || !this.incorrectImage) {
+      this.$router.push({ name: "imageUpload", query: this.$route.query });
+    }
   },
   methods: {
     submit() {
@@ -81,10 +89,23 @@ export default {
       });
     },
     gotoNext() {
-      this.$router.push({ name: "completed", query: this.$route.query });
+      this.$router.push({
+        name: "completed",
+        query: this.$route.query,
+        params: { completedFlag: true },
+      });
     },
     gotoBack() {
-      this.$router.push({ name: "setDifferences", query: this.$route.query });
+      this.$router.push({
+        name: "setDifferences",
+        query: this.$route.query,
+        params: {
+          correctImage: this.correctImage,
+          incorrectImage: this.incorrectImage,
+          defaltCorrect: this.defaltCorrect,
+          defaltIncorrect: this.defaltIncorrect,
+        },
+      });
     },
   },
 };

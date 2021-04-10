@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>画像を既定のサイズにトリミングしてください。</h2>
+    <h3>画像を既定のサイズにトリミングしてください。</h3>
     <hr />
     <br />
     <div v-if="correctImage !== ''" class="l_cropper_container">
@@ -9,18 +9,20 @@
         :guides="true"
         :view-mode="2"
         :auto-crop-area="0.5"
-        :min-container-width="500"
-        :min-container-height="500"
+        :min-container-width="300"
+        :min-container-height="300"
         :background="true"
         :rotatable="false"
         :src="correctImage"
-        :img-style="{ width: '500px', height: '500px' }"
+        :img-style="{ width: '300px', height: '300px' }"
         :aspect-ratio="30 / 18"
         drag-mode="crop"
       />
       <br />
 
-      <button @click="cropImage" v-if="correctImage !== ''">トリミング</button>
+      <el-button @click="cropImage" v-if="correctImage !== ''"
+        >トリミング</el-button
+      >
     </div>
     <div v-show="false">
       <vue-cropper ref="cropper2" :src="incorrectImage" />
@@ -60,6 +62,10 @@ export default {
   props: {
     correctImage: String,
     incorrectImage: String,
+  },
+  mounted() {
+    // 画像のアップロードが住んでいない場合は、アップロード画面へ飛ばす
+    if (!this.correctImage || !this.incorrectImage) this.gotoBack();
   },
   data() {
     return {
@@ -111,17 +117,29 @@ export default {
       else img.src = this.cropIncorrect;
     },
     gotoNext() {
-      this.$router.push({
-        name: "setDifferences",
-        query: this.$route.query,
-        params: {
-          correctImage: this.resizeCorrect,
-          incorrectImage: this.resizeIncorrect,
-        },
-      });
+      if (this.resizeCorrect && this.resizeIncorrect) {
+        this.$router.push({
+          name: "setDifferences",
+          query: this.$route.query,
+          params: {
+            correctImage: this.resizeCorrect,
+            incorrectImage: this.resizeIncorrect,
+            defaltCorrect: this.correctImage,
+            defaltIncorrect: this.incorrectImage,
+          },
+        });
+      } else {
+        this.$message.warning("画像のトリミングをしてください", {
+          showClose: false,
+          type: "error",
+        });
+      }
     },
     gotoBack() {
-      this.$router.push({ name: "imageUpload", query: this.$route.query });
+      this.$router.push({
+        name: "imageUpload",
+        query: this.$route.query,
+      });
     },
   },
 };
@@ -132,8 +150,8 @@ export default {
   border: 1px solid gray;
 }
 .l_cropper_container {
-  width: 500px;
-  height: 500px;
+  width: 300px;
+  height: 300px;
   border: 1px solid gray;
   display: inline-block;
 }

@@ -30,8 +30,14 @@ export default {
   props: {
     correctImage: String,
     incorrectImage: String,
+    defaltCorrect: String,
+    defaltIncorrect: String,
   },
   mounted: async function () {
+    // 画像が渡されてない場合は、アップロード画面へ飛ばす
+    if (!this.correctImage || !this.incorrectImage) {
+      this.$router.push({ name: "imageUpload", query: this.$route.query });
+    }
     this.app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
     let el = document.getElementById("canvas");
     el.appendChild(this.app.view);
@@ -47,7 +53,7 @@ export default {
     this.app.stage.addChild(this.scene);
 
     const image = new Image();
-    image.src = this.correctImage;
+    image.src = this.incorrectImage;
     image.onload = () => {
       // アップロードした画像をtextureとして読み込みspriteに貼り付ける
       const loadTexture = new PIXI.Texture(new PIXI.BaseTexture(image));
@@ -56,8 +62,11 @@ export default {
       this.scene.addChild(loadSprite);
     };
     //クリックを監視
-    this.app.view.addEventListener("pointerdown", (ev) => {
+    this.app.view.addEventListener("pointerup", (ev) => {
+      console.log(this.deleteFlag);
+      //this.app.view.addEventListener("touchstart", (ev) => {
       if (!this.deleteFlag) {
+        //console.log(`${ev.offsetX}:${ev.offsetY}`);
         this.differences.push({ x: ev.offsetX, y: ev.offsetY });
         this.setDifference();
       } else this.deleteFlag = false;
@@ -92,21 +101,38 @@ export default {
         this.differences = this.differences.filter((n, i) => i !== index - 1);
         this.scene.removeChild(latest.obj);
       });
+      console.log("test");
       this.scene.addChild(latest.obj);
     },
     gotoNext() {
-      this.$router.push({
-        name: "setInformations",
-        query: this.$route.query,
-        params: {
-          correctImage: this.correctImage,
-          incorrectImage: this.incorrectImage,
-          differences: this.differences,
-        },
-      });
+      if (this.differences.length !== 0) {
+        this.$router.push({
+          name: "setInformations",
+          query: this.$route.query,
+          params: {
+            correctImage: this.correctImage,
+            incorrectImage: this.incorrectImage,
+            defaltCorrect: this.defaltCorrect,
+            defaltIncorrect: this.defaltIncorrect,
+            differences: this.differences,
+          },
+        });
+      } else {
+        this.$message.warning("間違え箇所を設定してください", {
+          showClose: false,
+          type: "error",
+        });
+      }
     },
     gotoBack() {
-      this.$router.push({ name: "trim", query: this.$route.query });
+      this.$router.push({
+        name: "trim",
+        query: this.$route.query,
+        params: {
+          correctImage: this.defaltCorrect,
+          incorrectImage: this.defaltIncorrect,
+        },
+      });
     },
   },
 };
