@@ -22,12 +22,7 @@ export default {
       gameLoops: [], // 毎フレーム毎に実行する関数たち
       text: "",
       title: null,
-      differences: [] /*
-      differences: [
-        { x: 104, y: 394, status: 0, obj: null },
-        { x: 110, y: 425, status: 0, obj: null },
-        { x: 270, y: 405, status: 0, obj: null },
-      ],*/,
+      differences: [],
       textTimer: "",
       resources: null,
       db: null,
@@ -36,14 +31,17 @@ export default {
   created: function () {
     this.db = firebase.firestore(); // dbインスタンスを初期化
   },
+  computed: {
+    id: function () {
+      return this.$route.params.id;
+    },
+  },
   mounted: async function () {
     //間違え位置の取得
-    let docRef = await this.db
-      .collection("quizzes")
-      .doc("2gKy95233WjgWTJkrxSV");
+    let docRef = await this.db.collection("quizzes").doc(this.id);
     docRef
       .get()
-      .then((doc) => {
+      .then(async (doc) => {
         if (doc.exists) {
           //データが存在しているか確認
           console.log("Document data:", doc.data());
@@ -57,59 +55,55 @@ export default {
               circleObj: null,
             };
           }
+          //画像の取得
+          let ref;
+          ref = await firebase.storage().ref().child(`${this.id}/correct.png`);
+          await ref.getDownloadURL().then((url) => {
+            this.correctImgPath = url;
+          });
+          ref = await firebase
+            .storage()
+            .ref()
+            .child(`${this.id}/incorrect.png`);
+          await ref.getDownloadURL().then((url) => {
+            this.incorrectImgPath = url;
+          });
+
+          this.app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
+          let el = document.getElementById("canvas");
+          el.appendChild(this.app.view);
+
+          // ゲームcanvasのcssを定義する
+          // ここで定義した画面サイズ(width,height)は実際に画面に表示するサイズ
+          this.app.renderer.view.style.position = "relative";
+          this.app.renderer.view.style.width = "400px";
+          this.app.renderer.view.style.height = "600px";
+          this.app.renderer.view.style.display = "block";
+
+          // canvasの背景色
+          this.app.renderer.backgroundColor = 0xdeb887;
+
+          PIXI.Loader.shared
+            .reset()
+            .add(this.correctImgPath)
+            .add(this.incorrectImgPath);
+
+          // プリロード処理が終わったら呼び出されるイベント
+          PIXI.Loader.shared.load((loader, resources) => {
+            //resources["../assets/crear.mp3"].sound.play() // クリックで音が鳴る
+            this.resources = resources;
+            this.createGameScene();
+          });
         } else {
           // doc.data() が未定義の場合
           console.log("No such document!");
+          this.$router.push({ name: "Home", query: this.$route.query });
         }
       })
       .catch((error) => {
         console.log("Error getting document:", error);
+        this.$router.push({ name: "Home", query: this.$route.query });
       });
-    //画像の取得
-    let ref;
-    ref = await firebase
-      .storage()
-      .ref()
-      .child("2gKy95233WjgWTJkrxSV/correct.png");
-    await ref.getDownloadURL().then((url) => {
-      this.correctImgPath = url;
-    });
-    ref = await firebase
-      .storage()
-      .ref()
-      .child("2gKy95233WjgWTJkrxSV/incorrect.png");
-    await ref.getDownloadURL().then((url) => {
-      this.incorrectImgPath = url;
-    });
-
-    this.app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
-    let el = document.getElementById("canvas");
-    el.appendChild(this.app.view);
-
-    // ゲームcanvasのcssを定義する
-    // ここで定義した画面サイズ(width,height)は実際に画面に表示するサイズ
-    this.app.renderer.view.style.position = "relative";
-    this.app.renderer.view.style.width = "400px";
-    this.app.renderer.view.style.height = "600px";
-    this.app.renderer.view.style.display = "block";
-
-    // canvasの周りを点線枠で囲う (canvasの位置がわかりやすいので入れている)
-    this.app.renderer.view.style.border = "3px dashed #ffcccc";
-    // canvasの背景色
-    this.app.renderer.backgroundColor = 0xdeb887;
-
-    PIXI.Loader.shared
-      .reset()
-      .add(this.correctImgPath)
-      .add(this.incorrectImgPath);
-
-    //PIXI.Loader.shared.reset().add(this.incorrectImgPath)
-    // プリロード処理が終わったら呼び出されるイベント
-    PIXI.Loader.shared.load((loader, resources) => {
-      //resources["../assets/crear.mp3"].sound.play() // クリックで音が鳴る
-      this.resources = resources;
-      this.createGameScene();
-    });
   },
   methods: {
     createGameScene() {
@@ -117,16 +111,6 @@ export default {
       this.app.view.addEventListener("pointerdown", (ev) => {
         console.log(ev.layerX, ev.layerY);
       });
-      /*
-      this.app.view.addEventListener('pointerdown', (ev) => {
-        //console.log(ev.clientX, ev.clientY)
-        const position = ev.data.getLocalPosition(event.currentTarget);
-        console.log(position)
-      })*/
-      console.log("うぉ＾ー");
-      console.log(this.incorrectImgPath);
-      console.log(this.correctImgPath);
-
       this.timmer = 0;
       this.differences.forEach((difference) => {
         difference.status = 0;
@@ -142,10 +126,9 @@ export default {
       const image1 = new PIXI.Sprite(
         this.resources[this.correctImgPath]?.texture
       );
-      console.log(`あいうえお${image1}`);
       image1.x = 50;
       image1.y = 70;
-      gameScene.addChild(image1); // ボールをシーンに追加
+      gameScene.addChild(image1); // 見本画像ををシーンに追加
 
       const image2 = new PIXI.Sprite(
         this.resources[this.incorrectImgPath].texture
@@ -153,28 +136,21 @@ export default {
 
       image2.x = 50;
       image2.y = 350;
-      gameScene.addChild(image2); // ボールをシーンに追加
+      gameScene.addChild(image2); // 間違え画像をシーンに追加
 
       //ヒットエリアの描画
       const length = 30; //ヒットエリアの幅
       const radius = 20; //正解時に出す縁の半径
 
-      /*
-      const correctCircles = [
-        { x: 104, y: 394, status: 0, obj: null },
-        { x: 110, y: 425, status: 0, obj: null },
-        { x: 270, y: 405, status: 0, obj: null },
-      ];
-      */
       this.differences.forEach((difference) => {
         difference.obj = new PIXI.Graphics();
         let rect = new PIXI.Rectangle(
-          difference.x - length / 2,
-          difference.y - length / 2,
+          difference.x - length / 2 + 50,
+          difference.y - length / 2 + 350,
           length,
           length
         );
-        difference.obj.beginFill(0xfff000, 0.5); //ヒットエリアは透明
+        difference.obj.beginFill(0xfff000, 0.2); //ヒットエリアは透明
         difference.obj.drawShape(rect);
         difference.obj.endFill();
 
@@ -189,8 +165,8 @@ export default {
             difference.CircleObj = new PIXI.Graphics();
             difference.CircleObj.lineStyle(5, 0xec6d71, 1);
             difference.CircleObj.drawCircle(
-              difference.x,
-              difference.y - radius / 2,
+              difference.x + 50,
+              difference.y - radius / 2 + 350,
               radius,
               radius
             );
