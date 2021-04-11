@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="mt-14">
     <div id="canvas" class="canvas">{{ title }}</div>
   </div>
 </template>

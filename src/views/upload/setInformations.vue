@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>問題の情報を入力してください。</h2>
+    <h3 class="description">問題の情報を入力してください</h3>
     <hr />
     <span>作品名を入力してください : </span>
     <input v-model="title" type="text" />

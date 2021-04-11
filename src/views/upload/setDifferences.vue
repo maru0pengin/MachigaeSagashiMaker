@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h2>間違え位置を設定してください。</h2>
+    <h3 class="description">間違え位置を設定してください</h3>
     <hr />
+    <br/>
     <div id="canvas"></div>
     <div class="mt-1 centerize">
       <el-button type="primary" @click="gotoBack">戻る</el-button>

@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <h2>間違え探し</h2>
+  <div class="mt-14">
     <div v-for="quizze in quizzes" :key="quizze.id">
-      <el-button type="primary" @click="gotoGame(quizze.id)">{{
-        quizze.title
-      }}</el-button>
+      <button type="primary" @click="gotoGame(quizze.id)">
+        <div v-show="!loading" class="bg-white shadow-lg rounded-xl overflow-hidden">
+          <img class="object-cover" :src="quizze.img"/>
+          {{quizze.title}}
+        </div>
+      </button>
     </div>
   </div>
 </template>
@@ -17,30 +19,59 @@ export default {
       quizzes: [],
     };
   },
-  created: function () {
+  created: async function () {
     this.db = firebase.firestore(); // dbインスタンスを初期化
   },
   mounted: async function () {
     //間違え問題を取得
     this.db
       .collection("quizzes")
+      .orderBy("createdAt", "asc")
       .get()
       .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach(async(doc) => {
           // doc.data() is never undefined for query doc snapshots
           this.quizzes.push({
             id: doc.id,
             title: doc.data().title,
             name: doc.data().name,
+            date: doc.data().createdAt.toDate(),
+            //img: img,
           });
-          //console.log(doc);
           console.log(doc.id, " => ", doc.data());
-        });
-        console.log(this.quizzes);
+        })
+        console.log("ばぶー")
+        this.quizzes.forEach(async(quizze) =>{
+          console.log("はい")
+          //画像の取得
+          let ref,img;
+          ref = await firebase.storage().ref().child(`${quizze.id}/correct.png`);
+          await ref.getDownloadURL().then((url) => {
+            img = url
+          })
+          this.$set(quizze,"img",img)
+          //array[index].img = img
+        })
+        console.log(this.quizzes)
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
+    console.log("test3")
+
+
+
+    // this.quizzes.forEach(async(quizze,index,array) =>{
+    //   //画像の取得
+    //   let ref,img;
+    //   ref = await firebase.storage().ref().child(`${quizze.id}/correct.png`);
+    //   //img = await ref.getDownloadURL()
+    //   await ref.getDownloadURL().then((url) => {
+    //     img = url
+    //   })
+    //   array[index].img = img
+    // })
+    console.log(this.quizzes)
   },
   methods: {
     gotoGame(id) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>見本画像と間違え画像を<br />アップロードしてください</h3>
+    <h3 class="description"> 見本画像と間違え画像を<br />アップロードしてください</h3>
     <hr />
 
     <p v-if="correctImage === null">見本画像が選択されていません</p>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>画像を既定のサイズにトリミングしてください。</h3>
+    <h3 class="font-bold text-gray-900 text-xl">画像を既定のサイズに<br/>トリミングしてください</h3>
     <hr />
     <br />
     <div v-if="correctImage !== ''" class="l_cropper_container">

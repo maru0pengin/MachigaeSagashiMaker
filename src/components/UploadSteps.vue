@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper">
     <el-steps :active="stepNumber" align-center finish-status="success">
-      <el-step title="画像選択" />
-      <el-step title="トリミング" />
-      <el-step title="間違えの選択" />
-      <el-step title="情報の入力" />
-      <el-step title="完了" />
+      <el-step />
+      <el-step />
+      <el-step />
+      <el-step />
+      <el-step />
     </el-steps>
   </div>
 </template>

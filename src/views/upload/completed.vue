@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>投稿が完了しました!!</h2>
+    <h3 class="description">投稿が完了しました!!</h3>
     <hr />
     <div class="mt-1 centerize">
       <el-button type="primary" @click="gotoNext">ホームへ戻る</el-button>
