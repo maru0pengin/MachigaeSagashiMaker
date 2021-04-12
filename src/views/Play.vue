@@ -1,7 +1,8 @@
 <template>
   <div class="mt-14">
-    <div id="canvas" class="canvas shadow">
-      {{ title }}
+    <div id="canvas" class="canvas shadow bg-white">
+      <p class="font-bold text-xl pl-2 pt-2">{{ title }}</p>
+      <p class="text-right text-sm pl-2 pr-2">{{ name }}</p>
       <hr />
     </div>
   </div>
@@ -131,7 +132,7 @@ export default {
       const image1 = new PIXI.Sprite(
         this.resources[this.correctImgPath]?.texture
       );
-      image1.x = 50;
+      image1.x = 0;
       image1.y = 70;
       gameScene.addChild(image1); // 見本画像ををシーンに追加
 
@@ -139,7 +140,7 @@ export default {
         this.resources[this.incorrectImgPath].texture
       );
 
-      image2.x = 50;
+      image2.x = 0;
       image2.y = 350;
       gameScene.addChild(image2); // 間違え画像をシーンに追加
 
@@ -150,7 +151,7 @@ export default {
       this.differences.forEach((difference) => {
         difference.obj = new PIXI.Graphics();
         let rect = new PIXI.Rectangle(
-          difference.x - length / 2 + 50,
+          difference.x - length / 2,
           difference.y - length / 2 + 350,
           length,
           length
@@ -170,7 +171,7 @@ export default {
             difference.CircleObj = new PIXI.Graphics();
             difference.CircleObj.lineStyle(5, 0xec6d71, 1);
             difference.CircleObj.drawCircle(
-              difference.x + 50,
+              difference.x,
               difference.y - radius / 2 + 350,
               radius,
               radius
@@ -206,14 +207,14 @@ export default {
 
       const mihon = new PIXI.Text("見本", textStyle); //スコア表示テキスト
       mihon.y = 40;
-      mihon.x = 50;
+      mihon.x = 15;
       gameScene.addChild(mihon); // スコア表示テキストを画面に追加する
 
       const description = new PIXI.Text(
         "下のイラストの間違えをタップしよう！",
         textStyle
       ); //スコア表示テキスト
-      description.y = 290;
+      description.y = 310;
       description.x = 15;
       gameScene.addChild(description); // スコア表示テキストを画面に追加する
 

@@ -21,8 +21,10 @@
             class="m-2 bg-white shadow-lg rounded-sm overflow-hidden"
           >
             <img class="object-cover" :src="quizze.img" />
-            <p class="font-bold text-left pl-2 pt-2">{{ quizze.title }}</p>
-            <p class="text-left text-sm pl-2">{{ quizze.name }}</p>
+            <p class="text-lg font-bold text-left pl-2 pt-2">
+              {{ quizze.title }}
+            </p>
+            <p class="text-left text-sm pl-2 pb-2">{{ quizze.name }}</p>
           </div>
         </button>
       </div>

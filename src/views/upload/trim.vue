@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h3 class="description">画像を既定のサイズに<br/>トリミングしてください</h3>
+    <h3 class="description">
+      画像を既定のサイズに<br />トリミングしてください
+    </h3>
     <hr />
     <div class="mt-4">
       <div v-if="correctImage !== ''" class="l_cropper_container">
@@ -18,13 +20,18 @@
           :checkOrientation="false"
           :src="correctImage"
           :img-style="{ width: '300px', height: '300px' }"
-          :aspect-ratio="30 / 18"
+          :aspect-ratio="16 / 9"
           drag-mode="crop"
         />
         <br />
 
-        <button class="upload_button" @click="cropImage" v-if="correctImage !== ''"
-          >トリミング</button>
+        <button
+          class="upload_button"
+          @click="cropImage"
+          v-if="correctImage !== ''"
+        >
+          トリミング
+        </button>
       </div>
       <div v-show="false">
         <vue-cropper ref="cropper2" :src="incorrectImage" />
@@ -34,20 +41,10 @@
         <canvas id="incorrect" width="100" height="100" />
       </div>
       <br />
-      <img
-        :src="resizeCorrect"
-        class="upload-img"
-        width="300"
-        style="margin: 1rem"
-      />
-      <img
-        :src="resizeIncorrect"
-        class="upload-img"
-        width="300"
-        style="margin: 1rem"
-      />
+      <img :src="resizeCorrect" width="300" class="mt-6 mx-auto" />
+      <img :src="resizeIncorrect" width="300" class="mt-6 mx-auto" />
     </div>
-    <div >
+    <div>
       <button class="main_button mx-2" @click="gotoBack">戻る</button>
       <button class="main_button mx-2" @click="gotoNext">次へ</button>
     </div>
@@ -90,8 +87,8 @@ export default {
       this.resizeImage("correct");
     },
     resizeImage(id) {
-      const width = 300;
-      const height = 180;
+      const width = 400;
+      const height = 225;
       let img = new Image();
       let canvas = document.getElementById(id);
       canvas.width = width;
