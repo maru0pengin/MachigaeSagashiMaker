@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h3 class="description"> 見本画像と間違え画像を<br />アップロードしてください</h3>
+    <h3 class="description">
+      見本画像と間違え画像を<br />アップロードしてください
+    </h3>
     <hr />
 
     <div class="p-4">
@@ -9,7 +11,7 @@
         v-else
         :src="correctImage.src"
         class="upload-img"
-        width="300"
+        width="250"
         style="margin: 1rem"
       />
       <el-upload
@@ -18,19 +20,22 @@
         accept="image/*"
         :show-file-list="false"
       >
-
-      <button v-on:click="correctUploadFlag = true"
-        class="upload_button w-64"
-      ><i class="el-icon-top" />見本画像をアップロード
-      </button>
+        <button
+          v-on:click="correctUploadFlag = true"
+          class="upload_button w-64"
+        >
+          <i class="el-icon-top" />見本画像をアップロード
+        </button>
       </el-upload>
 
-      <p class="pt-2" v-if="incorrectImage === null">間違え画像が選択されていません</p>
+      <p class="pt-2" v-if="incorrectImage === null">
+        間違え画像が選択されていません
+      </p>
       <img
         v-else
         :src="incorrectImage.src"
         class="upload-img"
-        width="300"
+        width="250"
         style="margin: 1rem"
       />
       <el-upload
@@ -39,15 +44,15 @@
         accept="image/*"
         :show-file-list="false"
       >
-      <button v-on:click="incorrectUploadFlag = true"
-        class="upload_button w-64"
-      ><i class="el-icon-top" />間違え画像をアップロード</button>
+        <button
+          v-on:click="incorrectUploadFlag = true"
+          class="upload_button w-64"
+        >
+          <i class="el-icon-top" />間違え画像をアップロード
+        </button>
       </el-upload>
     </div>
-    <button
-      class="main_button"
-    @click="gotoNext">次へ
-    </button>
+    <button class="main_button" @click="gotoNext">次へ</button>
   </div>
 </template>
 

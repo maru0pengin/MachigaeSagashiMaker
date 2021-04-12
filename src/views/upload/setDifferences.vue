@@ -2,9 +2,9 @@
   <div>
     <h3 class="description">間違え位置を設定してください</h3>
     <hr />
-    <br/>
+    <br />
     <div id="canvas"></div>
-    <div >
+    <div>
       <button class="main_button mx-2" @click="gotoBack">戻る</button>
       <button class="main_button mx-2" @click="gotoNext">次へ</button>
     </div>
@@ -12,8 +12,8 @@
 </template>
 
 <script>
-const WIDTH = 300;
-const HEIGHT = 180;
+const WIDTH = 400;
+const HEIGHT = 225;
 import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 
 export default {
@@ -45,8 +45,8 @@ export default {
 
     // canvasのcssを定義する
     // ここで定義した画面サイズ(width,height)は実際に画面に表示するサイズ
-    this.app.renderer.view.style.width = "300px";
-    this.app.renderer.view.style.height = "180px";
+    this.app.renderer.view.style.width = "400px";
+    this.app.renderer.view.style.height = "225px";
     // canvasの背景色
     this.app.renderer.backgroundColor = 0xdeb887;
 
