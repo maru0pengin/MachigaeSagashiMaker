@@ -1,6 +1,9 @@
 <template>
   <div class="mt-14">
-    <div id="canvas" class="canvas">{{ title }}</div>
+    <div id="canvas" class="canvas shadow">
+      {{ title }}
+      <hr />
+    </div>
   </div>
 </template>
 
@@ -22,6 +25,7 @@ export default {
       gameLoops: [], // 毎フレーム毎に実行する関数たち
       text: "",
       title: null,
+      name: null,
       differences: [],
       textTimer: "",
       resources: null,
@@ -46,6 +50,7 @@ export default {
           //データが存在しているか確認
           console.log("Document data:", doc.data());
           this.title = doc.data().title;
+          this.name = doc.data().name;
           //間違えの位置を取得し、ステータス情報等を追加してdifferencesへ保存
           for (let i = 0; i < doc.data().differences.length; i++) {
             this.differences[i] = {
@@ -81,7 +86,7 @@ export default {
           this.app.renderer.view.style.display = "block";
 
           // canvasの背景色
-          this.app.renderer.backgroundColor = 0xdeb887;
+          this.app.renderer.backgroundColor = 0xffffff;
 
           PIXI.Loader.shared
             .reset()
@@ -184,7 +189,7 @@ export default {
       const textStyle = new PIXI.TextStyle({
         fontFamily: "Myriad", // フォント
         fontSize: 20, // フォントサイズ
-        fill: 0xffffff, // 色(16進数で定義する これはオレンジ色)
+        fill: 0x696969, // 色(16進数で定義する)
       });
       this.text = new PIXI.Text(
         `間違い:0/${this.differences.length}`,
@@ -265,7 +270,7 @@ export default {
       const textStyle = new PIXI.TextStyle({
         fontFamily: "Myriad", // フォント
         fontSize: 28, // フォントサイズ
-        fill: 0xffffff, // 色(16進数で定義する これはオレンジ色)
+        fill: 0x696969, // 色(16進数で定義する これはオレンジ色)
       });
 
       // テキストオブジェクトの定義
@@ -349,7 +354,6 @@ export default {
 
 <style>
 .canvas {
-  background: red;
   text-align: center;
   margin: 0 auto;
   width: 400px;

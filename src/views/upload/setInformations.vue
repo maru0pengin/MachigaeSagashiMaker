@@ -2,15 +2,17 @@
   <div>
     <h3 class="description">問題の情報を入力してください</h3>
     <hr />
-    <span>作品名を入力してください : </span>
-    <input v-model="title" type="text" />
-    <br />
-    <span>ハンドルネームを入力してください : </span>
-    <input v-model="name" type="text" />
+    <div>
+      <p class="px-4 text-left pt-2">作品名を入力してください </p>
+      <input  type="text" v-model="title" class="px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none" placeholder="作品名" required>
 
+      <p class="px-4 text-left pt-2">ハンドルネームを入力してください</p>
+      <input  type="text" v-model="name" class="px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none" placeholder="ハンドルネーム" required>
+
+    </div>
     <div class="mt-1 centerize">
-      <el-button type="primary" @click="gotoBack">戻る</el-button>
-      <el-button type="primary" @click="submit">保存して投稿完了</el-button>
+      <button class="main_button mx-2" @click="gotoBack">戻る</button>
+      <button class="submit_button mx-2" @click="submit">保存して投稿完了</button>
     </div>
   </div>
 </template>
@@ -35,7 +37,6 @@ export default {
     differences: Array,
   },
   created: function () {
-    console.log(this.differences);
     this.db = firebase.firestore(); // dbインスタンスを初期化
     this.storageRef = firebase.storage().ref();
   },
@@ -47,6 +48,7 @@ export default {
   },
   methods: {
     submit() {
+      if (this.title && this.name) {
       /*FireStoreへの保存*/
       let submitDifferences = this.differences.map((element) => {
         delete element.obj;
@@ -74,6 +76,12 @@ export default {
           // 保存に失敗した時
           console.error("Error adding document: ", error);
         });
+      }else{
+        this.$message.warning("作品目とハンドルネームを入力してください", {
+          showClose: false,
+          type: "error",
+        });
+      }
     },
     saveImage(correct, id) {
       let ref, image_url;

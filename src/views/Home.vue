@@ -1,23 +1,47 @@
 <template>
-  <div class="mt-14">
-    <div v-for="quizze in quizzes" :key="quizze.id">
-      <button type="primary" @click="gotoGame(quizze.id)">
-        <div v-show="!loading" class="bg-white shadow-lg rounded-xl overflow-hidden">
-          <img class="object-cover" :src="quizze.img"/>
-          {{quizze.title}}
-        </div>
-      </button>
+  <div>
+    <div v-show="loading" class="h-screen flex justify-center items-center">
+      <vue-loading
+        type="spiningDubbles"
+        color="#87ceeb"
+        :size="{ width: '50px', height: '50px' }"
+      />
+    </div>
+    <div
+      class="mt-14 mx-auto w-10/12 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
+    >
+      <div v-show="!loading" v-for="quizze in quizzes" :key="quizze.id">
+        <button
+          type="primary"
+          @click="gotoGame(quizze.id)"
+          class="focus:outline-none"
+        >
+          <div
+            v-show="!loading"
+            class="m-2 bg-white shadow-lg rounded-sm overflow-hidden"
+          >
+            <img class="object-cover" :src="quizze.img" />
+            <p class="font-bold text-left pl-2 pt-2">{{ quizze.title }}</p>
+            <p class="text-left text-sm pl-2">{{ quizze.name }}</p>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { VueLoading } from "vue-loading-template";
 import firebase from "firebase";
 export default {
   data() {
     return {
       quizzes: [],
+      loading: true,
     };
+  },
+  components: {
+    VueLoading,
   },
   created: async function () {
     this.db = firebase.firestore(); // dbインスタンスを初期化
@@ -28,8 +52,8 @@ export default {
       .collection("quizzes")
       .orderBy("createdAt", "asc")
       .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach(async(doc) => {
+      .then(async (querySnapshot) => {
+        querySnapshot.forEach(async (doc) => {
           // doc.data() is never undefined for query doc snapshots
           this.quizzes.push({
             id: doc.id,
@@ -39,44 +63,31 @@ export default {
             //img: img,
           });
           console.log(doc.id, " => ", doc.data());
-        })
-        console.log("ばぶー")
-        this.quizzes.forEach(async(quizze) =>{
-          console.log("はい")
+        });
+
+        for (let quizze of this.quizzes) {
           //画像の取得
-          let ref,img;
-          ref = await firebase.storage().ref().child(`${quizze.id}/correct.png`);
+          let ref, img;
+          ref = await firebase
+            .storage()
+            .ref()
+            .child(`${quizze.id}/correct.png`);
           await ref.getDownloadURL().then((url) => {
-            img = url
-          })
-          this.$set(quizze,"img",img)
-          //array[index].img = img
-        })
-        console.log(this.quizzes)
+            img = url;
+          });
+          this.$set(quizze, "img", img);
+        }
+        this.loading = false;
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
-    console.log("test3")
-
-
-
-    // this.quizzes.forEach(async(quizze,index,array) =>{
-    //   //画像の取得
-    //   let ref,img;
-    //   ref = await firebase.storage().ref().child(`${quizze.id}/correct.png`);
-    //   //img = await ref.getDownloadURL()
-    //   await ref.getDownloadURL().then((url) => {
-    //     img = url
-    //   })
-    //   array[index].img = img
-    // })
-    console.log(this.quizzes)
+    console.log(this.quizzes);
   },
   methods: {
     gotoGame(id) {
       this.$router.push({
-        name: "About",
+        name: "Play",
         query: this.$route.query,
         params: { id: id },
       });

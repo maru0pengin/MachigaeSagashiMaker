@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-14">
+    <div class="mt-14 w-3/4 mx-auto">
       <UploadSteps />
     </div>
 

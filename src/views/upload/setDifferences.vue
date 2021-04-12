@@ -4,9 +4,9 @@
     <hr />
     <br/>
     <div id="canvas"></div>
-    <div class="mt-1 centerize">
-      <el-button type="primary" @click="gotoBack">戻る</el-button>
-      <el-button type="primary" @click="gotoNext">次へ</el-button>
+    <div >
+      <button class="main_button mx-2" @click="gotoBack">戻る</button>
+      <button class="main_button mx-2" @click="gotoNext">次へ</button>
     </div>
   </div>
 </template>
@@ -64,10 +64,7 @@ export default {
     };
     //クリックを監視
     this.app.view.addEventListener("pointerup", (ev) => {
-      console.log(this.deleteFlag);
-      //this.app.view.addEventListener("touchstart", (ev) => {
       if (!this.deleteFlag) {
-        //console.log(`${ev.offsetX}:${ev.offsetY}`);
         this.differences.push({ x: ev.offsetX, y: ev.offsetY });
         this.setDifference();
       } else this.deleteFlag = false;

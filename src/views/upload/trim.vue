@@ -1,55 +1,55 @@
 <template>
   <div>
-    <h3 class="font-bold text-gray-900 text-xl">画像を既定のサイズに<br/>トリミングしてください</h3>
+    <h3 class="description">画像を既定のサイズに<br/>トリミングしてください</h3>
     <hr />
-    <br />
-    <div v-if="correctImage !== ''" class="l_cropper_container">
-      <vue-cropper
-        ref="cropper1"
-        :guides="true"
-        :view-mode="2"
-        :auto-crop-area="0.5"
-        :min-container-width="300"
-        :min-container-height="300"
-        :background="true"
-        :rotatable="false"
-        :movable="false"
-        :zoomable="false"
-        :checkOrientation="false"
-        :src="correctImage"
-        :img-style="{ width: '300px', height: '300px' }"
-        :aspect-ratio="30 / 18"
-        drag-mode="crop"
-      />
-      <br />
+    <div class="mt-4">
+      <div v-if="correctImage !== ''" class="l_cropper_container">
+        <vue-cropper
+          ref="cropper1"
+          :guides="true"
+          :view-mode="2"
+          :auto-crop-area="0.5"
+          :min-container-width="300"
+          :min-container-height="300"
+          :background="true"
+          :rotatable="false"
+          :movable="false"
+          :zoomable="false"
+          :checkOrientation="false"
+          :src="correctImage"
+          :img-style="{ width: '300px', height: '300px' }"
+          :aspect-ratio="30 / 18"
+          drag-mode="crop"
+        />
+        <br />
 
-      <el-button @click="cropImage" v-if="correctImage !== ''"
-        >トリミング</el-button
-      >
+        <button class="upload_button" @click="cropImage" v-if="correctImage !== ''"
+          >トリミング</button>
+      </div>
+      <div v-show="false">
+        <vue-cropper ref="cropper2" :src="incorrectImage" />
+      </div>
+      <div v-show="false">
+        <canvas id="correct" width="100" height="100" />
+        <canvas id="incorrect" width="100" height="100" />
+      </div>
+      <br />
+      <img
+        :src="resizeCorrect"
+        class="upload-img"
+        width="300"
+        style="margin: 1rem"
+      />
+      <img
+        :src="resizeIncorrect"
+        class="upload-img"
+        width="300"
+        style="margin: 1rem"
+      />
     </div>
-    <div v-show="false">
-      <vue-cropper ref="cropper2" :src="incorrectImage" />
-    </div>
-    <div v-show="false">
-      <canvas id="correct" width="100" height="100" />
-      <canvas id="incorrect" width="100" height="100" />
-    </div>
-    <br />
-    <img
-      :src="resizeCorrect"
-      class="upload-img"
-      width="300"
-      style="margin: 1rem"
-    />
-    <img
-      :src="resizeIncorrect"
-      class="upload-img"
-      width="300"
-      style="margin: 1rem"
-    />
-    <div class="mt-1 centerize">
-      <el-button type="primary" @click="gotoBack">戻る</el-button>
-      <el-button type="primary" @click="gotoNext">次へ</el-button>
+    <div >
+      <button class="main_button mx-2" @click="gotoBack">戻る</button>
+      <button class="main_button mx-2" @click="gotoNext">次へ</button>
     </div>
   </div>
 </template>

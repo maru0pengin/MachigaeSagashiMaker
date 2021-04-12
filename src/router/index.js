@@ -11,9 +11,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/about/:id',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/play/:id',
+    name: 'Play',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Play.vue'),
     props: true,
   },
   // 問題アップロード画面

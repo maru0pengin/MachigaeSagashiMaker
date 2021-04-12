@@ -3,7 +3,7 @@
     <h3 class="description">投稿が完了しました!!</h3>
     <hr />
     <div class="mt-1 centerize">
-      <el-button type="primary" @click="gotoNext">ホームへ戻る</el-button>
+      <button class="main_button mx-2" type="primary" @click="gotoNext">ホームへ戻る</button>
     </div>
   </div>
 </template>

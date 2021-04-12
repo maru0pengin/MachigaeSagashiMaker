@@ -3,47 +3,51 @@
     <h3 class="description"> 見本画像と間違え画像を<br />アップロードしてください</h3>
     <hr />
 
-    <p v-if="correctImage === null">見本画像が選択されていません</p>
-    <img
-      v-else
-      :src="correctImage.src"
-      class="upload-img"
-      width="300"
-      style="margin: 1rem"
-    />
-    <el-upload
-      action=""
-      :http-request="upload"
-      accept="image/*"
-      :show-file-list="false"
-    >
-      <el-button v-on:click="correctUploadFlag = true"
-        ><i class="el-icon-top" />見本画像をアップロード</el-button
+    <div class="p-4">
+      <p v-if="correctImage === null">見本画像が選択されていません</p>
+      <img
+        v-else
+        :src="correctImage.src"
+        class="upload-img"
+        width="300"
+        style="margin: 1rem"
+      />
+      <el-upload
+        action=""
+        :http-request="upload"
+        accept="image/*"
+        :show-file-list="false"
       >
-    </el-upload>
 
-    <p v-if="incorrectImage === null">間違え画像が選択されていません</p>
-    <img
-      v-else
-      :src="incorrectImage.src"
-      class="upload-img"
-      width="300"
-      style="margin: 1rem"
-    />
-    <el-upload
-      action=""
-      :http-request="upload"
-      accept="image/*"
-      :show-file-list="false"
-    >
-      <el-button v-on:click="incorrectUploadFlag = true"
-        ><i class="el-icon-top" />間違え画像をアップロード</el-button
+      <button v-on:click="correctUploadFlag = true"
+        class="upload_button w-64"
+      ><i class="el-icon-top" />見本画像をアップロード
+      </button>
+      </el-upload>
+
+      <p class="pt-2" v-if="incorrectImage === null">間違え画像が選択されていません</p>
+      <img
+        v-else
+        :src="incorrectImage.src"
+        class="upload-img"
+        width="300"
+        style="margin: 1rem"
+      />
+      <el-upload
+        action=""
+        :http-request="upload"
+        accept="image/*"
+        :show-file-list="false"
       >
-    </el-upload>
-
-    <div class="mt-1 centerize">
-      <el-button type="primary" @click="gotoNext">次へ</el-button>
+      <button v-on:click="incorrectUploadFlag = true"
+        class="upload_button w-64"
+      ><i class="el-icon-top" />間違え画像をアップロード</button>
+      </el-upload>
     </div>
+    <button
+      class="main_button"
+    @click="gotoNext">次へ
+    </button>
   </div>
 </template>
 
