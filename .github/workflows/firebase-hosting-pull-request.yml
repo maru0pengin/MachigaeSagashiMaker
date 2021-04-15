@@ -10,6 +10,7 @@ jobs:
       VUE_APP_FIREBASE_CONFIG: ${{ secrets.VUE_APP_FIREBASE_CONFIG }}
     steps:
       - uses: actions/checkout@v2
+      - run: rm -rf node_modules package-lock.json && npm install
       - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
