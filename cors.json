@@ -1,8 +1,7 @@
 [
   {
     "origin": [
-      "https://game-test-project-3785f.firebaseapp.com",
-      "http://localhost:8080"
+      "*"
     ],
     "responseHeader": [
       "*"
