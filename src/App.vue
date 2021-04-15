@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    ci_cd_test
     <nav
       class="w-full flex bg-blue-300 lg:px-8 px-4 py-4 text-white items-center relative justify-between md:justify-start"
     >
