@@ -56,15 +56,12 @@ export default {
       .get()
       .then(async (querySnapshot) => {
         querySnapshot.forEach(async (doc) => {
-          // doc.data() is never undefined for query doc snapshots
           this.quizzes.push({
             id: doc.id,
             title: doc.data().title,
             name: doc.data().name,
             date: doc.data().createdAt.toDate(),
-            //img: img,
           });
-          console.log(doc.id, " => ", doc.data());
         });
 
         for (let quizze of this.quizzes) {
@@ -84,7 +81,6 @@ export default {
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
-    console.log(this.quizzes);
   },
   methods: {
     gotoGame(id) {

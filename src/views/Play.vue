@@ -172,7 +172,7 @@ export default {
             difference.CircleObj.lineStyle(5, 0xec6d71, 1);
             difference.CircleObj.drawCircle(
               difference.x,
-              difference.y - radius / 2 + 350,
+              difference.y - radius / 2 + 360,
               radius,
               radius
             );

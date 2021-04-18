@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    ci_cd_test
     <nav
       class="w-full flex bg-blue-300 lg:px-8 px-4 py-4 text-white items-center relative justify-between md:justify-start"
     >
@@ -32,6 +31,36 @@
 </template>
 
 <script>
+//routerで設定したタイトルとめたタグを反映する
+export default {
+  methods : {
+    createTitleDesc : function(routeInstance){
+      // タイトルを設定
+      if(routeInstance.meta.title){
+          let setTitle = routeInstance.meta.title;
+          document.title = setTitle;
+      } else {
+          document.title = 'title is not set'
+      }
+      // メタタグdescription設定
+      if(routeInstance.meta.desc){
+          let setDesc = routeInstance.meta.desc;
+          document.querySelector("meta[name='description']").setAttribute('content', setDesc)
+      } else {
+          document.querySelector("meta[name='description']").setAttribute('content', 'description is not set')
+      }
+    }
+  },
+  mounted : function(){
+    let routeInstance = this.$route;
+    this.createTitleDesc(routeInstance);
+  },
+  watch: {
+    '$route' (routeInstance) {
+        this.createTitleDesc(routeInstance);
+    }
+  }
+}
 </script>
 <style>
 #app {
