@@ -303,7 +303,7 @@ export default {
           const url = encodeURI("https://machigae-game.web.app/"); // ツイートに載せるURLを指定(文字はエンコードする必要がある)
           window.open(
             `http://twitter.com/intent/tweet?text=${this.displayTimmer}秒で間違えを\n見つけられました！&url=${url}`
-          ); //ハッシュタグをsampleにする
+          );
         }
       );
       tweetButton.x = 240; // ボタンの座標指定
