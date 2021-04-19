@@ -3,16 +3,29 @@
     <h3 class="description">問題の情報を入力してください</h3>
     <hr />
     <div>
-      <p class="px-4 text-left pt-2">作品名を入力してください </p>
-      <input  type="text" v-model="title" class="px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none" placeholder="作品名" required>
+      <p class="px-4 text-left pt-2">作品名を入力してください</p>
+      <input
+        type="text"
+        v-model="title"
+        class="px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none"
+        placeholder="作品名"
+        required
+      />
 
       <p class="px-4 text-left pt-2">ハンドルネームを入力してください</p>
-      <input  type="text" v-model="name" class="px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none" placeholder="ハンドルネーム" required>
-
+      <input
+        type="text"
+        v-model="name"
+        class="px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none"
+        placeholder="ハンドルネーム"
+        required
+      />
     </div>
     <div class="mt-1 centerize">
       <button class="main_button mx-2" @click="gotoBack">戻る</button>
-      <button class="submit_button mx-2" @click="submit">保存して投稿完了</button>
+      <button class="submit_button mx-2" @click="submit">
+        保存して投稿完了
+      </button>
     </div>
   </div>
 </template>
@@ -49,34 +62,34 @@ export default {
   methods: {
     submit() {
       if (this.title && this.name) {
-      /*FireStoreへの保存*/
-      let submitDifferences = this.differences.map((element) => {
-        delete element.obj;
-        return element;
-      });
-      let collection = this.db.collection("quizzes");
-      // 「quizzes」というコレクションに対して {} で定義した情報を add する
-      let self = this;
-      collection
-        .add({
-          title: this.title,
-          name: this.name,
-          createdAt: new Date(),
-          differences: submitDifferences,
-        })
-        .then(function (docRef) {
-          // 保存に成功した時
-          console.log("Document written with ID: ", docRef.id);
-          // Storageへ画像を保存
-          self.saveImage(true, docRef.id);
-          self.saveImage(false, docRef.id);
-          self.gotoNext();
-        })
-        .catch(function (error) {
-          // 保存に失敗した時
-          console.error("Error adding document: ", error);
+        /*FireStoreへの保存*/
+        let submitDifferences = this.differences.map((element) => {
+          delete element.obj;
+          return element;
         });
-      }else{
+        let collection = this.db.collection("quizzes");
+        // 「quizzes」というコレクションに対して {} で定義した情報を add する
+        let self = this;
+        collection
+          .add({
+            title: this.title,
+            name: this.name,
+            createdAt: new Date(),
+            differences: submitDifferences,
+          })
+          .then(function (docRef) {
+            // 保存に成功した時
+            console.log("Document written with ID: ", docRef.id);
+            // Storageへ画像を保存
+            self.saveImage(true, docRef.id);
+            self.saveImage(false, docRef.id);
+            self.gotoNext();
+          })
+          .catch(function (error) {
+            // 保存に失敗した時
+            console.error("Error adding document: ", error);
+          });
+      } else {
         this.$message.warning("作品目とハンドルネームを入力してください", {
           showClose: false,
           type: "error",

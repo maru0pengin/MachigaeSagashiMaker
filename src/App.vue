@@ -31,10 +31,12 @@
 </template>
 
 <script>
+import Vue from "vue";
+import VueMeta from "vue-meta";
+Vue.use(VueMeta);
 export default {
-  name: "App",
   metaInfo: {
-    title: "Vue Meta Test App",
+    title: "Machigae Sagashi",
   },
 };
 </script>

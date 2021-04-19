@@ -35,6 +35,7 @@
 <script>
 import { VueLoading } from "vue-loading-template";
 import firebase from "firebase";
+
 export default {
   data() {
     return {
