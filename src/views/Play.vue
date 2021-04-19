@@ -48,8 +48,6 @@ export default {
       .get()
       .then(async (doc) => {
         if (doc.exists) {
-          //データが存在しているか確認
-          console.log("Document data:", doc.data());
           this.title = doc.data().title;
           this.name = doc.data().name;
           //間違えの位置を取得し、ステータス情報等を追加してdifferencesへ保存
@@ -113,10 +111,6 @@ export default {
   },
   methods: {
     createGameScene() {
-      // 一座標確認に使用
-      this.app.view.addEventListener("pointerdown", (ev) => {
-        console.log(ev.layerX, ev.layerY);
-      });
       this.timmer = 0;
       this.differences.forEach((difference) => {
         difference.status = 0;
@@ -166,13 +160,12 @@ export default {
         difference.obj.on("pointerdown", function () {
           // クリック時に発動する関数
           if (difference.status === 0) {
-            //console.log(correctCircles[0])
             //正解を示す円を表示させる
             difference.CircleObj = new PIXI.Graphics();
             difference.CircleObj.lineStyle(5, 0xec6d71, 1);
             difference.CircleObj.drawCircle(
               difference.x,
-              difference.y - radius / 2 + 350,
+              difference.y - radius / 2 + 360,
               radius,
               radius
             );
@@ -241,7 +234,6 @@ export default {
       // 毎フレームごとに処理するゲームループ
       // スコアテキストを毎フレームアップデートする
       let score = this.differences.filter(function (difference) {
-        //console.log(difference.status)
         return difference.status === 1;
       });
 

@@ -31,6 +31,14 @@
 </template>
 
 <script>
+import Vue from "vue";
+import VueMeta from "vue-meta";
+Vue.use(VueMeta);
+export default {
+  metaInfo: {
+    title: "Machigae Sagashi",
+  },
+};
 </script>
 <style>
 #app {

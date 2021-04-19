@@ -99,7 +99,6 @@ export default {
         this.differences = this.differences.filter((n, i) => i !== index - 1);
         this.scene.removeChild(latest.obj);
       });
-      console.log("test");
       this.scene.addChild(latest.obj);
     },
     gotoNext() {
