@@ -40,6 +40,7 @@ export default {
       storageRef: null,
       title: "",
       name: "",
+      id: String,
     };
   },
   props: {
@@ -49,7 +50,7 @@ export default {
     defaltIncorrect: String,
     differences: Array,
   },
-  created: function () {
+  created: function() {
     this.db = firebase.firestore(); // dbインスタンスを初期化
     this.storageRef = firebase.storage().ref();
   },
@@ -77,15 +78,14 @@ export default {
             createdAt: new Date(),
             differences: submitDifferences,
           })
-          .then(function (docRef) {
-            // 保存に成功した時
-            console.log("Document written with ID: ", docRef.id);
+          .then(function(docRef) {
             // Storageへ画像を保存
+            self.id = docRef.id;
             self.saveImage(true, docRef.id);
             self.saveImage(false, docRef.id);
             self.gotoNext();
           })
-          .catch(function (error) {
+          .catch(function(error) {
             // 保存に失敗した時
             console.error("Error adding document: ", error);
           });
@@ -113,7 +113,10 @@ export default {
       this.$router.push({
         name: "completed",
         query: this.$route.query,
-        params: { completedFlag: true },
+        params: {
+          completedFlag: true,
+          id: this.id,
+        },
       });
     },
     gotoBack() {
