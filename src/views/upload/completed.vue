@@ -20,6 +20,20 @@
     </div>
     <div></div>
     <hr />
+    <div class="flex text-sm my-2">
+      SHARE
+
+      <div class="w-full mr-2 flex justify-end">
+        <button
+          class="block focus:outline-none"
+          type="primary"
+          @click="twitter"
+        >
+          <img src="@/assets/Twitter.png" class="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+    <hr />
     <div class="mt-1 centerize">
       <button class="main_button mx-2" type="primary" @click="gotoNext">
         ホームへ戻る
@@ -55,9 +69,23 @@ export default {
     onError() {
       this.$message.warning("URLのコピーに失敗しました");
     },
+    twitter() {
+      //ツイートＡＰＩに送信
+      //結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
+      const url = encodeURI(this.location); // ツイートに載せるURLを指定(文字はエンコードする必要がある)
+      window.open(
+        `http://twitter.com/intent/tweet?text=間違え探しを作成しました！ &url=${url}`
+      );
+    },
     gotoNext() {
       this.$router.push({ name: "Home", query: this.$route.query });
     },
   },
 };
 </script>
+
+<style scoped>
+.Twitter {
+  background: #00acee;
+}
+</style>
