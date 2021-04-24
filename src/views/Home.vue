@@ -46,10 +46,10 @@ export default {
   components: {
     VueLoading,
   },
-  created: async function () {
+  created: async function() {
     this.db = firebase.firestore(); // dbインスタンスを初期化
   },
-  mounted: async function () {
+  mounted: async function() {
     //間違え問題を取得
     this.db
       .collection("quizzes")

@@ -33,7 +33,9 @@
 <script>
 import Vue from "vue";
 import VueMeta from "vue-meta";
+import VueClipboard from "vue-clipboard2";
 Vue.use(VueMeta);
+Vue.use(VueClipboard);
 export default {
   metaInfo: {
     title: "Machigae Sagashi",
