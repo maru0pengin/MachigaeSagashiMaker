@@ -16,7 +16,7 @@ const HEIGHT = 600;
 import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 
 export default {
-  data: function () {
+  data: function() {
     return {
       correctImgPath: ``, //正解画像のパスを入れる
       incorrectImgPath: ``, //不正解画像のパスを入れる
@@ -33,15 +33,15 @@ export default {
       db: null,
     };
   },
-  created: function () {
+  created: function() {
     this.db = firebase.firestore(); // dbインスタンスを初期化
   },
   computed: {
-    id: function () {
+    id: function() {
       return this.$route.params.id;
     },
   },
-  mounted: async function () {
+  mounted: async function() {
     //間違え位置の取得
     let docRef = await this.db.collection("quizzes").doc(this.id);
     docRef
@@ -61,7 +61,10 @@ export default {
           }
           //画像の取得
           let ref;
-          ref = await firebase.storage().ref().child(`${this.id}/correct.png`);
+          ref = await firebase
+            .storage()
+            .ref()
+            .child(`${this.id}/correct.png`);
           await ref.getDownloadURL().then((url) => {
             this.correctImgPath = url;
           });
@@ -150,14 +153,14 @@ export default {
           length,
           length
         );
-        difference.obj.beginFill(0xfff000, 0.2); //ヒットエリアは透明
+        difference.obj.beginFill(0xfff000, 0.0); //ヒットエリアは透明
         difference.obj.drawShape(rect);
         difference.obj.endFill();
 
         difference.obj.interactive = true; // クリック可能にする
         difference.obj.hitArea = rect;
 
-        difference.obj.on("pointerdown", function () {
+        difference.obj.on("pointerdown", function() {
           // クリック時に発動する関数
           if (difference.status === 0) {
             //正解を示す円を表示させる
@@ -233,7 +236,7 @@ export default {
     gameLoop() {
       // 毎フレームごとに処理するゲームループ
       // スコアテキストを毎フレームアップデートする
-      let score = this.differences.filter(function (difference) {
+      let score = this.differences.filter(function(difference) {
         return difference.status === 1;
       });
 
@@ -338,7 +341,7 @@ export default {
       return buttonContainer; // ボタンコンテナを返す
     },
   },
-  beforeDestroy: function () {
+  beforeDestroy: function() {
     //キャッシュからすべてのテクスチャを削除
     PIXI.utils.clearTextureCache();
   },
