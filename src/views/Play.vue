@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-14">
+  <div class="my-14">
     <div id="canvas" class="canvas shadow bg-white">
       <p class="font-bold text-xl pl-2 pt-2">{{ title }}</p>
       <p class="text-right text-sm pl-2 pr-2">{{ name }}</p>

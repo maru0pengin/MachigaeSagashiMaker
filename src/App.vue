@@ -26,7 +26,11 @@
         >
       </div>
     </nav>
-    <router-view class="h-full md:h-screen" />
+    <router-view />
+
+    <div class="bg-blue-300 h-44 text-white p-10">
+      <p class="text-sm">© 2021 ペンギン丸</p>
+    </div>
   </div>
 </template>
 
@@ -47,7 +51,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   font-family: arial black;
-  @apply bg-gray-50 min-h-full;
+  @apply bg-gray-50;
 }
 .description {
   @apply font-bold text-gray-900 text-xl text-blue-500;
