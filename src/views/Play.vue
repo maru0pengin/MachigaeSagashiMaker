@@ -207,11 +207,11 @@ export default {
       gameScene.addChild(mihon); // スコア表示テキストを画面に追加する
 
       const description = new PIXI.Text(
-        "下のイラストの間違えをタップしよう！",
+        "下の画像の間違えをタップしよう！",
         textStyle
       ); //スコア表示テキスト
       description.y = 310;
-      description.x = 15;
+      description.x = 45;
       gameScene.addChild(description); // スコア表示テキストを画面に追加する
 
       this.addGameLoop(this.gameLoop);
@@ -303,7 +303,8 @@ export default {
         () => {
           //ツイートＡＰＩに送信
           //結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
-          const url = encodeURI("https://machigae-game.web.app/"); // ツイートに載せるURLを指定(文字はエンコードする必要がある)
+          //const url = encodeURI("https://machigae-game.web.app/"); // ツイートに載せるURLを指定(文字はエンコードする必要がある)
+          const url = encodeURI(`${location.href}`);
           window.open(
             `http://twitter.com/intent/tweet?text=${this.displayTimmer}秒で間違えを\n見つけられました！&url=${url}`
           );

@@ -26,7 +26,7 @@
         >
       </div>
     </nav>
-    <router-view class="h-screen" />
+    <router-view class="h-full md:h-screen" />
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   font-family: arial black;
-  @apply bg-gray-50;
+  @apply bg-gray-50 min-h-full;
 }
 .description {
   @apply font-bold text-gray-900 text-xl text-blue-500;

@@ -9,7 +9,7 @@
         readonly
       />
       <button
-        class="text-sm inline-block px-3 py-1 font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded-r-lg shadow hover:shadow-lg hover:bg-indigo-500 focus:outline-none"
+        class="text-sm inline-block px-1 py-1 w-24 font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded-r-lg shadow hover:shadow-lg hover:bg-indigo-500 focus:outline-none"
         type="button"
         v-clipboard:copy="location"
         v-clipboard:success="onCopy"
