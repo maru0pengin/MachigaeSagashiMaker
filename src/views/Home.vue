@@ -7,9 +7,7 @@
         :size="{ width: '50px', height: '50px' }"
       />
     </div>
-    <div
-      class="mt-14 mx-auto w-10/12 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
-    >
+    <div class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 lg:grid-cols-4">
       <div v-show="!loading" v-for="quizze in quizzes" :key="quizze.id">
         <button
           type="primary"
@@ -18,7 +16,7 @@
         >
           <div
             v-show="!loading"
-            class="m-2 bg-white shadow-lg rounded-sm overflow-hidden"
+            class="m-2 bg-white shadow-lg rounded-lg overflow-hidden relative"
           >
             <img class="object-cover" :src="quizze.img" />
             <p class="text-lg font-bold text-left pl-2 pt-2">
