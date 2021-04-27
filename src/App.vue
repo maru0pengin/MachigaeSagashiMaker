@@ -14,16 +14,23 @@
           </p></router-link
         >
       </div>
+
       <div
-        class="text-white flex md:space-x-2 p-0 md:px-0 md:space-y-0 space-y-1 md:ml-4 md:relative absolute top-full bg-blue-300 flex-col md:flex-row left-0 right-0"
+        class="text-white flex p-0  md:relative absolute top-full bg-blue-300 flex left-0 right-0 "
       >
-        <router-link to="/upload"
-          ><p
-            class="text-xl font-bold px-4 py-2 hover:text-blue-100 rounded-lg block"
+        <div class="flex mx-auto">
+          <router-link to="/upload"
+            ><p class="font-bold px-4 py-2 hover:text-blue-100">
+              問題投稿
+            </p>
+          </router-link>
+          <button
+            @click="gotoContact()"
+            class="font-bold px-4 py-2 hover:text-blue-100 focus:outline-none"
           >
-            問題投稿
-          </p></router-link
-        >
+            お問い合わせ
+          </button>
+        </div>
       </div>
     </nav>
     <router-view />
@@ -43,6 +50,11 @@ Vue.use(VueClipboard);
 export default {
   metaInfo: {
     title: "Machigae Sagashi",
+  },
+  methods: {
+    gotoContact() {
+      window.open(`https://forms.gle/1uCV8gduy8PZu4jE9`);
+    },
   },
 };
 </script>
