@@ -20,6 +20,12 @@
         placeholder="ハンドルネーム"
         required
       />
+
+      <p class="mt-4">問題を公開するか選択してください</p>
+      <el-radio v-model="radio" label="1">公開</el-radio>
+      <el-radio v-model="radio" label="2">非公開</el-radio>
+      <br/>
+      <button class="text-xs text-blue-400 focus:outline-none" @click="description"><i class="el-icon-question pr-1 pl-40"></i>公開とは？</button>
     </div>
     <div class="mt-1 centerize">
       <button class="main_button mx-2" @click="gotoBack">戻る</button>
@@ -41,7 +47,13 @@ export default {
       title: "",
       name: "",
       id: String,
+      radio:'1'
     };
+  },
+  computed: {
+    isPublic() {
+      return (this.radio === "1")
+    }
   },
   props: {
     correctImage: String,
@@ -77,6 +89,7 @@ export default {
             name: this.name,
             createdAt: new Date(),
             differences: submitDifferences,
+            isPublic:this.isPublic
           })
           .then(function(docRef) {
             // Storageへ画像を保存
@@ -95,6 +108,11 @@ export default {
           type: "error",
         });
       }
+    },
+    description() {
+      this.$alert('公開に設定すると、当サイトのトップページから誰でもこの問題を遊ぶことができます。非公開へ設定すると、問題のURLを知っている方のみ遊ぶことができます。',
+        '公開とは',
+        {confirmButtonText: 'OK',confirmButtonClass:"focus:outline-none "})
     },
     saveImage(correct, id) {
       let ref, image_url;
