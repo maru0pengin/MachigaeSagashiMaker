@@ -23,7 +23,7 @@
           :aspect-ratio="16 / 9"
           drag-mode="crop"
         />
-        <br />
+        <br/>
 
         <button
           class="upload_button"
@@ -76,10 +76,9 @@ export default {
     };
   },
   methods: {
-    cropImage() {
+    async cropImage() {
       this.Data = this.$refs.cropper1.getData();
       this.cropCorrect = this.$refs.cropper1.getCroppedCanvas().toDataURL();
-
       this.$refs.cropper2.setData(this.Data);
       this.cropIncorrect = this.$refs.cropper2.getCroppedCanvas().toDataURL();
 

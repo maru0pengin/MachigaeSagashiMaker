@@ -69,8 +69,6 @@ export default {
   methods: {
     upload({ file }) {
       const image = new Image();
-      console.log(this.correctUploadFlag);
-      console.log(this.incorrectUploadFlag);
       return new Promise((resolve, reject) => {
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
@@ -110,7 +108,6 @@ export default {
           image.src = imageSrc;
         })
         .catch(() => {
-          //this.$rollbar.error(err);
           this.correctUploadFlag = false;
           this.incorrectUploadFlag = false;
           this.$notify({
