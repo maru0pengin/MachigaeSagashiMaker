@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-screen ">
     <div v-show="loading" class="h-screen flex justify-center items-center">
       <vue-loading
         type="spiningDubbles"
@@ -7,26 +7,28 @@
         :size="{ width: '50px', height: '50px' }"
       />
     </div>
-    <div class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 lg:grid-cols-4">
-      <div v-show="!loading" v-for="quizze in quizzes" :key="quizze.id">
-        <button
-          type="primary"
-          @click="gotoGame(quizze.id)"
-          class="focus:outline-none"
-        >
-          <div
-            v-show="!loading"
-            class="m-2 bg-white shadow-lg rounded-lg overflow-hidden relative"
+    <transition>
+      <div v-show="!loading"  class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 lg:grid-cols-4">
+        <div v-for="quizze in quizzes" :key="quizze.id">
+          <button
+            type="primary"
+            @click="gotoGame(quizze.id)"
+            class="focus:outline-none w-60"
           >
-            <img class="object-cover" :src="quizze.img" />
-            <p class="text-lg font-bold text-left pl-2 pt-2">
-              {{ quizze.title }}
-            </p>
-            <p class="text-left text-sm pl-2 pb-2">{{ quizze.name }}</p>
-          </div>
-        </button>
+            <div
+              v-show="!loading"
+              class="m-2 bg-white shadow-lg rounded-lg overflow-hidden relative"
+            >
+              <img class="object-cover" :src="quizze.img" />
+              <p class="text-lg font-bold text-left pl-2 pt-2">
+                {{ quizze.title }}
+              </p>
+              <p class="text-left text-sm pl-2 pb-2">{{ quizze.name }}</p>
+            </div>
+          </button>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -63,7 +65,6 @@ export default {
             date: doc.data().createdAt.toDate(),
           });
         });
-
         for (let quizze of this.quizzes) {
           //画像の取得
           let ref, img;
@@ -94,25 +95,26 @@ export default {
 };
 </script>
 
-<style scoped>
-h2 {
-  font-size: 25px;
-  margin-top: 20px;
-}
-h3 {
-  font-size: 20px;
-}
-.c_cropped_image {
-  border: 1px solid gray;
-}
-.l_cropper_container {
-  width: 500px;
-  height: 500px;
-  border: 1px solid gray;
-  display: inline-block;
-}
-.l_in_cropper_container {
-  width: 0px;
-  height: 0px;
-}
+<style lang="sass" scoped>
+h2
+  font-size: 25px
+  margin-top: 20px
+h3
+  font-size: 20px
+.c_cropped_image
+  border: 1px solid gray
+.l_cropper_container
+  width: 500px
+  height: 500px
+  border: 1px solid gray
+  display: inline-block
+.l_in_cropper_container
+  width: 0px
+  height: 0px
+.v-leave-active,
+.v-enter-active
+  transition: opacity 1.5s
+.v-enter,
+.v-leave-to
+  opacity: 0
 </style>
