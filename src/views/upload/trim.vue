@@ -34,7 +34,7 @@
         </button>
       </div>
       <div v-show="false">
-        <vue-cropper ref="cropper2" :src="incorrectImage" />
+        <vue-cropper ref="cropper2" :src="incorrectImage" :view-mode="2" />
       </div>
       <div v-show="false">
         <canvas id="correct" width="100" height="100" />
