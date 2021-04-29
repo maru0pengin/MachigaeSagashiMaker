@@ -51,6 +51,7 @@ export default {
     //間違え問題を取得
     this.db
       .collection("quizzes")
+      .where("isPublic", "==", true)
       .orderBy("createdAt", "asc")
       .get()
       .then(async (querySnapshot) => {
