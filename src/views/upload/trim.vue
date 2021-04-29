@@ -77,7 +77,6 @@ export default {
   },
   methods: {
     async cropImage() {
-      this.$refs.cropper2.setData(null);
       this.Data = this.$refs.cropper1.getData();
       this.cropCorrect = this.$refs.cropper1.getCroppedCanvas().toDataURL();
       this.$refs.cropper2.setData(this.Data);
