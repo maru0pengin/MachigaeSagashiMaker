@@ -34,7 +34,7 @@
         </button>
       </div>
       <div v-show="false">
-        <vue-cropper ref="cropper2" :src="incorrectImage" />
+        <vue-cropper ref="cropper2" :src="incorrectImage" :view-mode="2" />
       </div>
       <div v-show="false">
         <canvas id="correct" width="100" height="100" />
@@ -77,6 +77,7 @@ export default {
   },
   methods: {
     async cropImage() {
+      this.$refs.cropper2.setData(null);
       this.Data = this.$refs.cropper1.getData();
       this.cropCorrect = this.$refs.cropper1.getCroppedCanvas().toDataURL();
       this.$refs.cropper2.setData(this.Data);
