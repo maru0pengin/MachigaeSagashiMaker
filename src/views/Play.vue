@@ -1,6 +1,7 @@
 <template>
   <div class="my-14">
-    <div id="canvas" class="canvas shadow bg-white">
+    <Loading v-bind:loading="loading" />
+    <div v-show="!loading" id="canvas" class="canvas shadow bg-white">
       <p class="font-bold text-xl pl-2 pt-2">{{ title }}</p>
       <p class="text-right text-sm pl-2 pr-2">{{ name }}</p>
       <hr />
@@ -14,6 +15,7 @@ const WIDTH = 400;
 const HEIGHT = 600;
 
 import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
+import Loading from "@/components/Loading";
 
 export default {
   data: function() {
@@ -31,7 +33,11 @@ export default {
       textTimer: "",
       resources: null,
       db: null,
+      loading: true,
     };
+  },
+  components: {
+    Loading,
   },
   created: function() {
     this.db = firebase.firestore(); // dbインスタンスを初期化
@@ -110,7 +116,8 @@ export default {
       .catch((error) => {
         console.log("Error getting document:", error);
         this.$router.push({ name: "Home", query: this.$route.query });
-      });
+      })
+      .finally(() => (this.loading = false));
   },
   methods: {
     createGameScene() {

@@ -1,27 +1,21 @@
 <template>
   <div class="min-h-screen">
-    <div v-show="loading" class="h-screen flex justify-center items-center">
-      <vue-loading
-        type="spiningDubbles"
-        color="#87ceeb"
-        :size="{ width: '50px', height: '50px' }"
-      />
-    </div>
+    <Loading v-bind:loading="loading" />
+    <transition>
+      <div v-show="!loading" class="my-2 mx-auto w-11/12">
+        <div
+          v-show="!loading"
+          class="flex mx-3 mb-2 justify-center md:justify-start"
+        >
+          <input
+            type="text"
+            v-model="filterInput"
+            class="mt-14 px-2 py-1 border border-blue-300 hover:border-blue-400 rounded-lg placeholder-gray-300 outline-none"
+            placeholder="キーワード検索"
+            required
+          />
+        </div>
 
-    <div v-show="!loading" class="my-2 mx-auto w-11/12">
-      <div
-        v-show="!loading"
-        class="flex mx-3 mb-2 justify-center md:justify-start"
-      >
-        <input
-          type="text"
-          v-model="filterInput"
-          class="mt-14 px-2 py-1 border border-blue-300 hover:border-blue-400 rounded-lg placeholder-gray-300 outline-none"
-          placeholder="キーワード検索"
-          required
-        />
-      </div>
-      <transition>
         <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
           <div v-for="quizze in filteredItems" :key="quizze.id">
             <button
@@ -42,13 +36,13 @@
             </button>
           </div>
         </div>
-      </transition>
-    </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import { VueLoading } from "vue-loading-template";
+import Loading from "@/components/Loading";
 import firebase from "firebase";
 
 export default {
@@ -60,7 +54,7 @@ export default {
     };
   },
   components: {
-    VueLoading,
+    Loading,
   },
   created: async function() {
     this.db = firebase.firestore(); // dbインスタンスを初期化
