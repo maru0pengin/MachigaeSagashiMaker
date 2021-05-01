@@ -10,13 +10,13 @@
     <transition>
       <div
         v-show="!loading"
-        class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 lg:grid-cols-4"
+        class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
       >
         <div v-for="quizze in quizzes" :key="quizze.id">
           <button
             type="primary"
             @click="gotoGame(quizze.id)"
-            class="focus:outline-none w-60"
+            class="focus:outline-none m-1"
           >
             <div
               v-show="!loading"
