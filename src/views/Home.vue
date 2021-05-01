@@ -1,5 +1,13 @@
 <template>
   <div class="min-h-screen">
+    <input
+      type="text"
+      v-model="filterInput"
+      class="mt-14 px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none"
+      placeholder="作品名"
+      required
+    />
+    {{ filterInput }}
     <div v-show="loading" class="h-screen flex justify-center items-center">
       <vue-loading
         type="spiningDubbles"
@@ -10,9 +18,9 @@
     <transition>
       <div
         v-show="!loading"
-        class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
+        class="my-2 mx-auto w-11/12 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
       >
-        <div v-for="quizze in quizzes" :key="quizze.id">
+        <div v-for="quizze in filteredItems" :key="quizze.id">
           <button
             type="primary"
             @click="gotoGame(quizze.id)"
@@ -44,6 +52,7 @@ export default {
     return {
       quizzes: [],
       loading: true,
+      filterInput: "",
     };
   },
   components: {
@@ -80,12 +89,31 @@ export default {
           });
           this.$set(quizze, "img", img);
         }
+        //this.filteredItems = JSON.parse(JSON.stringify(this.quizzes));
         this.loading = false;
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
   },
+  computed: {
+    // 文字列検索した候補者群
+    filteredItems() {
+      return this.filterInput
+        ? this.quizzes.filter((quizze) =>
+            quizze.title.includes(this.filterInput)
+          )
+        : this.quizzes;
+    },
+  },
+  // watch: {
+  //   filterInput: function() {
+  //     //console.log(this.filterdItems);
+  //     this.filterdItems = this.quizzes.filter((u) => {
+  //       u.title.includes(this.filterInput);
+  //     });
+  //   },
+  // },
   methods: {
     gotoGame(id) {
       this.$router.push({
