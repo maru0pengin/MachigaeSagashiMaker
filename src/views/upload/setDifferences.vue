@@ -1,9 +1,20 @@
 <template>
   <div>
+    <div v-show="isShowCorrect" class="my-2">
+      <p class="text-left">見本画像</p>
+      <img :src="correctImage" width="300" class="mx-auto border-2" />
+    </div>
     <h3 class="description">間違え位置を設定してください</h3>
+    <button
+      @click="showCorrent"
+      class="block ml-auto text-xs text-blue-400 focus:outline-none"
+    >
+      <p v-if="isShowCorrect">見本画像を閉じる</p>
+      <p v-else>見本画像を確認</p>
+    </button>
     <hr />
     <br />
-    <div id="canvas"></div>
+    <div id="canvas" class="border-2"></div>
     <div>
       <button class="main_button mx-2" @click="gotoBack">戻る</button>
       <button class="main_button mx-2" @click="gotoNext">次へ</button>
@@ -26,6 +37,7 @@ export default {
       differences: [],
       scene: null,
       deleteFlag: false, //間違えの追加か、削除か、切り替えのフラグ
+      isShowCorrect: false, //見本画像を表示するかのフラグ
     };
   },
   props: {
@@ -34,7 +46,7 @@ export default {
     defaltCorrect: String,
     defaltIncorrect: String,
   },
-  mounted: async function () {
+  mounted: async function() {
     // 画像が渡されてない場合は、アップロード画面へ飛ばす
     if (!this.correctImage || !this.incorrectImage) {
       this.$router.push({ name: "imageUpload", query: this.$route.query });
@@ -100,6 +112,9 @@ export default {
         this.scene.removeChild(latest.obj);
       });
       this.scene.addChild(latest.obj);
+    },
+    showCorrent() {
+      this.isShowCorrect = !this.isShowCorrect;
     },
     gotoNext() {
       if (this.differences.length !== 0) {
