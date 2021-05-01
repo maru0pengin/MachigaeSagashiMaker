@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen ">
+  <div class="min-h-screen">
     <div v-show="loading" class="h-screen flex justify-center items-center">
       <vue-loading
         type="spiningDubbles"
@@ -8,12 +8,15 @@
       />
     </div>
     <transition>
-      <div v-show="!loading"  class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 lg:grid-cols-4">
+      <div
+        v-show="!loading"
+        class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
+      >
         <div v-for="quizze in quizzes" :key="quizze.id">
           <button
             type="primary"
             @click="gotoGame(quizze.id)"
-            class="focus:outline-none w-60"
+            class="focus:outline-none m-1"
           >
             <div
               v-show="!loading"
@@ -50,7 +53,7 @@ export default {
     this.db = firebase.firestore(); // dbインスタンスを初期化
   },
   mounted: async function() {
-    //間違え問題を取得
+    //間違え問題を取得;
     this.db
       .collection("quizzes")
       .where("isPublic", "==", true)
@@ -66,7 +69,7 @@ export default {
           });
         });
         for (let quizze of this.quizzes) {
-          //画像の取得
+          //画像の取得;
           let ref, img;
           ref = await firebase
             .storage()

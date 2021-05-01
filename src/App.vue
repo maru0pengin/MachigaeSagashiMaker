@@ -63,7 +63,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   font-family: arial black;
-  @apply bg-gray-50;
+  @apply bg-gray-100;
 }
 .description {
   @apply font-bold text-gray-900 text-xl text-blue-500;
