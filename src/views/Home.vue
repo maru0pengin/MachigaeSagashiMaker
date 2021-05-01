@@ -7,31 +7,43 @@
         :size="{ width: '50px', height: '50px' }"
       />
     </div>
-    <transition>
+
+    <div v-show="!loading" class="my-2 mx-auto w-11/12">
       <div
         v-show="!loading"
-        class="my-14 mx-auto w-11/12 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4"
+        class="flex mx-3 mb-2 justify-center md:justify-start"
       >
-        <div v-for="quizze in quizzes" :key="quizze.id">
-          <button
-            type="primary"
-            @click="gotoGame(quizze.id)"
-            class="focus:outline-none m-1"
-          >
-            <div
-              v-show="!loading"
-              class="m-2 bg-white shadow-lg rounded-lg overflow-hidden relative"
-            >
-              <img class="object-cover" :src="quizze.img" />
-              <p class="text-lg font-bold text-left pl-2 pt-2">
-                {{ quizze.title }}
-              </p>
-              <p class="text-left text-sm pl-2 pb-2">{{ quizze.name }}</p>
-            </div>
-          </button>
-        </div>
+        <input
+          type="text"
+          v-model="filterInput"
+          class="mt-14 px-2 py-1 border border-blue-300 hover:border-blue-400 rounded-lg placeholder-gray-300 outline-none"
+          placeholder="キーワード検索"
+          required
+        />
       </div>
-    </transition>
+      <transition>
+        <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+          <div v-for="quizze in filteredItems" :key="quizze.id">
+            <button
+              type="primary"
+              @click="gotoGame(quizze.id)"
+              class="focus:outline-none m-1"
+            >
+              <div
+                v-show="!loading"
+                class="m-2 bg-white shadow-lg rounded-lg overflow-hidden relative"
+              >
+                <img class="object-cover" :src="quizze.img" />
+                <p class="text-lg font-bold text-left pl-2 pt-2">
+                  {{ quizze.title }}
+                </p>
+                <p class="text-left text-sm pl-2 pb-2">{{ quizze.name }}</p>
+              </div>
+            </button>
+          </div>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -44,6 +56,7 @@ export default {
     return {
       quizzes: [],
       loading: true,
+      filterInput: "",
     };
   },
   components: {
@@ -80,11 +93,24 @@ export default {
           });
           this.$set(quizze, "img", img);
         }
+        //this.filteredItems = JSON.parse(JSON.stringify(this.quizzes));
         this.loading = false;
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
+  },
+  computed: {
+    // 文字列検索した候補者群
+    filteredItems() {
+      return this.filterInput
+        ? this.quizzes.filter(
+            (quizze) =>
+              quizze.title.includes(this.filterInput) ||
+              quizze.name.includes(this.filterInput)
+          )
+        : this.quizzes;
+    },
   },
   methods: {
     gotoGame(id) {

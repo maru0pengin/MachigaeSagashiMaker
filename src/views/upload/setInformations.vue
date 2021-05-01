@@ -127,7 +127,7 @@ export default {
       }
     },
     description() {
-      this.isShowModal = !this.isShowModal
+      this.isShowModal = !this.isShowModal;
     },
     saveImage(correct, id) {
       let ref, image_url;
