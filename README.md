@@ -1,16 +1,13 @@
 # Machigae_sagashi
 
-間違え探しクイズを、作成・シェア・プレイできるアプリケーションです。
-2枚の画像を用意するだけで間違え探しが作成でき、他の人の投稿作品で遊ぶこともできます。
-
+間違え探しクイズを、作成・シェア・プレイできるアプリケーションです。<br>
+2枚の画像を用意するだけで間違え探しが作成でき、他の人の投稿作品で遊ぶこともできます。<br>
 レスポンシブ対応しているため、スマホからでも利用することができます。
 
 # URL
 
-https://machigaesagashi.site
-
-開発途中であるため、不具合等があるかもしれません。
-
+https://machigaesagashi.site <br>
+開発途中であるため、不具合等があるかもしれません。<br>
 お気づきの際は[問い合わせフォーム](https://docs.google.com/forms/d/e/1FAIpQLSdHpcv83hmHh9XvRN5a35k-aEQ7UbGYJ93s5YDHQkUNkwERkw/viewform)等へ連絡頂けると幸いです。
 
 # 使用技術
