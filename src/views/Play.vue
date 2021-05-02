@@ -258,7 +258,7 @@ export default {
     tweet() {
       const url = encodeURI(`${location.href}`);
       window.open(
-        `http://twitter.com/intent/tweet?text=${this.displayTimmer}秒で間違えを\n見つけられました！&url=${url}`
+        `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！&url=${url}`
       );
     },
     gotoHome() {
