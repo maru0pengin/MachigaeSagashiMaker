@@ -16,7 +16,7 @@
       </div>
 
       <div
-        class="text-white flex p-0  md:relative absolute top-full bg-blue-300 flex left-0 right-0 "
+        class="text-white flex p-0  md:relative absolute top-full bg-blue-300 flex left-0 right-0 border border-blue-300"
       >
         <div class="flex mx-auto">
           <router-link to="/upload"
@@ -50,6 +50,9 @@ Vue.use(VueClipboard);
 export default {
   metaInfo: {
     title: "Machigae Sagashi",
+    meta: [
+      { name: 'viewport', content: "width=420px,user-scalable=no"}
+    ]
   },
   methods: {
     gotoContact() {

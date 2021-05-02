@@ -124,16 +124,6 @@ h2
   margin-top: 20px
 h3
   font-size: 20px
-.c_cropped_image
-  border: 1px solid gray
-.l_cropper_container
-  width: 500px
-  height: 500px
-  border: 1px solid gray
-  display: inline-block
-.l_in_cropper_container
-  width: 0px
-  height: 0px
 .v-leave-active,
 .v-enter-active
   transition: opacity 1.5s

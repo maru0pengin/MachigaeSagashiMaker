@@ -23,7 +23,7 @@
           :aspect-ratio="16 / 9"
           drag-mode="crop"
         />
-        <br/>
+        <br />
 
         <button
           class="upload_button"
@@ -41,10 +41,20 @@
         <canvas id="incorrect" width="100" height="100" />
       </div>
       <br />
-      <img :src="resizeCorrect" width="300" class="mt-6 mx-auto" />
-      <img :src="resizeIncorrect" width="300" class="mt-6 mx-auto" />
+      <img
+        v-show="resizeCorrect"
+        :src="resizeCorrect"
+        width="300"
+        class="mt-6 mx-auto border-2"
+      />
+      <img
+        v-show="resizeIncorrect"
+        :src="resizeIncorrect"
+        width="300"
+        class="mt-6 mx-auto border-2"
+      />
     </div>
-    <div>
+    <div class="py-2">
       <button class="main_button mx-2" @click="gotoBack">戻る</button>
       <button class="main_button mx-2" @click="gotoNext">次へ</button>
     </div>

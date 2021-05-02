@@ -1,7 +1,7 @@
 <template>
   <div class="my-14">
     <Loading v-bind:loading="loading" />
-    <div v-show="!loading" id="canvas" class="canvas shadow bg-white">
+    <div v-show="!loading" id="canvas" class="canvas shadow bg-white w-full">
       <p class="font-bold text-xl pl-2 pt-2">{{ title }}</p>
       <p class="text-right text-sm pl-2 pr-2">{{ name }}</p>
       <hr />
