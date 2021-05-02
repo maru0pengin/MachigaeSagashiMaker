@@ -5,7 +5,7 @@
 レスポンシブ対応しているため、スマホからでも利用することができます。
 
 <img src=https://user-images.githubusercontent.com/75305753/116813982-8252bc80-ab91-11eb-97d4-91168adce050.JPG width=100%>
-<img src=https://user-images.githubusercontent.com/75305753/116814015-9ac2d700-ab91-11eb-8d9c-667013c2b213.jpg width=100%>
+<img src=https://user-images.githubusercontent.com/75305753/116814015-9ac2d700-ab91-11eb-8d9c-667013c2b213.jpg width=50%>
 
 # URL
 
