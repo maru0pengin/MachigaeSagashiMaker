@@ -10,9 +10,8 @@
       <img
         v-else
         :src="correctImage.src"
-        class="upload-img"
-        width="250"
-        style="margin: 1rem"
+        class="border-2 my-2"
+        width="300"
       />
       <el-upload
         action=""
@@ -34,9 +33,8 @@
       <img
         v-else
         :src="incorrectImage.src"
-        class="upload-img"
-        width="250"
-        style="margin: 1rem"
+        class="border-2 my-2"
+        width="300"
       />
       <el-upload
         action=""

@@ -5,12 +5,10 @@
     </div>
 
     <div class="min-w-screen flex justify-center my-16">
-      <div>
-        <div
-          class="flex flex-col max-w-md bg-white px-8 py-6 rounded-xl space-y-5 items-center shadow-lg"
-        >
-          <router-view />
-        </div>
+      <div
+        class="flex flex-col max-w-md bg-white py-6 px-10 rounded-xl items-center shadow-lg"
+      >
+        <router-view />
       </div>
     </div>
   </div>

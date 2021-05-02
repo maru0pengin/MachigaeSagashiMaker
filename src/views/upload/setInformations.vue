@@ -38,7 +38,7 @@
         保存して投稿完了
       </button>
     </div>
-    <Modal v-bind:loading="isShowModal" @from-child="description">
+    <Modal v-bind:show="isShowModal" @from-child="description">
       <p class="text-xl">公開とは?</p>
       <div class="text-sm mt-2">
         <p class="text-left">
