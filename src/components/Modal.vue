@@ -3,10 +3,7 @@
     <div id="modal" v-show="show" class="modal-background">
       <div class="modal-content">
         <div class="flex flex-col items-start p-4">
-        <slot />
-          <div class="ml-auto">
-            <button class="main_button mx-2" @click="closeModal">OK</button>
-          </div>
+          <slot />
         </div>
       </div>
     </div>
@@ -22,13 +19,7 @@ export default {
     };
   },
   props: {
-    show: Boolean
-  },
-  methods: {
-    closeModal: function () {
-      this.showContent = false;
-      this.$emit('from-child')
-    },
+    show: Boolean,
   },
 };
 </script>

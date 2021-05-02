@@ -38,13 +38,16 @@
         保存して投稿完了
       </button>
     </div>
-    <Modal v-bind:show="isShowModal" @from-child="description">
+    <Modal v-bind:show="isShowModal">
       <p class="text-xl">公開とは?</p>
       <div class="text-sm mt-2">
         <p class="text-left">
           公開に設定すると、当サイトのトップページから誰でもこの問題を遊ぶことができます。
           非公開へ設定すると、問題のURLを知っている方のみ遊ぶことができます。
         </p>
+      </div>
+      <div class="ml-auto">
+        <button class="main_button mx-2" @click="description">OK</button>
       </div>
     </Modal>
   </div>

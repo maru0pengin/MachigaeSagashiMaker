@@ -1,21 +1,52 @@
 <template>
-  <div class="my-14">
+  <div class="my-14 flex justify-center">
     <Loading v-bind:loading="loading" />
-    <div v-show="!loading" id="canvas" class="canvas shadow bg-white w-full">
+    <div v-show="!loading" class="bg-white shadow max-w-md ">
       <p class="font-bold text-xl pl-2 pt-2">{{ title }}</p>
       <p class="text-right text-sm pl-2 pr-2">{{ name }}</p>
+      <div class="flex">
+        <div class="text-left px-2">
+          間違い:{{ score }}/{{ differences.length }}
+        </div>
+        <div class="px-4">Timer:{{ displayTimer }}</div>
+      </div>
       <hr />
+      <div class="mt-4">
+        <div class="correctBox mx-auto">
+          <p class="text-left font-bold px-2">見本画像</p>
+          <img :src="correctImgPath" class="border-2 " width="400" />
+        </div>
+        <p class="py-2">下の画像の間違えをタップ・クリックしよう!</p>
+        <p></p>
+        <div id="canvas" class="canvas bg-white w-full" />
+      </div>
     </div>
+    <Modal v-bind:show="isCrear">
+      <div class="mx-auto">
+        <h3 class="font-bold text-gray-900 text-2xl text-blue-500">
+          クリア！！
+        </h3>
+        {{ displayTimer }}秒で見つけられました！
+      </div>
+      <div class="mx-auto">
+        <button class="min_button mx-2" @click="gotoHome">戻る</button>
+        <button class="min_button mx-2" @click="createGameScene">
+          再プレイ
+        </button>
+        <button class="min_button mx-2" @click="tweet">ツイート</button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
 const WIDTH = 400;
-const HEIGHT = 600;
+const HEIGHT = 225;
 
 import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 import Loading from "@/components/Loading";
+import Modal from "@/components/Modal";
 
 export default {
   data: function() {
@@ -23,10 +54,7 @@ export default {
       correctImgPath: ``, //正解画像のパスを入れる
       incorrectImgPath: ``, //不正解画像のパスを入れる
       app: null,
-      timmer: 0,
-      displayTimmer: "",
       gameLoops: [], // 毎フレーム毎に実行する関数たち
-      text: "",
       title: null,
       name: null,
       differences: [],
@@ -34,10 +62,15 @@ export default {
       resources: null,
       db: null,
       loading: true,
+      timer: 0.0,
+      displayTimer: "",
+      score: null,
+      isCrear: false,
     };
   },
   components: {
     Loading,
+    Modal,
   },
   created: function() {
     this.db = firebase.firestore(); // dbインスタンスを初期化
@@ -90,16 +123,13 @@ export default {
           // ここで定義した画面サイズ(width,height)は実際に画面に表示するサイズ
           this.app.renderer.view.style.position = "relative";
           this.app.renderer.view.style.width = "400px";
-          this.app.renderer.view.style.height = "600px";
+          this.app.renderer.view.style.height = "225px";
           this.app.renderer.view.style.display = "block";
 
           // canvasの背景色
           this.app.renderer.backgroundColor = 0xffffff;
 
-          PIXI.Loader.shared
-            .reset()
-            .add(this.correctImgPath)
-            .add(this.incorrectImgPath);
+          PIXI.Loader.shared.reset().add(this.incorrectImgPath);
 
           // プリロード処理が終わったら呼び出されるイベント
           PIXI.Loader.shared.load((loader, resources) => {
@@ -117,11 +147,15 @@ export default {
         console.log("Error getting document:", error);
         this.$router.push({ name: "Home", query: this.$route.query });
       })
-      .finally(() => (this.loading = false));
+      .finally(() => {
+        this.loading = false;
+      });
   },
   methods: {
     createGameScene() {
       this.timmer = 0;
+      this.isCrear = false;
+
       this.differences.forEach((difference) => {
         difference.status = 0;
       });
@@ -133,20 +167,13 @@ export default {
       // ゲームシーンを画面に追加
       this.app.stage.addChild(gameScene);
 
-      const image1 = new PIXI.Sprite(
-        this.resources[this.correctImgPath]?.texture
-      );
-      image1.x = 0;
-      image1.y = 70;
-      gameScene.addChild(image1); // 見本画像ををシーンに追加
-
-      const image2 = new PIXI.Sprite(
+      const image = new PIXI.Sprite(
         this.resources[this.incorrectImgPath].texture
       );
 
-      image2.x = 0;
-      image2.y = 350;
-      gameScene.addChild(image2); // 間違え画像をシーンに追加
+      image.x = 0;
+      image.y = 0;
+      gameScene.addChild(image); // 間違え画像をシーンに追加
 
       //ヒットエリアの描画
       const length = 30; //ヒットエリアの幅
@@ -156,7 +183,7 @@ export default {
         difference.obj = new PIXI.Graphics();
         let rect = new PIXI.Rectangle(
           difference.x - length / 2,
-          difference.y - length / 2 + 350,
+          difference.y - length / 2,
           length,
           length
         );
@@ -175,7 +202,7 @@ export default {
             difference.CircleObj.lineStyle(5, 0xec6d71, 1);
             difference.CircleObj.drawCircle(
               difference.x,
-              difference.y - radius / 2 + 360,
+              difference.y - radius / 2 + 10,
               radius,
               radius
             );
@@ -188,39 +215,6 @@ export default {
         });
         gameScene.addChild(difference.obj); //間違い範囲の図形をシーンに追加
       });
-
-      // テキストに関するパラメータを定義する(ここで定義した意外にもたくさんパラメータがある)
-      const textStyle = new PIXI.TextStyle({
-        fontFamily: "Myriad", // フォント
-        fontSize: 20, // フォントサイズ
-        fill: 0x696969, // 色(16進数で定義する)
-      });
-      this.text = new PIXI.Text(
-        `間違い:0/${this.differences.length}`,
-        textStyle
-      ); //スコア表示テキスト
-      this.text.y = 3;
-      this.text.x = 3;
-      gameScene.addChild(this.text); // スコア表示テキストを画面に追加する
-
-      this.textTimer = new PIXI.Text("Timer:0", textStyle); //スコア表示テキスト
-      this.textTimer.y = 3;
-      this.textTimer.x = 150;
-      gameScene.addChild(this.textTimer); // スコア表示テキストを画面に追加する
-
-      const mihon = new PIXI.Text("見本", textStyle); //スコア表示テキスト
-      mihon.y = 40;
-      mihon.x = 15;
-      gameScene.addChild(mihon); // スコア表示テキストを画面に追加する
-
-      const description = new PIXI.Text(
-        "下の画像の間違えをタップしよう！",
-        textStyle
-      ); //スコア表示テキスト
-      description.y = 310;
-      description.x = 45;
-      gameScene.addChild(description); // スコア表示テキストを画面に追加する
-
       this.addGameLoop(this.gameLoop);
     },
     /**
@@ -243,113 +237,35 @@ export default {
     gameLoop() {
       // 毎フレームごとに処理するゲームループ
       // スコアテキストを毎フレームアップデートする
-      let score = this.differences.filter(function(difference) {
+      this.score = this.differences.filter(function(difference) {
         return difference.status === 1;
-      });
+      }).length;
 
-      this.text.text = `間違い:${score.length}/${this.differences.length}`;
-      this.timmer += 1 / 60;
-      this.displayTimmer = this.timmer.toFixed(2);
+      this.timer += 1 / 60;
+      this.displayTimer = this.timer.toFixed(2);
 
-      this.textTimer.text = `Timer:${this.displayTimmer}`;
-
-      if (score.length === this.differences.length) {
+      if (this.score === this.differences.length) {
         this.createEndScene(); // 結果画面を表示する
-        //resources["../sound/crear.mp3"].sound.play() // クリックで音が鳴る
       }
     },
     createEndScene() {
-      // 他に表示しているシーンがあれば削除
-      this.removeAllScene();
       // 毎フレームイベントを削除
       this.removeAllGameLoops();
 
-      // ゲーム用のシーン表示
-      const endScene = new PIXI.Container();
-      // シーンを画面に追加する
-      this.app.stage.addChild(endScene);
-
-      // テキストに関するパラメータを定義する(ここで定義した意外にもたくさんパラメータがある)
-      const textStyle = new PIXI.TextStyle({
-        fontFamily: "Myriad", // フォント
-        fontSize: 28, // フォントサイズ
-        fill: 0x696969, // 色(16進数で定義する これはオレンジ色)
-      });
-
-      // テキストオブジェクトの定義
-      const text = new PIXI.Text(
-        `${this.displayTimmer}秒で間違えを\n見つけられました！`,
-        textStyle
-      ); // 結果画面のテキスト
-      text.anchor.x = 0.5; // アンカーのxを中央に指定
-      text.x = 200; // 座標指定 (xのアンカーが0.5で中央指定なので、テキストのx値を画面中央にすると真ん中にテキストが表示される)
-      text.y = 100; // 座標指定 (yのアンカーはデフォルトの0なので、画面上から200の位置にテキスト表示)
-      endScene.addChild(text); // 結果画面シーンにテキスト追加
-
-      //自作のボタン生成関数を使って、もう一度ボタンを生成
-      //引数の内容はcreateButton関数を参考に
-      const retryButton = this.createButton(
-        "もう一度",
-        120,
-        60,
-        0xf09199,
-        () => {
-          // クリック"した時の処理
-          this.createGameScene(); // ゲームシーンを生成する
-        }
-      );
-      retryButton.x = 40; // ボタンの座標指定
-      retryButton.y = 500; // ボタンの座標指定
-      endScene.addChild(retryButton); // ボタンを結果画面シーンに追加
-
-      const tweetButton = this.createButton(
-        "ツイート",
-        120,
-        60,
-        0x82cddd,
-        () => {
-          //ツイートＡＰＩに送信
-          //結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
-          //const url = encodeURI("https://machigae-game.web.app/"); // ツイートに載せるURLを指定(文字はエンコードする必要がある)
-          const url = encodeURI(`${location.href}`);
-          window.open(
-            `http://twitter.com/intent/tweet?text=${this.displayTimmer}秒で間違えを\n見つけられました！&url=${url}`
-          );
-        }
-      );
-      tweetButton.x = 240; // ボタンの座標指定
-      tweetButton.y = 500; // ボタンの座標指定
-      endScene.addChild(tweetButton); // ボタンを結果画面シーンに追加
+      this.timer = 0;
+      this.isCrear = true;
     },
-    createButton(text, width, height, color, onClick) {
-      const buttonAlpha = 1.0; // ボタン背景の透明度
-      const buttonContainer = new PIXI.Container(); // ボタンコンテナ（ここにテキストと背景色を追加して返り値とする）
-
-      // ボタン作成
-      const backColor = new PIXI.Graphics(); // グラフィックオブジェクト（背景に半透明な四角を配置するために使用）
-      backColor.beginFill(color, buttonAlpha); // 色、透明度を指定して描画開始
-      backColor.drawRect(0, 0, width, height); // 位置(0,0)を左上にして、width,heghtの四角形を描画
-      backColor.endFill(); // 描画完了
-      backColor.interactive = true; // クリック可能にする
-      backColor.on("pointerdown", onClick); // クリック時にonClickの関数を実行する
-      buttonContainer.addChild(backColor); // 背景をボタンコンテナに追加
-
-      // テキストに関するパラメータを定義する(ここで定義した意外にもたくさんパラメータがある)
-      const textStyle = new PIXI.TextStyle({
-        fontFamily: "Myriad", // フォント
-        fill: 0xffffff, // 色(16進数で定義する これはオレンジ色)
-      });
-
-      const buttonText = new PIXI.Text(text, textStyle); // テキストオブジェクトをtextStyleのパラメータで定義
-      buttonText.anchor.x = 0.5; // アンカーを中央に設置する(アンカーは0~1を指定する)
-      buttonText.anchor.y = 0.5; // アンカーを中央に設置する(アンカーは0~1を指定する)
-      buttonText.x = width / 2; // ボタン中央にテキストを設置するため、width/2の値をx値に指定
-      buttonText.y = height / 2; // ボタン中央テキストを設置するため、height/2の値をy値に指定
-      buttonContainer.addChild(buttonText); // ボタンテキストをボタンコンテナに追加
-      return buttonContainer; // ボタンコンテナを返す
+    tweet() {
+      const url = encodeURI(`${location.href}`);
+      window.open(
+        `http://twitter.com/intent/tweet?text=${this.displayTimmer}秒で間違えを\n見つけられました！&url=${url}`
+      );
+    },
+    gotoHome() {
+      this.$router.push({ name: "Home", query: this.$route.query });
     },
   },
-  beforeDestroy: function() {
+  beforeDestroy() {
     //キャッシュからすべてのテクスチャを削除
     PIXI.utils.clearTextureCache();
   },
