@@ -4,6 +4,9 @@
 2枚の画像を用意するだけで間違え探しが作成でき、他の人の投稿作品で遊ぶこともできます。<br>
 レスポンシブ対応しているため、スマホからでも利用することができます。
 
+<img src=https://user-images.githubusercontent.com/75305753/116813982-8252bc80-ab91-11eb-97d4-91168adce050.JPG width=100%>
+<img src=https://user-images.githubusercontent.com/75305753/116814015-9ac2d700-ab91-11eb-8d9c-667013c2b213.jpg width=100%>
+
 # URL
 
 https://machigaesagashi.site <br>
@@ -35,3 +38,8 @@ GitHub Actions を用いて以下のことを行っています。
 - Twitterシェア機能
 - 検索機能
 - 投稿作品で遊ぶ機能(pixijs)
+
+# 今後実装予定の機能
+
+- Twitterアカウントを用いたログイン機能(firebase Auth)
+- アハ体験ゲームを投稿する機能
