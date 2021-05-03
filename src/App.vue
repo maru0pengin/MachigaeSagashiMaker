@@ -33,6 +33,7 @@
         </div>
       </div>
     </nav>
+
     <router-view />
 
     <div class="bg-blue-300 h-44 text-white p-10">
