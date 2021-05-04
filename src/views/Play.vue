@@ -14,11 +14,11 @@
       <div class="mt-4">
         <div class="correctBox mx-auto">
           <p class="text-left font-bold px-2">見本画像</p>
-          <img :src="correctImgPath" class="border-2 " width="400" />
+          <img :src="correctImgPath" class="border-2" width="400" />
         </div>
         <p class="py-2">下の画像の間違えをタップ・クリックしよう!</p>
         <p></p>
-        <div id="canvas" class="canvas bg-white w-full" />
+        <div id="canvas" class="canvas bg-white w-full border-2" />
       </div>
     </div>
     <Modal v-bind:show="isCrear">
@@ -28,12 +28,21 @@
         </h3>
         {{ displayTimer }}秒で見つけられました！
       </div>
-      <div class="mx-auto">
+      <div class="mx-auto flex justify-center items-center">
         <button class="min_button mx-2" @click="gotoHome">戻る</button>
         <button class="min_button mx-2" @click="createGameScene">
           再プレイ
         </button>
-        <button class="min_button mx-2" @click="tweet">ツイート</button>
+        <div class="w-20 mx-2">
+          <a
+            href="https://twitter.com/share"
+            v-bind:data-url="location"
+            class="twitter-share-button"
+            data-hashtags="MachigaeSagashi,間違え探し"
+            data-size="large"
+            >Tweet</a
+          >
+        </div>
       </div>
     </Modal>
   </div>
@@ -79,8 +88,12 @@ export default {
     id: function() {
       return this.$route.params.id;
     },
+    location: function() {
+      return location.href;
+    },
   },
   mounted: async function() {
+    //twttr.widgets.load()
     //間違え位置の取得
     let docRef = await this.db.collection("quizzes").doc(this.id);
     docRef
@@ -254,6 +267,18 @@ export default {
 
       this.timer = 0;
       this.isCrear = true;
+
+      !(function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0],
+          p = /^http:/.test(d.location) ? "http" : "https";
+        if (!d.getElementById(id)) {
+          js = d.createElement(s);
+          js.id = id;
+          js.src = p + "://platform.twitter.com/widgets.js";
+          fjs.parentNode.insertBefore(js, fjs);
+        }
+      })(document, "script", "twitter-wjs");
     },
     tweet() {
       const url = encodeURI(`${location.href}`);
