@@ -28,9 +28,11 @@
         </h3>
         {{ displayTimer }}秒で見つけられました！
       </div>
-      <div class="mx-auto bg-red-300 flex justify-center items-center">
+      <div class="mx-auto flex justify-center items-center">
         <button class="min_button mx-2" @click="gotoHome">戻る</button>
-        <button class="min_button mx-2" @click="createGameScene">再プレイ</button>
+        <button class="min_button mx-2" @click="createGameScene">
+          再プレイ
+        </button>
         <div class="w-20 mx-2">
           <a
             href="https://twitter.com/share"
@@ -43,7 +45,6 @@
         </div>
       </div>
     </Modal>
-
   </div>
 </template>
 
@@ -88,10 +89,11 @@ export default {
       return this.$route.params.id;
     },
     location: function() {
-      return location.href
-    }
+      return location.href;
+    },
   },
   mounted: async function() {
+    //twttr.widgets.load()
     //間違え位置の取得
     let docRef = await this.db.collection("quizzes").doc(this.id);
     docRef

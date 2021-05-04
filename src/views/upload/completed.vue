@@ -59,7 +59,7 @@ export default {
       return encodeURI(`${this.location}`);
     },
   },
-  mounted() {
+  beforeUpdate() {
     !(function(d, s, id) {
       var js,
         fjs = d.getElementsByTagName(s)[0],
@@ -71,6 +71,8 @@ export default {
         fjs.parentNode.insertBefore(js, fjs);
       }
     })(document, "script", "twitter-wjs");
+  },
+  mounted() {
     //完了フラグが渡されてない場合は、アップロード画面へ飛ばす
     if (!this.completedFlag) {
       this.$router.push({ name: "imageUpload", query: this.$route.query });
