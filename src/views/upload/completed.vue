@@ -22,7 +22,6 @@
     <hr />
     <div class="flex text-sm my-2">
       SHARE
-
       <div class="w-full mr-2 flex justify-end">
         <a
           href="https://twitter.com/share"
@@ -75,8 +74,9 @@ export default {
     //完了フラグが渡されてない場合は、アップロード画面へ飛ばす
     if (!this.completedFlag) {
       this.$router.push({ name: "imageUpload", query: this.$route.query });
-    } else
-    this.location = `${location.protocol}//${location.host}/play/${this.id}`;
+    } else{
+      this.location = `${location.protocol}//${location.host}/play/${this.id}`;
+    }
   },
   methods: {
     onCopy: function(e) {
