@@ -24,13 +24,13 @@
       SHARE
 
       <div class="w-full mr-2 flex justify-end">
-        <button
-          class="block focus:outline-none"
-          type="primary"
-          @click="twitter"
+        <a
+          href="https://twitter.com/share"
+          v-bind:data-url="location"
+          class="twitter-share-button"
+          data-hashtags="MachigaeSagashi,間違え探し"
+          >Tweet</a
         >
-          <img src="@/assets/Twitter.png" class="w-5 h-5" />
-        </button>
       </div>
     </div>
     <hr />
@@ -55,12 +55,28 @@ export default {
       message: "Copy These Text",
     };
   },
+  computed: {
+    encodeURI: function() {
+      return encodeURI(`${this.location}`);
+    },
+  },
   mounted() {
+    !(function(d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0],
+        p = /^http:/.test(d.location) ? "http" : "https";
+      if (!d.getElementById(id)) {
+        js = d.createElement(s);
+        js.id = id;
+        js.src = p + "://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }
+    })(document, "script", "twitter-wjs");
     //完了フラグが渡されてない場合は、アップロード画面へ飛ばす
     if (!this.completedFlag) {
       this.$router.push({ name: "imageUpload", query: this.$route.query });
     } else
-      this.location = `${location.protocol}//${location.host}/play/${this.id}`;
+    this.location = `${location.protocol}//${location.host}/play/${this.id}`;
   },
   methods: {
     onCopy: function(e) {
@@ -69,14 +85,7 @@ export default {
     onError() {
       this.$message.warning("URLのコピーに失敗しました");
     },
-    twitter() {
-      //ツイートＡＰＩに送信
-      //結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
-      const url = encodeURI(this.location); // ツイートに載せるURLを指定(文字はエンコードする必要がある)
-      window.open(
-        `http://twitter.com/intent/tweet?text=間違え探しを作成しました！ &url=${url}`
-      );
-    },
+
     gotoNext() {
       this.$router.push({ name: "Home", query: this.$route.query });
     },

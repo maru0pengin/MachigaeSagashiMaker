@@ -33,9 +33,6 @@
         <button class="min_button mx-2" @click="createGameScene">
           再プレイ
         </button>
-        <a href="https://twitter.com/share" class="twitter-share-button"
-          >Tweet</a
-        >
       </div>
     </Modal>
   </div>
@@ -49,16 +46,7 @@ const HEIGHT = 225;
 import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
-!(function(d, s, id) {
-  var js,
-    fjs = d.getElementsByTagName(s)[0];
-  if (!d.getElementById(id)) {
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }
-})(document, "script", "twitter-wjs");
+
 export default {
   data: function() {
     return {
