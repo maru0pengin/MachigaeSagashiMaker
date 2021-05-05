@@ -15,7 +15,7 @@
             required
           />
         </div>
-        開発途中であるため、告知なくデータの削除等を行う可能性があります。
+        開発途中であるため、告知なくデータの削除等を行う可能性があります。<br />
         あらかじめご了承ください。
         <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
           <div v-for="quizze in filteredItems" :key="quizze.id">
