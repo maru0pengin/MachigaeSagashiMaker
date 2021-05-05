@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "game-test-project-3785f"
+    "default": "game-test-project-3785f",
+    "dev": "machigaesagashi-dev",
+    "prod": "game-test-project-3785f"
   }
 }

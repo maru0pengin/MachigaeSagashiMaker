@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading";
-import firebase from "firebase";
+import Loading from "@/components/Loading"
+import firebase from "firebase"
 
 export default {
   data() {
@@ -51,15 +51,16 @@ export default {
       quizzes: [],
       loading: true,
       filterInput: "",
-    };
+    }
   },
   components: {
     Loading,
   },
   created: async function() {
-    this.db = firebase.firestore(); // dbインスタンスを初期化
+    this.db = firebase.firestore() // dbインスタンスを初期化
   },
   mounted: async function() {
+    const startTime = performance.now()
     //間違え問題を取得;
     this.db
       .collection("quizzes")
@@ -67,32 +68,37 @@ export default {
       .orderBy("createdAt", "asc")
       .get()
       .then(async (querySnapshot) => {
+        console.log(performance.now() - startTime)
         querySnapshot.forEach(async (doc) => {
           this.quizzes.push({
             id: doc.id,
             title: doc.data().title,
             name: doc.data().name,
             date: doc.data().createdAt.toDate(),
-          });
-        });
+          })
+        })
+        console.log(performance.now() - startTime)
         for (let quizze of this.quizzes) {
           //画像の取得;
-          let ref, img;
+          let ref, img
           ref = await firebase
             .storage()
             .ref()
-            .child(`${quizze.id}/correct.png`);
+            .child(`${quizze.id}/correct.png`)
           await ref.getDownloadURL().then((url) => {
-            img = url;
-          });
-          this.$set(quizze, "img", img);
+            img = url
+          })
+          this.$set(quizze, "img", img)
         }
+        console.log(performance.now() - startTime)
         //this.filteredItems = JSON.parse(JSON.stringify(this.quizzes));
-        this.loading = false;
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
+        console.log("Error getting documents: ", error)
+      })
+      .finally(() => {
+        this.loading = false
+      })
   },
   computed: {
     // 文字列検索した候補者群
@@ -103,7 +109,7 @@ export default {
               quizze.title.includes(this.filterInput) ||
               quizze.name.includes(this.filterInput)
           )
-        : this.quizzes;
+        : this.quizzes
     },
   },
   methods: {
@@ -112,10 +118,10 @@ export default {
         name: "Play",
         query: this.$route.query,
         params: { id: id },
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="sass" scoped>
