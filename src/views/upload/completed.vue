@@ -23,13 +23,9 @@
     <div class="flex text-sm my-2">
       SHARE
       <div class="w-full mr-2 flex justify-end">
-        <a
-          href="https://twitter.com/share"
-          v-bind:data-url="location"
-          class="twitter-share-button"
-          data-hashtags="MachigaeSagashi,間違え探し"
-          >Tweet</a
-        >
+        <button class="block focus:outline-none" type="primary" @click="tweet">
+          <img src="@/assets/Twitter.png" class="w-5 h-5" />
+        </button>
       </div>
     </div>
     <hr />
@@ -52,47 +48,37 @@ export default {
     return {
       location: String,
       message: "Copy These Text",
-    };
+    }
   },
   computed: {
-    encodeURI: function() {
-      return encodeURI(`${this.location}`);
+    tweetURL: function() {
+      const url = encodeURI(`${this.location}`)
+      return `http://twitter.com/intent/tweet?text=間違え探しを作成しました！%20%23MachigaeSagashi&url=${url}`
     },
-  },
-  beforeUpdate() {
-    !(function(d, s, id) {
-      var js,
-        fjs = d.getElementsByTagName(s)[0],
-        p = /^http:/.test(d.location) ? "http" : "https";
-      if (!d.getElementById(id)) {
-        js = d.createElement(s);
-        js.id = id;
-        js.src = p + "://platform.twitter.com/widgets.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }
-    })(document, "script", "twitter-wjs");
   },
   mounted() {
     //完了フラグが渡されてない場合は、アップロード画面へ飛ばす
     if (!this.completedFlag) {
-      this.$router.push({ name: "imageUpload", query: this.$route.query });
-    } else{
-      this.location = `${location.protocol}//${location.host}/play/${this.id}`;
+      this.$router.push({ name: "imageUpload", query: this.$route.query })
+    } else {
+      this.location = `${location.protocol}//${location.host}/play/${this.id}`
     }
   },
   methods: {
     onCopy: function(e) {
-      this.$message.success("URLのコピーに成功しました！:" + e.text);
+      this.$message.success("URLのコピーに成功しました！:" + e.text)
     },
     onError() {
-      this.$message.warning("URLのコピーに失敗しました");
+      this.$message.warning("URLのコピーに失敗しました")
     },
-
+    tweet() {
+      location.href = this.tweetURL
+    },
     gotoNext() {
-      this.$router.push({ name: "Home", query: this.$route.query });
+      this.$router.push({ name: "Home", query: this.$route.query })
     },
   },
-};
+}
 </script>
 
 <style scoped>
