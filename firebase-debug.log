@@ -1,0 +1,28 @@
+[debug] [2021-05-06T12:43:19.333Z] ----------------------------------------------------------------------
+[debug] [2021-05-06T12:43:19.334Z] Command:       /home/iuchi/.nodebrew/node/v12.16.1/bin/node /home/iuchi/.nodebrew/current/bin/firebase init
+[debug] [2021-05-06T12:43:19.335Z] CLI Version:   9.6.1
+[debug] [2021-05-06T12:43:19.335Z] Platform:      linux
+[debug] [2021-05-06T12:43:19.335Z] Node Version:  v12.16.1
+[debug] [2021-05-06T12:43:19.341Z] Time:          Thu May 06 2021 21:43:19 GMT+0900 (Japan Standard Time)
+[debug] [2021-05-06T12:43:19.341Z] ----------------------------------------------------------------------
+[debug] [2021-05-06T12:43:19.341Z] 
+[debug] [2021-05-06T12:43:19.343Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2021-05-06T12:43:19.356Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-05-06T12:43:19.356Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/iuchi/vue_test/Machigae_sagashi
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
+[debug] [2021-05-06T12:43:20.113Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2021-05-06T12:43:20.114Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
