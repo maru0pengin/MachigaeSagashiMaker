@@ -3,34 +3,35 @@
     <nav
       class="w-full flex bg-blue-300 lg:px-8 px-4 py-4 text-white items-center relative justify-between md:justify-start"
     >
-      <div
-        class="flex text-xl font-bold tracking-wider space-x-2 md:mx-0 mx-auto"
-      >
-        <router-link to="/"
-          ><p
-            class="text-4xl no-underline text-grey-darkest hover:text-blue-dark font-bold"
-          >
-            Machigae Sagashi
-          </p></router-link
-        >
+      <div class="tracking-tighter mx-2 md:w-96">
+        <router-link to="/" class="text-xl md:text-3xl ">
+          Machigae Sagashi
+        </router-link>
       </div>
 
-      <div
-        class="text-white flex p-0  md:relative absolute top-full bg-blue-300 flex left-0 right-0 border border-blue-300"
-      >
-        <div class="flex mx-auto">
-          <router-link to="/upload"
-            ><p class="font-bold px-4 py-2 hover:text-blue-100">
+      <div class="text-white flex  top-full w-full">
+        <div class="">
+          <div class="flex mx-auto">
+            <router-link
+              to="/upload"
+              class="font-bold px-4 py-2 hover:text-blue-100"
+            >
               問題投稿
-            </p>
-          </router-link>
-          <button
-            @click="gotoContact()"
-            class="font-bold px-4 py-2 hover:text-blue-100 focus:outline-none"
-          >
-            お問い合わせ
-          </button>
+            </router-link>
+            <button
+              @click="gotoContact()"
+              class="font-bold px-4 py-2 hover:text-blue-100 focus:outline-none"
+            >
+              お問い合わせ
+            </button>
+          </div>
         </div>
+        <router-link
+          to="/upload"
+          class="font-bold px-4 py-2 hover:text-blue-100 ml-auto"
+        >
+          ログイン
+        </router-link>
       </div>
     </nav>
 
@@ -43,11 +44,11 @@
 </template>
 
 <script>
-import Vue from "vue";
-import VueMeta from "vue-meta";
-import VueClipboard from "vue-clipboard2";
-Vue.use(VueMeta);
-Vue.use(VueClipboard);
+import Vue from "vue"
+import VueMeta from "vue-meta"
+import VueClipboard from "vue-clipboard2"
+Vue.use(VueMeta)
+Vue.use(VueClipboard)
 export default {
   metaInfo: {
     title: "Machigae Sagashi",
@@ -55,10 +56,10 @@ export default {
   },
   methods: {
     gotoContact() {
-      window.open(`https://forms.gle/1uCV8gduy8PZu4jE9`);
+      window.open(`https://forms.gle/1uCV8gduy8PZu4jE9`)
     },
   },
-};
+}
 </script>
 <style>
 #app {
