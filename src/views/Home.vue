@@ -37,10 +37,6 @@
             </button>
           </div>
         </div>
-        <button @click="signin">Signin</button><br />
-        <button @click="signout">SignOut</button>
-        {{ icon }}
-        <img :src="icon" />
       </div>
     </transition>
   </div>
@@ -56,7 +52,6 @@ export default {
       quizzes: [],
       loading: true,
       filterInput: "",
-      user: null,
     }
   },
   components: {
@@ -66,7 +61,6 @@ export default {
     this.db = firebase.firestore() // dbインスタンスを初期化
   },
   mounted: async function() {
-    this.user = firebase.auth().currentUser
     const startTime = performance.now()
     //間違え問題を取得;
     this.db
@@ -118,9 +112,6 @@ export default {
           )
         : this.quizzes
     },
-    icon: function() {
-      return this.user?.photoURL
-    },
   },
   methods: {
     gotoGame(id) {
@@ -129,37 +120,6 @@ export default {
         query: this.$route.query,
         params: { id: id },
       })
-    },
-    signin: function() {
-      const provider = new firebase.auth.TwitterAuthProvider()
-      firebase
-        .auth()
-        //.signInWithPopup(provider)
-        .signInWithRedirect(provider)
-        .then((result) => {
-          if (result.user) {
-            console.log(result.user)
-            this.user = result.user
-          } else {
-            alert("有効なアカウントではありません")
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    signout: function() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          console.log("サインアウトしました")
-          location.reload()
-        })
-        .catch((error) => {
-          console.log(error)
-          // An error happened.
-        })
     },
   },
 }
