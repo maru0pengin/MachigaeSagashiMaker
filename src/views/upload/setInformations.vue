@@ -105,25 +105,25 @@ export default {
         // 「quizzes」というコレクションに対して {} で定義した情報を add する
         let self = this
         /*FireStoreへの保存*/
-        for (let i = 0; i < 20; i++) {
-          collection
-            .add({
-              title: this.title,
-              name: this.name,
-              createdAt: new Date(),
-              differences: submitDifferences,
-              isPublic: this.isPublic,
-              images: images,
-            })
-            .then(function(docRef) {
-              self.id = docRef.id
-              self.gotoNext()
-            })
-            .catch(function(error) {
-              // 保存に失敗した時
-              console.error(error)
-            })
-        }
+        //for (let i = 0; i < 20; i++) {
+        collection
+          .add({
+            title: this.title,
+            name: this.name,
+            createdAt: new Date(),
+            differences: submitDifferences,
+            isPublic: this.isPublic,
+            images: images,
+          })
+          .then(function(docRef) {
+            self.id = docRef.id
+            self.gotoNext()
+          })
+          .catch(function(error) {
+            // 保存に失敗した時
+            console.error(error)
+          })
+        //}
       } else {
         this.$message.warning("作品目とハンドルネームを入力してください", {
           showClose: false,
