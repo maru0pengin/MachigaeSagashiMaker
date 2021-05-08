@@ -1,6 +1,7 @@
 <template>
   <div>
-    {{ user.displayName }}<button @click="doLogin">Signin</button><br />
+    {{ user.displayName }}<button @click="goToLogin">Twitterでログイン</button
+    ><br />
   </div>
 </template>
 
@@ -26,11 +27,18 @@ export default {
     userStatus: function(userStatus) {
       //console.log(userStatus)
       if (userStatus) this.$router.push("/")
+      else console.log("ログインできていない")
     },
   },
   methods: {
-    doLogin() {
-      Firebase.login()
+    goToLogin() {
+      this.$router.push({
+        name: "login_loading",
+        query: this.$route.query,
+        params: {
+          isLogin: true,
+        },
+      })
     },
   },
 }

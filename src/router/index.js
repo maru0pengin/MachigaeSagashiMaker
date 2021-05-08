@@ -22,6 +22,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue'),
     props: true,
   },
+  {
+    path: '/login_loading/',
+    name: 'login_loading',
+    component: () => import(/* webpackChunkName: "about" */ '../views/LoginLoading.vue'),
+    props: true,
+  },
   // 問題アップロード画面
   {
     path: '/upload',
