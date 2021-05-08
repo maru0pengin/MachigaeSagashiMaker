@@ -12,15 +12,16 @@
         required
       />
 
-      <p class="px-4 text-left pt-2">ハンドルネームを入力してください</p>
-      <input
-        type="text"
-        v-model="name"
-        class="px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none"
-        placeholder="ハンドルネーム"
-        required
-      />
-
+      <div v-if="!userStatus">
+        <p class="px-4 text-left pt-2">ハンドルネームを入力してください</p>
+        <input
+          type="text"
+          v-model="name"
+          class="px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none"
+          placeholder="ハンドルネーム"
+          required
+        />
+      </div>
       <p class="mt-4">問題を公開するか選択してください</p>
       <el-radio v-model="radio" label="1">公開</el-radio>
       <el-radio v-model="radio" label="2">非公開</el-radio>
@@ -56,6 +57,7 @@
 <script>
 import firebase from "firebase"
 import Modal from "@/components/Modal"
+import Firebase from "./../../firebase"
 export default {
   name: "setInformations",
   components: { Modal },
@@ -73,6 +75,14 @@ export default {
     isPublic() {
       return this.radio === "1"
     },
+    userStatus() {
+      // ログインするとtrue
+      return this.$store.getters.isSignedIn
+    },
+    user() {
+      // ログインするとtrue
+      return this.$store.getters.user
+    },
   },
   props: {
     correctImage: String,
@@ -82,6 +92,7 @@ export default {
     differences: Array,
   },
   created: function() {
+    Firebase.onAuth()
     this.db = firebase.firestore() // dbインスタンスを初期化
   },
   mounted() {
@@ -91,13 +102,17 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
+      if (this.userStatus) this.name = this.user.displayName
+
       if (this.title && this.name) {
         let submitDifferences = this.differences.map((element) => {
           delete element.obj
           return element
         })
         let collection = this.db.collection("quizzes")
+        let usersCollection = this.db.collection("users")
+        let uid = this.user.uid
         let images = {
           correct: this.correctImage,
           incorrect: this.incorrectImage,
@@ -106,7 +121,7 @@ export default {
         let self = this
         /*FireStoreへの保存*/
         //for (let i = 0; i < 20; i++) {
-        collection
+        await collection
           .add({
             title: this.title,
             name: this.name,
@@ -114,6 +129,7 @@ export default {
             differences: submitDifferences,
             isPublic: this.isPublic,
             images: images,
+            authorId: uid,
           })
           .then(function(docRef) {
             self.id = docRef.id
@@ -123,7 +139,20 @@ export default {
             // 保存に失敗した時
             console.error(error)
           })
-        //}
+        // ログインしているのであれば、usersコレクションへ作品情報を追加
+        if (this.userStatus) {
+          let quizzeId
+          await usersCollection
+            .where("uid", "==", uid)
+            .get()
+            .then((snapshot) => {
+              quizzeId = snapshot.docs[0].id
+            })
+
+          await usersCollection.doc(quizzeId).update({
+            works: firebase.firestore.FieldValue.arrayUnion(this.id),
+          })
+        }
       } else {
         this.$message.warning("作品目とハンドルネームを入力してください", {
           showClose: false,

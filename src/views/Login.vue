@@ -27,9 +27,6 @@ export default {
   data() {
     return {}
   },
-  created: function() {
-    Firebase.onAuth()
-  },
   computed: {
     user() {
       return this.$store.getters.user
