@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { VueLoading } from "vue-loading-template";
+import { VueLoading } from "vue-loading-template"
 export default {
   name: "Loading",
   components: {
@@ -18,7 +18,7 @@ export default {
   props: {
     loading: Boolean,
   },
-};
+}
 </script>
 
 <style lang="sass" scoped></style>

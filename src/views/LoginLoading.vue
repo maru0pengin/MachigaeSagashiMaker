@@ -1,5 +1,10 @@
 <template>
-  <Loading v-bind:loading="loading" />
+  <div>
+    <div class="h-screen" />
+    <div class="background">
+      <Loading v-bind:loading="true" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -9,11 +14,6 @@ export default {
   name: "login_loading",
   components: {
     Loading,
-  },
-  data() {
-    return {
-      loading: true,
-    }
   },
   props: {
     isLogin: { type: Boolean, default: false },
@@ -34,3 +34,8 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+.background
+  background-color: rgba(0, 0, 0, 0.5)
+  @apply flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 z-10
+</style>
