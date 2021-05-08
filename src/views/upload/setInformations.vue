@@ -54,25 +54,24 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import Modal from "@/components/Modal";
+import firebase from "firebase"
+import Modal from "@/components/Modal"
 export default {
   name: "setInformations",
   components: { Modal },
   data() {
     return {
       db: null,
-      storageRef: null,
       title: "",
       name: "",
       id: String,
       radio: "1",
       isShowModal: false,
-    };
+    }
   },
   computed: {
     isPublic() {
-      return this.radio === "1";
+      return this.radio === "1"
     },
   },
   props: {
@@ -83,67 +82,57 @@ export default {
     differences: Array,
   },
   created: function() {
-    this.db = firebase.firestore(); // dbインスタンスを初期化
-    this.storageRef = firebase.storage().ref();
+    this.db = firebase.firestore() // dbインスタンスを初期化
   },
   mounted() {
     //画像が渡されてない場合は、アップロード画面へ飛ばす
     if (!this.correctImage || !this.incorrectImage) {
-      this.$router.push({ name: "imageUpload", query: this.$route.query });
+      this.$router.push({ name: "imageUpload", query: this.$route.query })
     }
   },
   methods: {
     submit() {
       if (this.title && this.name) {
-        /*FireStoreへの保存*/
         let submitDifferences = this.differences.map((element) => {
-          delete element.obj;
-          return element;
-        });
-        let collection = this.db.collection("quizzes");
+          delete element.obj
+          return element
+        })
+        let collection = this.db.collection("quizzes")
+        let images = {
+          correct: this.correctImage,
+          incorrect: this.incorrectImage,
+        }
         // 「quizzes」というコレクションに対して {} で定義した情報を add する
-        let self = this;
-        collection
-          .add({
-            title: this.title,
-            name: this.name,
-            createdAt: new Date(),
-            differences: submitDifferences,
-            isPublic: this.isPublic,
-          })
-          .then(function(docRef) {
-            // Storageへ画像を保存
-            self.id = docRef.id;
-            self.saveImage(true, docRef.id);
-            self.saveImage(false, docRef.id);
-            self.gotoNext();
-          })
-          .catch(function(error) {
-            // 保存に失敗した時
-            console.error("Error adding document: ", error);
-          });
+        let self = this
+        /*FireStoreへの保存*/
+        for (let i = 0; i < 20; i++) {
+          collection
+            .add({
+              title: this.title,
+              name: this.name,
+              createdAt: new Date(),
+              differences: submitDifferences,
+              isPublic: this.isPublic,
+              images: images,
+            })
+            .then(function(docRef) {
+              self.id = docRef.id
+              self.gotoNext()
+            })
+            .catch(function(error) {
+              // 保存に失敗した時
+              console.error(error)
+            })
+        }
       } else {
         this.$message.warning("作品目とハンドルネームを入力してください", {
           showClose: false,
           type: "error",
-        });
+        })
       }
     },
     description() {
-      this.isShowModal = !this.isShowModal;
-    },
-    saveImage(correct, id) {
-      let ref, image_url;
-      if (correct) {
-        image_url = this.correctImage;
-        ref = this.storageRef.child(`${id}/correct.png`);
-      } else {
-        image_url = this.incorrectImage;
-        ref = this.storageRef.child(`${id}/incorrect.png`);
-      }
-      ref.putString(image_url, "data_url").then(() => {
-        console.log("Uploaded a data_url string!");
-      });
+      this.isShowModal = !this.isShowModal
     },
     gotoNext() {
       this.$router.push({
@@ -153,7 +142,7 @@ export default {
           completedFlag: true,
           id: this.id,
         },
-      });
+      })
     },
     gotoBack() {
       this.$router.push({
@@ -165,8 +154,8 @@ export default {
           defaltCorrect: this.defaltCorrect,
           defaltIncorrect: this.defaltIncorrect,
         },
-      });
+      })
     },
   },
-};
+}
 </script>
