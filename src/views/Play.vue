@@ -98,6 +98,8 @@ export default {
         if (doc.exists) {
           this.title = doc.data().title
           this.name = doc.data().name
+          this.correctImgPath = doc.data().images.correct
+          this.incorrectImgPath = doc.data().images.incorrect
           //間違えの位置を取得し、ステータス情報等を追加してdifferencesへ保存
           for (let i = 0; i < doc.data().differences.length; i++) {
             this.differences[i] = {
@@ -107,23 +109,6 @@ export default {
               circleObj: null,
             }
           }
-          //画像の取得
-          let ref
-          ref = await firebase
-            .storage()
-            .ref()
-            .child(`${this.id}/correct.png`)
-          await ref.getDownloadURL().then((url) => {
-            this.correctImgPath = url
-          })
-          ref = await firebase
-            .storage()
-            .ref()
-            .child(`${this.id}/incorrect.png`)
-          await ref.getDownloadURL().then((url) => {
-            this.incorrectImgPath = url
-          })
-
           this.app = new PIXI.Application({ width: WIDTH, height: HEIGHT })
           let el = document.getElementById("canvas")
           el.appendChild(this.app.view)

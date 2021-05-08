@@ -77,23 +77,10 @@ export default {
             title: doc.data().title,
             name: doc.data().name,
             date: doc.data().createdAt.toDate(),
+            img: doc.data().images.correct,
           })
         })
         console.log(performance.now() - startTime)
-        for (let quizze of this.quizzes) {
-          //画像の取得;
-          let ref, img
-          ref = await firebase
-            .storage()
-            .ref()
-            .child(`${quizze.id}/correct.png`)
-          await ref.getDownloadURL().then((url) => {
-            img = url
-          })
-          this.$set(quizze, "img", img)
-        }
-        console.log(performance.now() - startTime)
-        //this.filteredItems = JSON.parse(JSON.stringify(this.quizzes));
       })
       .catch((error) => {
         console.log("Error getting documents: ", error)
