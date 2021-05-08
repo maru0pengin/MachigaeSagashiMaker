@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen">
+    {{ user.displayName }}
     <Loading v-bind:loading="loading" />
     <transition>
       <div v-show="!loading" class="my-2 mx-auto w-11/12">
@@ -111,6 +112,9 @@ export default {
               quizze.name.includes(this.filterInput)
           )
         : this.quizzes
+    },
+    user() {
+      return this.$store.getters.user
     },
   },
   methods: {
