@@ -6,11 +6,8 @@ import '@/assets/tailwind.css'
 import firebase from "firebase/app"
 import '@/plugins/element'
 
-require('dotenv').config();
-Vue.config.productionTip = false
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(JSON.parse(process.env.VUE_APP_FIREBASE_CONFIG));
-}
+import Firebase from "./firebase";
+Firebase.init();
 firebase.analytics()
 
 new Vue({

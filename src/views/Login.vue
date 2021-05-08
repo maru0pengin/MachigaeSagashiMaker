@@ -1,30 +1,36 @@
 <template>
-  <div><button @click="signin">Signin</button><br /></div>
+  <div>
+    {{ user.displayName }}<button @click="doLogin">Signin</button><br />
+  </div>
 </template>
 
 <script>
-import firebase from "firebase"
+import Firebase from "./../firebase"
 export default {
   data() {
     return {}
   },
+  created: function() {
+    Firebase.onAuth()
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user
+    },
+    userStatus() {
+      // ログインするとtrue
+      return this.$store.getters.isSignedIn
+    },
+  },
+  watch: {
+    userStatus: function(userStatus) {
+      //console.log(userStatus)
+      if (userStatus) this.$router.push("/")
+    },
+  },
   methods: {
-    signin() {
-      const provider = new firebase.auth.TwitterAuthProvider()
-      firebase
-        .auth()
-        //.signInWithPopup(provider)
-        .signInWithRedirect(provider)
-        .then((result) => {
-          if (result.user) {
-            console.log(result.user)
-          } else {
-            alert("有効なアカウントではありません")
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    doLogin() {
+      Firebase.login()
     },
   },
 }
