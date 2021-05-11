@@ -110,13 +110,20 @@ export default {
           delete element.obj
           return element
         })
-        let collection = this.db.collection("quizzes")
+        let quizzesCollection = this.db.collection("quizzes")
         let usersCollection = this.db.collection("users")
         let uid = this.user.uid
         let images = {
           correct: this.correctImage,
           incorrect: this.incorrectImage,
         }
+        let works = [
+          {
+            differences: submitDifferences,
+            isPublic: this.isPublic,
+            images: images,
+          },
+        ]
         // 「quizzes」というコレクションに対して {} で定義した情報を add する
         let self = this
         /*FireStoreへの保存*/
@@ -126,10 +133,8 @@ export default {
             title: this.title,
             name: this.name,
             createdAt: new Date(),
-            differences: submitDifferences,
-            isPublic: this.isPublic,
-            images: images,
-            authorId: uid,
+            authorRef: `users/${uid}`,
+            works: works,
           })
           .then(function(docRef) {
             self.id = docRef.id
@@ -143,14 +148,17 @@ export default {
         if (this.userStatus) {
           let quizzeId
           await usersCollection
-            .where("uid", "==", uid)
-            .get()
+            .doc(uid)
+            .update({
+              works: firebase.firestore.FieldValue.arrayUnion(
+                `quizzes/${this.id}`
+              ),
+            })
             .then((snapshot) => {
               quizzeId = snapshot.docs[0].id
             })
-
           await usersCollection.doc(quizzeId).update({
-            works: firebase.firestore.FieldValue.arrayUnion(this.id),
+            works: this.db.FieldValue.arrayUnion(this.id),
           })
         }
       } else {

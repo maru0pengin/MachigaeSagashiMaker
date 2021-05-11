@@ -14,14 +14,12 @@ admin.initializeApp()
 var firestore = admin.firestore()
 
 exports.addUser = functions.auth.user().onCreate((user) => {
-  firestore.collection("users")
-  .add({
-    uid: user.uid,
-  }).then((docRef) => {
-    console.log("Document written with ID: ", docRef.id);
-  })
-  .catch((error) => {
-    console.error("Error adding document: ", error);
-  });
 
+  firestore.collection("users")
+    .doc(user.uid)
+    .set({
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      displayName:user.displayName,
+      photoURL: user.photoURL,
+    })
 });
