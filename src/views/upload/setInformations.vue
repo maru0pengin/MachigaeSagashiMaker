@@ -111,8 +111,9 @@ export default {
           return element
         })
         let quizzesCollection = this.db.collection("quizzes")
-        let usersCollection = this.db.collection("users")
         let uid = this.user.uid
+
+        let userRef = this.db.collection("users").doc(uid)
         let images = {
           correct: this.correctImage,
           incorrect: this.incorrectImage,
@@ -126,19 +127,20 @@ export default {
         ]
         // 「quizzes」というコレクションに対して {} で定義した情報を add する
         let self = this
+        let quizRef
         /*FireStoreへの保存*/
         //for (let i = 0; i < 20; i++) {
-        await collection
+        await quizzesCollection
           .add({
             title: this.title,
             name: this.name,
             createdAt: new Date(),
-            authorRef: `users/${uid}`,
+            authorRef: userRef,
             works: works,
           })
           .then(function(docRef) {
             self.id = docRef.id
-            self.gotoNext()
+            quizRef = docRef
           })
           .catch(function(error) {
             // 保存に失敗した時
@@ -146,21 +148,11 @@ export default {
           })
         // ログインしているのであれば、usersコレクションへ作品情報を追加
         if (this.userStatus) {
-          let quizzeId
-          await usersCollection
-            .doc(uid)
-            .update({
-              works: firebase.firestore.FieldValue.arrayUnion(
-                `quizzes/${this.id}`
-              ),
-            })
-            .then((snapshot) => {
-              quizzeId = snapshot.docs[0].id
-            })
-          await usersCollection.doc(quizzeId).update({
-            works: this.db.FieldValue.arrayUnion(this.id),
+          await userRef.update({
+            works: firebase.firestore.FieldValue.arrayUnion(quizRef),
           })
         }
+        this.gotoNext()
       } else {
         this.$message.warning("作品目とハンドルネームを入力してください", {
           showClose: false,
