@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import Firebase from "./../firebase"
 export default {
   data() {
     return {}
