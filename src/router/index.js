@@ -32,7 +32,6 @@ const routes = [
     path: '/my_page/',
     name: 'MyPage',
     component: () => import(/* webpackChunkName: "about" */ '../views/MyPage.vue'),
-    props: true,
   },
   // 問題アップロード画面
   {

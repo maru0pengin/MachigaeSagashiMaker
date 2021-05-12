@@ -85,6 +85,9 @@ export default {
       // ログインするとtrue
       return this.$store.getters.isSignedIn
     },
+    id() {
+      return this.user.uid
+    },
   },
   watch: {
     $route: function() {
@@ -104,10 +107,11 @@ export default {
       })
     },
     gotoMyPage() {
-      this.$router.push({
-        name: "MyPage",
-        query: this.$route.query,
-      })
+      if (this.$route.path !== "/my_page")
+        this.$router.push({
+          name: "MyPage",
+          query: this.$route.query,
+        })
     },
   },
 }
