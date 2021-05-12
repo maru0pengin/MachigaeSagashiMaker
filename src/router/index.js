@@ -28,6 +28,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginLoading.vue'),
     props: true,
   },
+  {
+    path: '/my_page/',
+    name: 'MyPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/MyPage.vue'),
+    props: true,
+  },
   // 問題アップロード画面
   {
     path: '/upload',
