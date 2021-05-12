@@ -100,35 +100,39 @@ export default {
     if (!this.correctImage || !this.incorrectImage) {
       this.$router.push({ name: "imageUpload", query: this.$route.query })
     }
+    //ログインしているなら、表示名はアカウント名にする
+    if (this.userStatus) this.name = this.user.displayName
   },
   methods: {
     async submit() {
-      if (this.userStatus) this.name = this.user.displayName
-
       if (this.title && this.name) {
+        let uid,
+          userRef,
+          userPhoto = null
+        if (this.userStatus) {
+          uid = this.user?.uid
+          userRef = this.db.collection("users").doc(uid)
+          userPhoto = this.user?.photoURL
+        }
+
         let submitDifferences = this.differences.map((element) => {
           delete element.obj
           return element
         })
         let quizzesCollection = this.db.collection("quizzes")
-        let uid = this.user.uid
-        let userRef = this.db.collection("users").doc(uid)
-        let userPhoto = this.user.photoURL
-
         let images = {
           correct: this.correctImage,
           incorrect: this.incorrectImage,
         }
-
         let quiz = [
           {
             differences: submitDifferences,
             images: images,
           },
         ]
-        // 「quizzes」というコレクションに対して {} で定義した情報を add する
         let self = this
         let quizRef
+        // 「quizzes」というコレクションに対して {} で定義した情報を add する
         /*FireStoreへの保存*/
         await quizzesCollection
           .add({
@@ -137,7 +141,7 @@ export default {
             name: this.name,
             userPhoto: userPhoto,
             title: this.title,
-            authorRef: userRef,
+            authorRef: userRef ?? "",
             quiz: quiz,
           })
           .then(function(docRef) {
