@@ -85,9 +85,6 @@ export default {
       // ログインするとtrue
       return this.$store.getters.isSignedIn
     },
-    id() {
-      return this.user.uid
-    },
   },
   watch: {
     $route: function() {
