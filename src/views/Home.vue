@@ -3,10 +3,7 @@
     <Loading v-bind:loading="loading" />
     <transition>
       <div v-show="!loading" class="my-2 mx-auto w-11/12">
-        <div
-          v-show="!loading"
-          class="flex mx-3 mb-2 justify-center md:justify-start"
-        >
+        <div class="flex mx-3 mb-2 justify-center md:justify-start">
           <input
             type="text"
             v-model="filterInput"
@@ -61,7 +58,7 @@ export default {
     this.db = firebase.firestore() // dbインスタンスを初期化
   },
   mounted: async function() {
-    const startTime = performance.now()
+    //const startTime = performance.now()
     //間違え問題を取得;
     this.db
       .collection("quizzes")
@@ -69,7 +66,7 @@ export default {
       .orderBy("createdAt", "asc")
       .get()
       .then(async (querySnapshot) => {
-        console.log(performance.now() - startTime)
+        //console.log(performance.now() - startTime)
         querySnapshot.forEach(async (doc) => {
           this.quizzes.push({
             id: doc.id,
@@ -79,7 +76,7 @@ export default {
             img: doc.data().quiz[0].images.correct,
           })
         })
-        console.log(performance.now() - startTime)
+        //console.log(performance.now() - startTime)
       })
       .catch((error) => {
         console.log("Error getting documents: ", error)

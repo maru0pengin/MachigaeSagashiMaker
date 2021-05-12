@@ -97,17 +97,20 @@ export default {
     },
     // ログアウト処理
     doLogout() {
-      Firebase.logout()
-      this.$router.push({
-        name: "Home",
-        query: this.$route.query,
-      })
+      if (this.$route.path !== "/") {
+        Firebase.logout()
+        this.$router.push({
+          name: "Home",
+          query: this.$route.query,
+        })
+      }
     },
     gotoMyPage() {
-      this.$router.push({
-        name: "MyPage",
-        query: this.$route.query,
-      })
+      if (this.$route.path !== "/my_page")
+        this.$router.push({
+          name: "MyPage",
+          query: this.$route.query,
+        })
     },
   },
 }
