@@ -35,13 +35,6 @@ export default {
       return this.$store.getters.isSignedIn
     },
   },
-  watch: {
-    userStatus: function(userStatus) {
-      //console.log(userStatus)
-      if (userStatus) this.$router.push("/")
-      else console.log("ログインできていない")
-    },
-  },
   methods: {
     goToLogin() {
       this.$router.push({
