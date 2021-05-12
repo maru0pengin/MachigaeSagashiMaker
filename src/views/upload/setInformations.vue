@@ -112,16 +112,17 @@ export default {
         })
         let quizzesCollection = this.db.collection("quizzes")
         let uid = this.user.uid
-
         let userRef = this.db.collection("users").doc(uid)
+        let userPhoto = this.user.photoURL
+
         let images = {
           correct: this.correctImage,
           incorrect: this.incorrectImage,
         }
-        let works = [
+
+        let quiz = [
           {
             differences: submitDifferences,
-            isPublic: this.isPublic,
             images: images,
           },
         ]
@@ -129,14 +130,15 @@ export default {
         let self = this
         let quizRef
         /*FireStoreへの保存*/
-        //for (let i = 0; i < 20; i++) {
         await quizzesCollection
           .add({
-            title: this.title,
-            name: this.name,
             createdAt: new Date(),
+            isPublic: this.isPublic,
+            name: this.name,
+            userPhoto: userPhoto,
+            title: this.title,
             authorRef: userRef,
-            works: works,
+            quiz: quiz,
           })
           .then(function(docRef) {
             self.id = docRef.id
@@ -144,6 +146,13 @@ export default {
           })
           .catch(function(error) {
             // 保存に失敗した時
+            this.$message.warning(
+              "作品の投稿に失敗しました。時間を置いて再度お試しください。",
+              {
+                showClose: false,
+                type: "error",
+              }
+            )
             console.error(error)
           })
         // ログインしているのであれば、usersコレクションへ作品情報を追加
@@ -154,7 +163,7 @@ export default {
         }
         this.gotoNext()
       } else {
-        this.$message.warning("作品目とハンドルネームを入力してください", {
+        this.$message.warning("作品情報を入力してください", {
           showClose: false,
           type: "error",
         })
