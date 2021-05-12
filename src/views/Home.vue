@@ -77,7 +77,7 @@ export default {
             title: doc.data().title,
             name: doc.data().name,
             date: doc.data().createdAt.toDate(),
-            img: doc.data().images.correct,
+            img: doc.data().quiz[0].images.correct,
           })
         })
         console.log(performance.now() - startTime)

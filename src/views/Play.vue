@@ -98,12 +98,12 @@ export default {
         if (doc.exists) {
           this.title = doc.data().title
           this.name = doc.data().name
-          this.correctImgPath = doc.data().images.correct
-          this.incorrectImgPath = doc.data().images.incorrect
+          this.correctImgPath = doc.data().quiz[0].images.correct
+          this.incorrectImgPath = doc.data().quiz[0].images.incorrect
           //間違えの位置を取得し、ステータス情報等を追加してdifferencesへ保存
-          for (let i = 0; i < doc.data().differences.length; i++) {
+          for (let i = 0; i < doc.data().quiz[0].differences.length; i++) {
             this.differences[i] = {
-              ...doc.data().differences[i],
+              ...doc.data().quiz[0].differences[i],
               status: 0,
               obj: null,
               circleObj: null,

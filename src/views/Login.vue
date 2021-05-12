@@ -22,13 +22,9 @@
 </template>
 
 <script>
-import Firebase from "./../firebase"
 export default {
   data() {
     return {}
-  },
-  created: function() {
-    Firebase.onAuth()
   },
   computed: {
     user() {
