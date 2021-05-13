@@ -30,22 +30,26 @@
           作成した間違え探しは<br />ありません
         </div>
         <div v-for="work in works" :key="work.id">
-          <button
-            type="primary"
-            @click="gotoGame(work.id)"
-            class="focus:outline-none m-1"
-          >
+          <div class="m-1">
             <div
               v-show="!loading"
               class="m-2 bg-white shadow-lg rounded-lg overflow-hidden relative"
             >
-              <img class="object-cover" :src="work.img" />
+              <button
+                type="primary"
+                @click="gotoGame(work.id)"
+                class="focus:outline-none "
+              >
+                <img class="object-cover" :src="work.img" />
+              </button>
               <p class="text-lg font-bold text-left pl-2 pt-2">
                 {{ work.title }}
               </p>
-              <p class="text-left text-sm pl-2 pb-2">{{ work.name }}</p>
+              <button class="text-sm bg-red-100 flex ml-auto m-2">
+                削除
+              </button>
             </div>
-          </button>
+          </div>
         </div>
         <router-link class="font-bold mt-10" to="/upload">
           間違え探しを作成するならこちら
