@@ -24,7 +24,7 @@
         </div>
 
         <div
-          v-show="!workPaths"
+          v-show="!isExistWorks"
           class="bg-gray-200 mx-auto w-60 p-2 mt-8 rounded-lg "
         >
           作成した間違え探しは<br />ありません
@@ -45,7 +45,10 @@
               <p class="text-lg font-bold text-left pl-2 pt-2">
                 {{ work.title }}
               </p>
-              <button class="text-sm bg-red-100 flex ml-auto m-2">
+              <button
+                class="text-sm bg-red-100 text-lg flex ml-auto m-2"
+                @click="openModal(work.id)"
+              >
                 削除
               </button>
             </div>
@@ -56,12 +59,26 @@
         </router-link>
       </div>
     </transition>
+
+    <Modal v-bind:show="isShowModal">
+      <p class="text-xl">間違え探しを削除しますか？</p>
+      <div class="text-sm mt-2">
+        <p class="text-left">
+          削除した作品は復元できません。
+        </p>
+      </div>
+      <div class="ml-auto">
+        <button class="main_button mx-2" @click="deleteWork">OK</button>
+        <button class="main_button mx-2" @click="closeModal">キャンセル</button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import Loading from "@/components/Loading"
 import firebase from "firebase"
+import Modal from "@/components/Modal"
 export default {
   data() {
     return {
@@ -69,10 +86,13 @@ export default {
       loading: true,
       workPaths: [],
       works: [],
+      isShowModal: false,
+      selectedWorkId: null,
     }
   },
   components: {
     Loading,
+    Modal,
   },
   created: async function() {
     this.db = firebase.firestore() // dbインスタンスを初期化
@@ -84,6 +104,9 @@ export default {
     },
     user() {
       return this.$store.getters.user
+    },
+    isExistWorks() {
+      return this.works.length !== 0
     },
   },
   mounted: async function() {
@@ -117,6 +140,23 @@ export default {
     this.loading = false
   },
   methods: {
+    async deleteWork() {
+      //削除する間違え探しの参照を取得
+      let quizRef = await this.db.collection("quizzes").doc(this.selectedWorkId)
+      //ユーザー情報から、削除する間違え探しへの参照を削除
+      await this.db
+        .collection("users")
+        .doc(this.user.uid)
+        .update({
+          works: firebase.firestore.FieldValue.arrayRemove(quizRef),
+        })
+      //対象の間違え探しを削除
+      await quizRef.delete().catch((error) => {
+        console.error("Error removing document: ", error)
+      })
+      this.works = this.works.filter((work) => work.id !== this.selectedWorkId)
+      this.closeModal()
+    },
     goToLogin() {
       this.$router.push({
         name: "login_loading",
@@ -133,6 +173,14 @@ export default {
         params: { id: id },
       })
     },
+    closeModal() {
+      this.selectedWorkId = null
+      this.isShowModal = false
+    },
+    openModal(id) {
+      this.selectedWorkId = id
+      this.isShowModal = true
+    },
   },
 }
 </script>
@@ -141,7 +189,7 @@ export default {
 
 .v-leave-active,
 .v-enter-active
-  transition: opacity 1.5s
+  transition: opacity 0.5s
 .v-enter,
 .v-leave-to
   opacity: 0
