@@ -46,7 +46,7 @@
                 {{ work.title }}
               </p>
               <button
-                class="text-sm bg-red-100 text-lg flex ml-auto m-2"
+                class="delete-button flex ml-auto m-2"
                 @click="openModal(work.id)"
               >
                 削除
