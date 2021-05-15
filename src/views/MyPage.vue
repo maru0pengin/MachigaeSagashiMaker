@@ -105,9 +105,6 @@ export default {
     user() {
       return this.$store.getters.user
     },
-    twitterId() {
-      return this.$store.getters.twitterId
-    },
     isExistWorks() {
       return this.works.length !== 0
     },

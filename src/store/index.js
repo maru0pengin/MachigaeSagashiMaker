@@ -6,15 +6,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
-    twitterId: "",
     status: false
   },
   mutations: {
     onAuthStateChanged(state, user) {
       state.user = user; //firebaseが返したユーザー情報
-    },
-    onTwitterIDChanged(state, twitterId) {
-      state.twitterId = twitterId;
     },
     onUserStatusChanged(state, status) {
       state.status = status; //ログインしてるかどうか true or false
@@ -27,9 +23,6 @@ export default new Vuex.Store({
     isSignedIn(state) {
       return state.status;
     },
-    twitterId(state) {
-      return state.twitterId;
-    }
   },
   actions: {
   },

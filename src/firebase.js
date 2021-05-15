@@ -11,8 +11,6 @@ export default {
   login() {
     const provider = new firebase.auth.TwitterAuthProvider()
     firebase.auth().signInWithRedirect(provider).then((userCredential) => {
-    //firebase.auth().signInWithPopup(provider).then((userCredential) => {
-      // Get the Twitter screen name.
       console.log(userCredential.additionalUserInfo.username)
       store.commit('onTwitterIDChanged', userCredential.additionalUserInfo.username);
     })
