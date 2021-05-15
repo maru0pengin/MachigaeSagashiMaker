@@ -97,8 +97,8 @@ export default {
     },
     // ログアウト処理
     doLogout() {
+      Firebase.logout()
       if (this.$route.path !== "/") {
-        Firebase.logout()
         this.$router.push({
           name: "Home",
           query: this.$route.query,

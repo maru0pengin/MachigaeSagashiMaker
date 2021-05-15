@@ -105,6 +105,9 @@ export default {
     user() {
       return this.$store.getters.user
     },
+    twitterId() {
+      return this.$store.getters.twitterId
+    },
     isExistWorks() {
       return this.works.length !== 0
     },
@@ -125,7 +128,6 @@ export default {
           this.works.push({
             id: doc.id,
             title: doc.data().title,
-            name: doc.data().name,
             date: doc.data().createdAt.toDate(),
             img: doc.data().quiz[0].images.correct,
           })

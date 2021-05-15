@@ -41,6 +41,7 @@
 
 <script>
 import Loading from "@/components/Loading"
+import { getAuthor } from "@/utils/get_author"
 import firebase from "firebase"
 
 export default {
@@ -59,7 +60,7 @@ export default {
   },
   mounted: async function() {
     //const startTime = performance.now()
-    //間違え問題を取得;
+    //間違え問題を取得
     this.db
       .collection("quizzes")
       .where("isPublic", "==", true)
@@ -68,10 +69,18 @@ export default {
       .then(async (querySnapshot) => {
         //console.log(performance.now() - startTime)
         querySnapshot.forEach(async (doc) => {
+          //作者がいれば、リファレンスから作者の名前を取得
+          let name
+          if (doc.data().authorRef) {
+            let author = await getAuthor(doc)
+            name = author.displayName
+          } else {
+            name = doc.data().name
+          }
           this.quizzes.push({
             id: doc.id,
             title: doc.data().title,
-            name: doc.data().name,
+            name: name,
             date: doc.data().createdAt.toDate(),
             img: doc.data().quiz[0].images.correct,
           })

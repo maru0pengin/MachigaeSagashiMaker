@@ -100,19 +100,15 @@ export default {
     if (!this.correctImage || !this.incorrectImage) {
       this.$router.push({ name: "imageUpload", query: this.$route.query })
     }
-    //ログインしているなら、表示名はアカウント名にする
-    if (this.userStatus) this.name = this.user.displayName
   },
   methods: {
     async submit() {
-      if (this.title && this.name) {
+      if (this.title && (this.name || this.userStatus)) {
         let uid,
-          userRef,
-          userPhoto = null
+          userRef = null
         if (this.userStatus) {
           uid = this.user?.uid
           userRef = this.db.collection("users").doc(uid)
-          userPhoto = this.user?.photoURL
         }
 
         let submitDifferences = this.differences.map((element) => {
@@ -138,8 +134,7 @@ export default {
           .add({
             createdAt: new Date(),
             isPublic: this.isPublic,
-            name: this.name,
-            userPhoto: userPhoto,
+            name: this.name ?? "",
             title: this.title,
             authorRef: userRef ?? "",
             quiz: quiz,
