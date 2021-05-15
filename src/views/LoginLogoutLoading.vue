@@ -13,10 +13,12 @@ import Firebase from "./../firebase"
 import firebase from "firebase"
 
 export default {
-  name: "login_loading",
+  name: "login_logout_loading",
   data() {
     return {
       twitterId: "",
+      displayNmae: "",
+      photoURL: "",
     }
   },
   components: {
@@ -24,9 +26,16 @@ export default {
   },
   props: {
     isLogin: { type: Boolean, default: false },
+    isLogout: { type: Boolean, default: false },
   },
   mounted: function() {
     if (this.isLogin) Firebase.login()
+    //ログアウトした間を出すために1秒待つ
+    if (this.isLogout) {
+      setTimeout(() => {
+        Firebase.logout()
+      }, 1000)
+    }
   },
   computed: {
     user() {
@@ -46,8 +55,11 @@ export default {
           .getRedirectResult()
           .then((userCredential) => {
             this.twitterId = userCredential.additionalUserInfo.username
+            this.displayName = userCredential.additionalUserInfo.profile.name
+            this.photoURL =
+              userCredential.additionalUserInfo.profile.profile_image_url
           })
-        //ユーザー情報を取得できるまで待ち、取得できたら更新
+        //ユーザー情報を取得できるまで待ち、取得できたらfirestoreを更新
         const unsubscribe = await firebase
           .firestore()
           .doc(`users/${this.user.uid}`)
@@ -57,13 +69,18 @@ export default {
                 .firestore()
                 .doc(`users/${this.user.uid}`)
                 .update({
-                  photoURL: this.user.photoURL,
-                  displayName: this.user.displayName,
+                  photoURL: this.photoURL,
+                  displayName: this.displayName,
                   twitterId: this.twitterId,
                 })
               unsubscribe()
             }
           })
+        //Authのユーザー情報も更新(TwitterIDは更新していない)
+        this.user.updateProfile({
+          displayName: this.displayName,
+          photoURL: this.photoURL,
+        })
       }
       this.$router.push("/")
     },

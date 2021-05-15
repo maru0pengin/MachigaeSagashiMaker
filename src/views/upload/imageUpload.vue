@@ -108,7 +108,6 @@ export default {
       )
     },
     gotoNext() {
-      console.log(typeof this.correctImage)
       if (this.correctImage && this.incorrectImage) {
         this.$router.push({
           name: "trim",
