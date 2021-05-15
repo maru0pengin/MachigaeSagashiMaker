@@ -125,7 +125,6 @@ export default {
           this.works.push({
             id: doc.id,
             title: doc.data().title,
-            name: doc.data().name,
             date: doc.data().createdAt.toDate(),
             img: doc.data().quiz[0].images.correct,
           })
@@ -156,15 +155,6 @@ export default {
       })
       this.works = this.works.filter((work) => work.id !== this.selectedWorkId)
       this.closeModal()
-    },
-    goToLogin() {
-      this.$router.push({
-        name: "login_loading",
-        query: this.$route.query,
-        params: {
-          isLogin: true,
-        },
-      })
     },
     gotoGame(id) {
       this.$router.push({

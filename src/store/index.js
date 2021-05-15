@@ -22,7 +22,7 @@ export default new Vuex.Store({
     },
     isSignedIn(state) {
       return state.status;
-    }
+    },
   },
   actions: {
   },

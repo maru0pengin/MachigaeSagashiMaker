@@ -4,7 +4,7 @@
       class="flex flex-col max-w-md bg-white py-6 px-10 rounded-xl items-center shadow-lg"
     >
       ボタンをクリックすると<br />Twitterのログイン画面へ遷移します。
-      <button @click="goToLogin" class="button_twitter m-4 focus:outline-none">
+      <button @click="gotoLogin" class="button_twitter m-4 focus:outline-none">
         <img src="@/assets/Twitter_white.png" class="w-5 h-5" />
         <p class="text-white pl-2">Twitterでログイン</p>
       </button>
@@ -36,9 +36,9 @@ export default {
     },
   },
   methods: {
-    goToLogin() {
+    gotoLogin() {
       this.$router.push({
-        name: "login_loading",
+        name: "login_logout_loading",
         query: this.$route.query,
         params: {
           isLogin: true,

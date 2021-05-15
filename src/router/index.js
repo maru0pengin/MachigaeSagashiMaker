@@ -23,9 +23,9 @@ const routes = [
     props: true,
   },
   {
-    path: '/login_loading/',
-    name: 'login_loading',
-    component: () => import(/* webpackChunkName: "about" */ '../views/LoginLoading.vue'),
+    path: '/loading/',
+    name: 'login_logout_loading',
+    component: () => import(/* webpackChunkName: "about" */ '../views/LoginLogoutLoading.vue'),
     props: true,
   },
   {

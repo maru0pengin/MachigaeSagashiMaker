@@ -19,7 +19,8 @@ exports.addUser = functions.auth.user().onCreate((user) => {
     .doc(user.uid)
     .set({
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      displayName:user.displayName,
+      displayName: user.displayName,
+      twitterId: "",
       photoURL: user.photoURL,
     })
 });

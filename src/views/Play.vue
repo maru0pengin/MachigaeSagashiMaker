@@ -49,6 +49,7 @@ const HEIGHT = 225
 import * as PIXI from "pixi.js" // node_modulesから PIXI.jsをインポート
 import Loading from "@/components/Loading"
 import Modal from "@/components/Modal"
+import { getAuthor } from "@/utils/get_author"
 
 export default {
   data: function() {
@@ -96,8 +97,14 @@ export default {
       .get()
       .then(async (doc) => {
         if (doc.exists) {
+          if (doc.data().authorRef) {
+            let author = await getAuthor(doc)
+            this.name = author.displayName
+          } else {
+            this.name = doc.data().name
+          }
+
           this.title = doc.data().title
-          this.name = doc.data().name
           this.correctImgPath = doc.data().quiz[0].images.correct
           this.incorrectImgPath = doc.data().quiz[0].images.incorrect
           //間違えの位置を取得し、ステータス情報等を追加してdifferencesへ保存

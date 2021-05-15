@@ -10,7 +10,10 @@ export default {
   },
   login() {
     const provider = new firebase.auth.TwitterAuthProvider()
-    firebase.auth().signInWithRedirect(provider)
+    firebase.auth().signInWithRedirect(provider).then((userCredential) => {
+      console.log(userCredential.additionalUserInfo.username)
+      store.commit('onTwitterIDChanged', userCredential.additionalUserInfo.username);
+    })
   },
   logout() {
     firebase.auth().signOut()

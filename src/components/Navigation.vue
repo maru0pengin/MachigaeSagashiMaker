@@ -50,7 +50,7 @@
         class="bg-blue-300 w-28 h-auto absolute right-0 p-2 rounded-b-lg font-bold text-white"
       >
         <button
-          @click="doLogout"
+          @click="gotoLogout"
           class="p-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
         >
           ログアウト
@@ -96,14 +96,14 @@ export default {
       window.open(`https://forms.gle/1uCV8gduy8PZu4jE9`)
     },
     // ログアウト処理
-    doLogout() {
-      if (this.$route.path !== "/") {
-        Firebase.logout()
-        this.$router.push({
-          name: "Home",
-          query: this.$route.query,
-        })
-      }
+    gotoLogout() {
+      this.$router.push({
+        name: "login_logout_loading",
+        query: this.$route.query,
+        params: {
+          isLogout: true,
+        },
+      })
     },
     gotoMyPage() {
       if (this.$route.path !== "/my_page")
