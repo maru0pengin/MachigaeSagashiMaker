@@ -14,6 +14,12 @@
         </div>
         開発途中であるため、告知なくデータの削除等を行う可能性があります。
         あらかじめご了承ください。
+        <div class="description flex mr-auto pl-4 pt-4">お知らせ</div>
+        <div class="flex flex-col pl-4 pt-4 text-sm">
+          <div class="mr-auto">2021/5/17 ログイン機能を追加しました</div>
+          <div class="mr-auto">2021/5/17 投稿作品の削除機能を追加しました</div>
+        </div>
+        <div class="description flex mr-auto pl-4 pt-4">新着</div>
         <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
           <div v-for="quizze in filteredItems" :key="quizze.id">
             <button
