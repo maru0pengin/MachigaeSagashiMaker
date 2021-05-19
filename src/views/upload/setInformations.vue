@@ -65,7 +65,7 @@ export default {
     return {
       db: null,
       title: "",
-      name: "",
+      name: "匿名さん",
       id: String,
       radio: "1",
       isShowModal: false,
