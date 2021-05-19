@@ -4,8 +4,11 @@
 2枚の画像を用意するだけで間違え探しが作成でき、他の人の投稿作品で遊ぶこともできます。<br>
 レスポンシブ対応しているため、スマホからでも利用することができます。
 
-<img src=https://user-images.githubusercontent.com/75305753/116813982-8252bc80-ab91-11eb-97d4-91168adce050.JPG width=100%>
-<img src=https://user-images.githubusercontent.com/75305753/116814015-9ac2d700-ab91-11eb-8d9c-667013c2b213.jpg width=50%>
+<img src=https://user-images.githubusercontent.com/75305753/118792797-f4860980-b8d2-11eb-9e02-43271be31d93.JPG width=100%>
+
+|トップページ|プレイ画面|
+|---|---|
+|![](https://user-images.githubusercontent.com/75305753/118792399-96592680-b8d2-11eb-93c3-e4ae32fad48a.jpg)|![](https://user-images.githubusercontent.com/75305753/118792292-7d507580-b8d2-11eb-8e2a-2ab165b111b1.jpg)|
 
 # URL
 
@@ -17,10 +20,10 @@ https://machigaesagashi.site <br>
 - Vue.js 2.6.12
 - pixi.js 5.3.7
 - tailwind
-- firebase
-  - firebase storage
-  - cloud firestore
-  - firebase hosting
+- Firebase
+  - Cloud Firestore
+  - Firebase Hosting
+  - Firebase Authentication
 - GitHub Actions CI/CD
 
 # CI/CD
@@ -38,8 +41,8 @@ GitHub Actions を用いて以下のことを行っています。
 - Twitterシェア機能
 - 検索機能
 - 投稿作品で遊ぶ機能(pixijs)
+- Twitterアカウントを用いたログイン機能
 
 # 今後実装予定の機能
 
-- Twitterアカウントを用いたログイン機能(firebase Auth)
 - アハ体験ゲームを投稿する機能
