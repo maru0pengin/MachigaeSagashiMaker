@@ -16,8 +16,8 @@
         あらかじめご了承ください。
         <div class="description flex mr-auto pl-4 pt-4">お知らせ</div>
         <div class="flex flex-col pl-4 pt-4 text-sm">
-          <div class="mr-auto">2021/5/17 ログイン機能を追加しました</div>
-          <div class="mr-auto">2021/5/17 投稿作品の削除機能を追加しました</div>
+          <div class="mr-auto">2021/5/19 ログイン機能を追加しました</div>
+          <div class="mr-auto">2021/5/19 投稿作品の削除機能を追加しました</div>
         </div>
         <div class="description flex mr-auto pl-4 pt-4">新着</div>
         <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
@@ -74,15 +74,10 @@ export default {
       .get()
       .then(async (querySnapshot) => {
         //console.log(performance.now() - startTime)
-        querySnapshot.forEach(async (doc) => {
+        for (let doc of querySnapshot.docs) {
           //作者がいれば、リファレンスから作者の名前を取得
-          let name
-          if (doc.data().authorRef) {
-            let author = await getAuthor(doc)
-            name = author.displayName
-          } else {
-            name = doc.data().name
-          }
+          let author = await getAuthor(doc)
+          let name = author ? author.displayName : doc.data().name
           this.quizzes.push({
             id: doc.id,
             title: doc.data().title,
@@ -90,7 +85,7 @@ export default {
             date: doc.data().createdAt.toDate(),
             img: doc.data().quiz[0].images.correct,
           })
-        })
+        }
         //console.log(performance.now() - startTime)
       })
       .catch((error) => {
