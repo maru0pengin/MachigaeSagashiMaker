@@ -9,7 +9,7 @@
         </router-link>
       </div>
 
-      <div class="text-white flex  top-full w-full">
+      <div class="text-white flex top-full w-full">
         <div class="">
           <div class="flex mx-auto">
             <router-link
