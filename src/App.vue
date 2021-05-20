@@ -26,6 +26,11 @@ export default {
         content:
           "誰でも間違い探しクイズを作成、投稿、シェアできるWebアプリケーションです。",
       },
+      {
+        property: "og:description",
+        content:
+          "誰でも間違い探しクイズを作成、投稿、シェアできるWebアプリケーションです。",
+      },
     ],
   },
   components: {
