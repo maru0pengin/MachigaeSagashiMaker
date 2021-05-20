@@ -18,7 +18,7 @@ Vue.use(VueMeta)
 Vue.use(VueClipboard)
 export default {
   metaInfo: {
-    title: "Machigae Sagashi",
+    title: "まちがいさがしメーカー",
     meta: [{ name: "viewport", content: "width=420px,user-scalable=no" }],
   },
   components: {

@@ -1,11 +1,11 @@
 <template>
   <div>
     <nav
-      class="w-full z-10 flex bg-blue-300 lg:px-8 px-4 py-4 text-white items-center relative justify-between md:justify-start"
+      class="w-full z-10 flex bg-blue-300 lg:px-8 px-4 py-2 text-white items-center relative justify-between md:justify-start"
     >
-      <div class="tracking-tighter mx-2 md:w-96">
+      <div class="tracking-tighter mx-2 md:w-60">
         <router-link to="/" class="text-xl lg:text-2xl">
-          Machigae Sagashi
+          <img src="@/assets/logo.png" class="w-56" />
         </router-link>
       </div>
 
