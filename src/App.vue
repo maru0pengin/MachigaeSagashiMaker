@@ -19,7 +19,14 @@ Vue.use(VueClipboard)
 export default {
   metaInfo: {
     title: "まちがいさがしメーカー",
-    meta: [{ name: "viewport", content: "width=420px,user-scalable=no" }],
+    meta: [
+      { name: "viewport", content: "width=420px,user-scalable=no" },
+      {
+        name: "description",
+        content:
+          "誰でも間違い探しクイズを作成、投稿、シェアできるWebアプリケーションです。",
+      },
+    ],
   },
   components: {
     Navigation,
