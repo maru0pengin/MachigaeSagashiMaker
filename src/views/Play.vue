@@ -51,7 +51,28 @@ import Loading from "@/components/Loading"
 import Modal from "@/components/Modal"
 import { getAuthor } from "@/utils/get_author"
 
+import Vue from "vue"
+import VueMeta from "vue-meta"
+Vue.use(VueMeta)
+
 export default {
+  metaInfo: {
+    prefix: "og: http://ogp.me/ns# website: http://ogp.me/ns/website#",
+    meta: [
+      {
+        property: "og:title",
+        content: this?.title,
+      },
+      {
+        property: "og:site_name",
+        content: "まちがいさがしメーカー",
+      },
+      {
+        property: "og:image",
+        content: this?.correctImgPath,
+      },
+    ],
+  },
   data: function() {
     return {
       correctImgPath: ``, //正解画像のパスを入れる

@@ -50,6 +50,10 @@ import Loading from "@/components/Loading"
 import { getAuthor } from "@/utils/get_author"
 import firebase from "firebase"
 
+import Vue from "vue"
+import VueMeta from "vue-meta"
+Vue.use(VueMeta)
+
 export default {
   data() {
     return {
