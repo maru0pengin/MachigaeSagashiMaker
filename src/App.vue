@@ -13,24 +13,16 @@
 import Vue from "vue"
 import VueClipboard from "vue-clipboard2"
 import Navigation from "@/components/Navigation.vue"
+import VueMeta from "vue-meta"
+Vue.use(VueMeta, {
+  tagIDKeyName: "hid",
+})
 Vue.use(VueClipboard)
+
 export default {
-  // metaInfo: {
-  //   title: "まちがいさがしメーカー",
-  //   meta: [
-  //     { name: "viewport", content: "width=420px,user-scalable=no" },
-  //     {
-  //       name: "description",
-  //       content:
-  //         "誰でも間違い探しクイズを作成、投稿、シェアできるWebアプリケーションです。",
-  //     },
-  //     {
-  //       property: "og:description",
-  //       content:
-  //         "誰でも間違い探しクイズを作成、投稿、シェアできるWebアプリケーションです。",
-  //     },
-  //   ],
-  // },
+  metaInfo: {
+    meta: [{ name: "viewport", content: "width=420px,user-scalable=no" }],
+  },
   components: {
     Navigation,
   },

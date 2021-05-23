@@ -14,7 +14,7 @@
       <div class="mt-4">
         <div class="correctBox mx-auto">
           <p class="text-left font-bold px-2">見本画像</p>
-          <img :src="correctImgPath" class="border-2" width="400" />
+          <img :src="correctImgPath" class="border-2 w-full" />
         </div>
         <p class="py-2">下の画像の間違えをタップ・クリックしよう!</p>
         <p></p>
@@ -51,32 +51,28 @@ import Loading from "@/components/Loading"
 import Modal from "@/components/Modal"
 import { getAuthor } from "@/utils/get_author"
 
-import Vue from "vue"
-import VueMeta from "vue-meta"
-Vue.use(VueMeta)
-
 export default {
-  metaInfo: {
-    prefix: "og: http://ogp.me/ns# website: http://ogp.me/ns/website#",
-    meta: [
-      {
-        property: "og:title",
-        content: this?.title,
-      },
-      {
-        property: "og:site_name",
-        content: "まちがいさがしメーカー",
-      },
-      {
-        property: "og:image",
-        content: this?.correctImgPath,
-      },
-    ],
-  },
+  // metaInfo() {
+  //   return {
+  //     prefix: "og: http://ogp.me/ns# article: http://ogp.me/ns/article#",
+  //     meta: [
+  //       {
+  //         hid: "og:title",
+  //         property: "og:title",
+  //         content: this?.title,
+  //       },
+  //       {
+  //         hid: "og:image",
+  //         property: "og:image",
+  //         content: this?.correctImgPath,
+  //       },
+  //     ],
+  //   }
+  // },
   data: function() {
     return {
-      correctImgPath: ``, //正解画像のパスを入れる
-      incorrectImgPath: ``, //不正解画像のパスを入れる
+      correctImgPath: "", //正解画像のパスを入れる
+      incorrectImgPath: "", //不正解画像のパスを入れる
       app: null,
       gameLoops: [], // 毎フレーム毎に実行する関数たち
       title: null,
@@ -108,7 +104,7 @@ export default {
     },
     tweetURL: function() {
       const url = encodeURI(`${location.href}`)
-      return `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！%20%23MachigaeSagashi&url=${url}`
+      return `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！%20%23まちがいさがしメーカー&url=${url}`
     },
   },
   mounted: async function() {
