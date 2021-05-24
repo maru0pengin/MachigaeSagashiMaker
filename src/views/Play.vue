@@ -86,6 +86,7 @@ export default {
       displayTimer: "",
       score: null,
       isCrear: false,
+      playedCount: null,
     }
   },
   components: {
@@ -108,6 +109,7 @@ export default {
     },
   },
   mounted: async function() {
+    console.log("aaaaaaaaaaaaaaaaaaaaa")
     //間違え位置の取得
     let docRef = await this.db.collection("quizzes").doc(this.id)
     docRef
@@ -115,6 +117,8 @@ export default {
       .then(async (doc) => {
         if (doc.exists) {
           if (doc.data().authorRef) {
+            this.playedCount = doc.data().playedCount
+
             let author = await getAuthor(doc)
             this.name = author.displayName
           } else {
@@ -266,23 +270,17 @@ export default {
         this.createEndScene() // 結果画面を表示する
       }
     },
-    createEndScene() {
+    async createEndScene() {
       // 毎フレームイベントを削除
       this.removeAllGameLoops()
 
       this.timer = 0
       this.isCrear = true
-      !(function(d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0],
-          p = /^http:/.test(d.location) ? "http" : "https"
-        if (!d.getElementById(id)) {
-          js = d.createElement(s)
-          js.id = id
-          js.src = p + "://platform.twitter.com/widgets.js"
-          fjs.parentNode.insertBefore(js, fjs)
-        }
-      })(document, "script", "twitter-wjs")
+
+      let docRef = await this.db.collection("quizzes").doc(this.id)
+      docRef.update({
+        playedCount: this.playedCount + 1,
+      })
     },
     tweet() {
       location.href = this.tweetURL

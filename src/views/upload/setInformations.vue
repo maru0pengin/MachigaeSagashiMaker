@@ -138,6 +138,7 @@ export default {
             title: this.title,
             authorRef: userRef ?? "",
             quiz: quiz,
+            playedCount: 0,
           })
           .then(function(docRef) {
             self.id = docRef.id
