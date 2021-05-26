@@ -3,11 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import '@/assets/tailwind.css'
-import firebase from "firebase/app"
 import '@/plugins/element'
 
-import Firebase from "./firebase";
-Firebase.init();
+import firebase from "firebase/app"
+import "firebase/analytics"
+import Firebase from "./firebase"
+Firebase.init()
 firebase.analytics()
 
 new Vue({

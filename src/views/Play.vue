@@ -42,7 +42,9 @@
 </template>
 
 <script>
-import firebase from "firebase"
+
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 const WIDTH = 400
 const HEIGHT = 225
 
@@ -85,7 +87,7 @@ export default {
       timer: 0.0,
       displayTimer: "",
       score: null,
-      isCrear: false,
+      isCrear: false
     }
   },
   components: {
@@ -108,6 +110,8 @@ export default {
     },
   },
   mounted: async function() {
+    //スクロール位置を指定
+    scrollTo(0, 100)
     //間違え位置の取得
     let docRef = await this.db.collection("quizzes").doc(this.id)
     docRef
@@ -266,23 +270,17 @@ export default {
         this.createEndScene() // 結果画面を表示する
       }
     },
-    createEndScene() {
+    async createEndScene() {
       // 毎フレームイベントを削除
       this.removeAllGameLoops()
 
       this.timer = 0
       this.isCrear = true
-      !(function(d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0],
-          p = /^http:/.test(d.location) ? "http" : "https"
-        if (!d.getElementById(id)) {
-          js = d.createElement(s)
-          js.id = id
-          js.src = p + "://platform.twitter.com/widgets.js"
-          fjs.parentNode.insertBefore(js, fjs)
-        }
-      })(document, "script", "twitter-wjs")
+
+      let docRef = await this.db.collection("quizzes").doc(this.id)
+      docRef.update({
+        playedCount: firebase.firestore.FieldValue.increment(1)
+      })
     },
     tweet() {
       location.href = this.tweetURL

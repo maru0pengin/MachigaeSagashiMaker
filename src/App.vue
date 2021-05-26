@@ -21,7 +21,7 @@ Vue.use(VueClipboard)
 
 export default {
   metaInfo: {
-    meta: [{ name: "viewport", content: "width=420px,user-scalable=no" }],
+    meta: [{ name: "viewport", content: "width=420,user-scalable=no" }],
   },
   components: {
     Navigation,
