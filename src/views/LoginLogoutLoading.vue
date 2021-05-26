@@ -8,17 +8,20 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading"
-import Firebase from "./../firebase"
-import firebase from "firebase"
+import Loading from '@/components/Loading'
+import Firebase from './../firebase'
+
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/auth'
 
 export default {
-  name: "login_logout_loading",
+  name: 'login_logout_loading',
   data() {
     return {
-      twitterId: "",
-      displayNmae: "",
-      photoURL: "",
+      twitterId: '',
+      displayNmae: '',
+      photoURL: '',
     }
   },
   components: {
@@ -28,7 +31,7 @@ export default {
     isLogin: { type: Boolean, default: false },
     isLogout: { type: Boolean, default: false },
   },
-  mounted: function() {
+  mounted: function () {
     if (this.isLogin) Firebase.login()
     //ログアウトした間を出すために1秒待つ
     if (this.isLogout) {
@@ -47,7 +50,7 @@ export default {
     },
   },
   watch: {
-    userStatus: async function(to) {
+    userStatus: async function (to) {
       if (to) {
         // TwitterIDを取得
         await firebase
@@ -65,14 +68,11 @@ export default {
           .doc(`users/${this.user.uid}`)
           .onSnapshot((snapshot) => {
             if (snapshot.exists) {
-              firebase
-                .firestore()
-                .doc(`users/${this.user.uid}`)
-                .update({
-                  photoURL: this.photoURL,
-                  displayName: this.displayName,
-                  twitterId: this.twitterId,
-                })
+              firebase.firestore().doc(`users/${this.user.uid}`).update({
+                photoURL: this.photoURL,
+                displayName: this.displayName,
+                twitterId: this.twitterId,
+              })
               unsubscribe()
             }
           })
@@ -82,7 +82,7 @@ export default {
           photoURL: this.photoURL,
         })
       }
-      this.$router.push("/")
+      this.$router.push('/')
     },
   },
 }
