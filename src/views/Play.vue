@@ -42,7 +42,9 @@
 </template>
 
 <script>
-import firebase from "firebase"
+
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 const WIDTH = 400
 const HEIGHT = 225
 
@@ -85,8 +87,7 @@ export default {
       timer: 0.0,
       displayTimer: "",
       score: null,
-      isCrear: false,
-      playedCount: null,
+      isCrear: false
     }
   },
   components: {
@@ -109,7 +110,8 @@ export default {
     },
   },
   mounted: async function() {
-    console.log("aaaaaaaaaaaaaaaaaaaaa")
+    //スクロール位置を指定
+    scrollTo(0, 100)
     //間違え位置の取得
     let docRef = await this.db.collection("quizzes").doc(this.id)
     docRef
@@ -117,8 +119,6 @@ export default {
       .then(async (doc) => {
         if (doc.exists) {
           if (doc.data().authorRef) {
-            this.playedCount = doc.data().playedCount
-
             let author = await getAuthor(doc)
             this.name = author.displayName
           } else {
@@ -279,7 +279,7 @@ export default {
 
       let docRef = await this.db.collection("quizzes").doc(this.id)
       docRef.update({
-        playedCount: this.playedCount + 1,
+        playedCount: firebase.firestore.FieldValue.increment(1)
       })
     },
     tweet() {
