@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-center mx-auto">
-    <div class="max-w-md my-20 py-6 px-2">
+  <div class="flex justify-center">
+    <div class="my-20 mx-10">
       <div
-        class="bg-white rounded-xl shadow-lg py-6 px-2 flex flex-col items-center"
+        class="bg-white rounded-xl shadow-lg py-6 flex flex-col items-center"
       >
         ボタンをクリックすると<br />Twitterのログイン画面へ遷移します。
         <button
@@ -13,7 +13,7 @@
           <p class="text-white pl-2">Twitterでログイン</p>
         </button>
         <hr width="400" />
-        <div class="my-2 text-sm">
+        <div class="my-2 text-sm p-4">
           本サイトは作品を投稿した方の情報を保持するためにTwitterアカウントの連携を必要としています。
           <div class="text-xs my-2 text-left">
             <li>連携許可をログイン以外の目的で使用することはありません。</li>
