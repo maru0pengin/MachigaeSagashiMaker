@@ -46,15 +46,15 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading"
-import { getAuthor } from "@/utils/get_author"
+import Loading from '@/components/Loading'
+import { getAuthor } from '@/utils/get_author'
 
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/auth'
 
-import Vue from "vue"
-import VueMeta from "vue-meta"
+import Vue from 'vue'
+import VueMeta from 'vue-meta'
 Vue.use(VueMeta)
 
 export default {
@@ -62,22 +62,24 @@ export default {
     return {
       quizzes: [],
       loading: true,
-      filterInput: "",
+      filterInput: '',
     }
   },
   components: {
     Loading,
   },
-  created: async function() {
+  created: async function () {
     this.db = firebase.firestore() // dbインスタンスを初期化
   },
-  mounted: async function() {
+  mounted: async function () {
+    //スクロール位置を指定
+    scrollTo(0, 0)
     //const startTime = performance.now()
     //間違え問題を取得
     this.db
-      .collection("quizzes")
-      .where("isPublic", "==", true)
-      .orderBy("createdAt", "asc")
+      .collection('quizzes')
+      .where('isPublic', '==', true)
+      .orderBy('createdAt', 'asc')
       .get()
       .then(async (querySnapshot) => {
         //console.log(performance.now() - startTime)
@@ -96,7 +98,7 @@ export default {
         //console.log(performance.now() - startTime)
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error)
+        console.log('Error getting documents: ', error)
       })
       .finally(() => {
         this.loading = false
@@ -120,7 +122,7 @@ export default {
   methods: {
     gotoGame(id) {
       this.$router.push({
-        name: "Play",
+        name: 'Play',
         query: this.$route.query,
         params: { id: id },
       })
