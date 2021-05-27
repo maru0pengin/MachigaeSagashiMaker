@@ -53,7 +53,6 @@ export default {
     userStatus: async function (to) {
       if (to) {
         // TwitterIDを取得
-        console.log(this.user)
         await firebase
           .auth()
           .getRedirectResult()
