@@ -12,7 +12,7 @@
       </div>
       <hr />
       
-      <div v-if="!isStart" @click="()=>{isStart = !isStart}" class="absolute z-10 start-cover bg-gray-700 flex justify-center items-center">
+      <div v-if="!isStart" @click="()=>{isStart = !isStart}" class="absolute z-10 start-cover w-[402px] bg-gray-700 flex justify-center items-center">
         <button class="text-6xl font-extrabold font-sans bg-white p-4 rounded-2xl hover:bg-yellow-300 hover:text-white focus:outline-none">スタート</button>
       </div>
       <div class="mt-4">
@@ -316,7 +316,7 @@ export default {
 }
 .start-cover{
   background-color: rgb(50,50,50,0.95);
-  width: 402px;
+
   height: 540px;
 }
 </style>
