@@ -1,23 +1,27 @@
 <template>
   <div class="my-14 flex justify-center">
     <Loading v-bind:loading="loading" />
-    <div v-show="!loading" class="bg-white shadow max-w-md ">
+    <div v-show="!loading" class="main-card bg-white shadow">
       <p class="font-bold text-xl pl-2 pt-2">{{ title }}</p>
       <p class="text-right text-sm pl-2 pr-2">{{ name }}</p>
-      <div class="flex">
-        <div class="text-left px-2">
+      <div class="flex items-end">
+        <div class="text-left px-2 text-xl">
           間違い:{{ score }}/{{ differences.length }}
         </div>
         <div class="px-4">Timer:{{ displayTimer }}</div>
       </div>
       <hr />
+      
+      <div v-if="!isStart" @click="()=>{isStart = !isStart}" class="absolute z-10 start-cover bg-gray-700 flex justify-center items-center">
+        <button class="text-6xl font-extrabold font-sans bg-white p-4 rounded-2xl hover:bg-yellow-300 hover:text-white focus:outline-none">スタート</button>
+      </div>
       <div class="mt-4">
         <div class="correctBox mx-auto">
           <p class="text-left font-bold px-2">見本画像</p>
           <img :src="correctImgPath" class="border-2 w-full" />
         </div>
         <p class="py-2">下の画像の間違えをタップ・クリックしよう!</p>
-        <p></p>
+
         <div id="canvas" class="canvas bg-white w-full border-2" />
       </div>
     </div>
@@ -85,9 +89,10 @@ export default {
       db: null,
       loading: true,
       timer: 0.0,
-      displayTimer: "",
-      score: null,
-      isCrear: false
+      displayTimer: "0.00",
+      score: 0,
+      isCrear: false,
+      isStart: false
     }
   },
   components: {
@@ -177,6 +182,7 @@ export default {
     createGameScene() {
       this.timmer = 0
       this.isCrear = false
+      this.isStart = false
 
       this.differences.forEach((difference) => {
         difference.status = 0
@@ -259,15 +265,18 @@ export default {
     gameLoop() {
       // 毎フレームごとに処理するゲームループ
       // スコアテキストを毎フレームアップデートする
-      this.score = this.differences.filter(function(difference) {
-        return difference.status === 1
-      }).length
+      if(this.isStart){
+        this.score = this.differences.filter(function(difference) {
+          return difference.status === 1
+        }).length
 
-      this.timer += 1 / 60
-      this.displayTimer = this.timer.toFixed(2)
 
-      if (this.score === this.differences.length) {
-        this.createEndScene() // 結果画面を表示する
+        this.timer += 1 / 60
+        this.displayTimer = this.timer.toFixed(2)
+
+        if (this.score === this.differences.length) {
+          this.createEndScene() // 結果画面を表示する
+        }
       }
     },
     async createEndScene() {
@@ -297,9 +306,17 @@ export default {
 </script>
 
 <style>
+.main-card{
+  width: 400px;
+}
 .canvas {
   text-align: center;
   margin: 0 auto;
   width: 400px;
+}
+.start-cover{
+  background-color: rgb(50,50,50,0.95);
+  width: 402px;
+  height: 540px;
 }
 </style>
