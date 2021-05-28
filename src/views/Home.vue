@@ -46,63 +46,63 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading";
-import { getAuthor } from "@/utils/get_author";
+import Loading from '@/components/Loading'
+import { getAuthor } from '@/utils/get_author'
 
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/auth'
 
-import Vue from "vue";
-import VueMeta from "vue-meta";
-Vue.use(VueMeta);
+import Vue from 'vue'
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta)
 
 export default {
   data() {
     return {
       quizzes: [],
       loading: true,
-      filterInput: "",
-    };
+      filterInput: '',
+    }
   },
   components: {
     Loading,
   },
   created: async function() {
-    this.db = firebase.firestore(); // dbインスタンスを初期化
+    this.db = firebase.firestore() // dbインスタンスを初期化
   },
   mounted: async function() {
     //スクロール位置を指定
-    scrollTo(0, 0);
+    scrollTo(0, 0)
     //const startTime = performance.now()
     //間違え問題を取得
     this.db
-      .collection("quizzes")
-      .where("isPublic", "==", true)
-      .orderBy("createdAt", "asc")
+      .collection('quizzes')
+      .where('isPublic', '==', true)
+      .orderBy('createdAt', 'asc')
       .get()
       .then(async (querySnapshot) => {
         //console.log(performance.now() - startTime)
         for (let doc of querySnapshot.docs) {
           //作者がいれば、リファレンスから作者の名前を取得
-          let author = await getAuthor(doc);
-          let name = author ? author.displayName : doc.data().name;
+          let author = await getAuthor(doc)
+          let name = author ? author.displayName : doc.data().name
           this.quizzes.push({
             id: doc.id,
             title: doc.data().title,
             name: name,
             date: doc.data().createdAt.toDate(),
             img: doc.data().quiz[0].images.correct,
-          });
+          })
         }
         //console.log(performance.now() - startTime)
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error);
+        console.log('Error getting documents: ', error)
       })
       .finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
   },
   computed: {
     // 文字列検索した候補者群
@@ -113,22 +113,22 @@ export default {
               quizze.title.includes(this.filterInput) ||
               quizze.name.includes(this.filterInput)
           )
-        : this.quizzes;
+        : this.quizzes
     },
     user() {
-      return this.$store.getters.user;
+      return this.$store.getters.user
     },
   },
   methods: {
     gotoGame(id) {
       this.$router.push({
-        name: "Play",
+        name: 'Play',
         query: this.$route.query,
         params: { id: id },
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="sass" scoped>
