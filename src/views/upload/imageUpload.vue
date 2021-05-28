@@ -1,5 +1,18 @@
 <template>
   <div>
+    <Modal v-bind:show="true">
+      <p class="text-xl mx-auto">2枚の画像からまちがいさがしを作ろう！</p>
+      <div class="text-sm mt-2">
+        <p class="text-left">
+          以下の項目を満たした2つの画像を用意してください。<br />
+          ・同じサイズの、見本画像と間違い画像<br />
+          ・画像は横長にトリミングされることを想定してください<br />
+        </p>
+      </div>
+      <div class="ml-auto">
+        <button class="main_button mx-2">OK</button>
+      </div>
+    </Modal>
     <h3 class="description">
       見本画像と間違え画像を<br />アップロードしてください
     </h3>
@@ -45,7 +58,8 @@
 </template>
 
 <script>
-const reader = new FileReader()
+import Modal from "@/components/Modal";
+const reader = new FileReader();
 export default {
   name: "imageUpload",
   data: () => ({
@@ -54,13 +68,14 @@ export default {
     correctImage: null,
     incorrectImage: null,
   }),
+  components: { Modal },
   methods: {
     upload({ file }) {
-      const image = new Image()
+      const image = new Image();
       return new Promise((resolve, reject) => {
-        reader.readAsDataURL(file)
-        reader.onload = () => resolve(reader.result)
-        reader.onerror = reject
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
       })
         .then((imageSrc) => {
           image.onload = () => {
@@ -68,44 +83,44 @@ export default {
               // 見本画像のupの際、間違え画像がupされていて、かつサイズが異なったらエラー表示
               if (this.incorrectImage) {
                 if (this.JudgementSize(image, this.incorrectImage)) {
-                  this.correctImage = image
+                  this.correctImage = image;
                 } else
                   this.$message.error(
                     "見本画像と間違え画像は同じサイズにしてください"
-                  )
-              } else this.correctImage = image
+                  );
+              } else this.correctImage = image;
             } else if (this.incorrectUploadFlag) {
               if (this.correctImage) {
                 if (this.JudgementSize(image, this.correctImage)) {
-                  this.incorrectImage = image
+                  this.incorrectImage = image;
                 } else
                   this.$message.error(
                     "見本画像と間違え画像は同じサイズにしてください",
                     { showClose: false, type: "error" }
-                  )
-              } else this.incorrectImage = image
+                  );
+              } else this.incorrectImage = image;
             }
-            this.correctUploadFlag = false
-            this.incorrectUploadFlag = false
-          }
-          image.src = imageSrc
+            this.correctUploadFlag = false;
+            this.incorrectUploadFlag = false;
+          };
+          image.src = imageSrc;
         })
         .catch(() => {
-          this.correctUploadFlag = false
-          this.incorrectUploadFlag = false
+          this.correctUploadFlag = false;
+          this.incorrectUploadFlag = false;
           this.$notify({
             type: "error",
             title: "Error",
             message:
               "画像の読み込みに失敗しました。時間をおいて再度お試しください",
-          })
-        })
+          });
+        });
     },
     JudgementSize(image1, image2) {
       return (
         image1.naturalWidth == image2.naturalWidth &&
         image1.naturalHeight == image2.naturalHeight
-      )
+      );
     },
     gotoNext() {
       if (this.correctImage && this.incorrectImage) {
@@ -116,7 +131,7 @@ export default {
             correctImage: this.correctImage.src,
             incorrectImage: this.incorrectImage.src,
           },
-        })
+        });
       } else {
         this.$message.warning(
           "見本画像と間違え画像をアップロードしてください",
@@ -124,9 +139,9 @@ export default {
             showClose: false,
             type: "error",
           }
-        )
+        );
       }
     },
   },
-}
+};
 </script>
