@@ -31,7 +31,7 @@ export default {
     isLogin: { type: Boolean, default: false },
     isLogout: { type: Boolean, default: false },
   },
-  mounted: function () {
+  mounted: function() {
     if (this.isLogin) Firebase.login()
     //ログアウトした間を出すために1秒待つ
     if (this.isLogout) {
@@ -50,7 +50,7 @@ export default {
     },
   },
   watch: {
-    userStatus: async function (to) {
+    userStatus: async function(to) {
       if (to) {
         // TwitterIDを取得
         await firebase
@@ -68,11 +68,14 @@ export default {
           .doc(`users/${this.user.uid}`)
           .onSnapshot((snapshot) => {
             if (snapshot.exists) {
-              firebase.firestore().doc(`users/${this.user.uid}`).update({
-                photoURL: this.photoURL,
-                displayName: this.displayName,
-                twitterId: this.twitterId,
-              })
+              firebase
+                .firestore()
+                .doc(`users/${this.user.uid}`)
+                .update({
+                  photoURL: this.photoURL,
+                  displayName: this.displayName,
+                  twitterId: this.twitterId,
+                })
               unsubscribe()
             }
           })
@@ -90,5 +93,5 @@ export default {
 <style lang="sass" scoped>
 .background
   background-color: rgba(0, 0, 0, 0.5)
-  @apply flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 z-10
+  @apply flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 z-30
 </style>
