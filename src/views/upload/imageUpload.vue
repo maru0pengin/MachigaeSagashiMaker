@@ -1,5 +1,23 @@
 <template>
   <div>
+    <Modal v-bind:show="isShowModal" @close="toggleModal">
+      <p class="text-xl mx-auto font-bold">まちがいさがしを作ろう！</p>
+      <div class="text-sm mt-2">
+        <div class="text-left">
+          以下の項目を満たした<span class="font-bold text-lg">2つの画像</span>を用意してください
+          <div class="my-2">
+          ・<span class="font-bold">同じサイズ</span>の見本画像と間違い画像<br />
+          ・画像は<span class="font-bold">横長</span>にトリミングされることを想定してください<br />
+          </div>
+        </div>
+      </div>
+      <div class="min-h-40 mx-auto mt-4">
+        <img src="@/assets/example.png" class="w-auto"/>
+      </div>
+      <div class="ml-auto">
+        <button class="main_button mx-2" @click="toggleModal">OK</button>
+      </div>
+    </Modal>
     <h3 class="description">
       見本画像と間違え画像を<br />アップロードしてください
     </h3>
@@ -45,15 +63,18 @@
 </template>
 
 <script>
+import Modal from '@/components/Modal'
 const reader = new FileReader()
 export default {
-  name: "imageUpload",
+  name: 'imageUpload',
   data: () => ({
     correctUploadFlag: false,
     incorrectUploadFlag: false,
     correctImage: null,
     incorrectImage: null,
+    isShowModal: true
   }),
+  components: { Modal },
   methods: {
     upload({ file }) {
       const image = new Image()
@@ -71,7 +92,7 @@ export default {
                   this.correctImage = image
                 } else
                   this.$message.error(
-                    "見本画像と間違え画像は同じサイズにしてください"
+                    '見本画像と間違え画像は同じサイズにしてください'
                   )
               } else this.correctImage = image
             } else if (this.incorrectUploadFlag) {
@@ -80,8 +101,8 @@ export default {
                   this.incorrectImage = image
                 } else
                   this.$message.error(
-                    "見本画像と間違え画像は同じサイズにしてください",
-                    { showClose: false, type: "error" }
+                    '見本画像と間違え画像は同じサイズにしてください',
+                    { showClose: false, type: 'error' }
                   )
               } else this.incorrectImage = image
             }
@@ -94,10 +115,10 @@ export default {
           this.correctUploadFlag = false
           this.incorrectUploadFlag = false
           this.$notify({
-            type: "error",
-            title: "Error",
+            type: 'error',
+            title: 'Error',
             message:
-              "画像の読み込みに失敗しました。時間をおいて再度お試しください",
+              '画像の読み込みに失敗しました。時間をおいて再度お試しください',
           })
         })
     },
@@ -110,7 +131,7 @@ export default {
     gotoNext() {
       if (this.correctImage && this.incorrectImage) {
         this.$router.push({
-          name: "trim",
+          name: 'trim',
           query: this.$route.query,
           params: {
             correctImage: this.correctImage.src,
@@ -119,14 +140,17 @@ export default {
         })
       } else {
         this.$message.warning(
-          "見本画像と間違え画像をアップロードしてください",
+          '見本画像と間違え画像をアップロードしてください',
           {
             showClose: false,
-            type: "error",
+            type: 'error',
           }
         )
       }
     },
+    toggleModal(){
+      this.isShowModal = !this.isShowModal
+    }
   },
 }
 </script>

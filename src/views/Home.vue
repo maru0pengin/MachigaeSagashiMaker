@@ -68,10 +68,10 @@ export default {
   components: {
     Loading,
   },
-  created: async function () {
+  created: async function() {
     this.db = firebase.firestore() // dbインスタンスを初期化
   },
-  mounted: async function () {
+  mounted: async function() {
     //スクロール位置を指定
     scrollTo(0, 0)
     //const startTime = performance.now()
@@ -97,8 +97,10 @@ export default {
         }
         //console.log(performance.now() - startTime)
       })
-      .catch((error) => {
-        console.log('Error getting documents: ', error)
+      .catch(() => {
+        this.$message.error(
+          'エラーが発生しました。時間を置いて再度お試しください。'
+        )
       })
       .finally(() => {
         this.loading = false

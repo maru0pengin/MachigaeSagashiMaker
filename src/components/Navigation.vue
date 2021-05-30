@@ -1,11 +1,11 @@
 <template>
   <div>
     <nav
-      class="w-full z-10 flex bg-blue-300 lg:px-8 px-4 py-2 text-white items-center relative justify-between md:justify-start"
+      class="w-full h-20 z-20 flex bg-blue-300 lg:px-8 px-4 py-2 text-white items-center relative justify-between md:justify-start"
     >
       <div class="tracking-tighter mx-2 md:w-60">
         <router-link to="/" class="text-xl lg:text-2xl">
-          <img src="@/assets/logo.png" class="w-56" />
+          <img src="@/assets/logo.png"  class="w-56" />
         </router-link>
       </div>
 
@@ -27,13 +27,14 @@
           </div>
         </div>
 
-        <button
+        <div
           v-if="userStatus"
-          @click="isMenuOpen = !isMenuOpen"
-          class="ml-auto focus:outline-none"
+          v-click-outside="hide"
+          @click="toggle"
+          class="ml-auto"
         >
           <img src="@/assets/menu.png" class="w-8 h-8" />
-        </button>
+        </div>
 
         <router-link
           v-else
@@ -47,7 +48,7 @@
     <transition name="menu">
       <div
         v-show="isMenuOpen && userStatus"
-        class="bg-blue-300 w-28 h-auto absolute right-0 p-2 rounded-b-lg font-bold text-white"
+        class="bg-blue-300 w-28 h-auto absolute right-0 p-2 rounded-b-lg font-bold text-white z-10"
       >
         <button
           @click="gotoLogout"
@@ -68,6 +69,8 @@
 
 <script>
 import Firebase from "./../firebase"
+import ClickOutside from 'vue-click-outside'
+
 export default {
   created: function() {
     Firebase.onAuth()
@@ -112,7 +115,16 @@ export default {
           query: this.$route.query,
         })
     },
+    toggle() {
+      this.isMenuOpen  = !this.isMenuOpen
+    },
+    hide() {
+      this.isMenuOpen  = false
+    }
   },
+  directives: {
+    ClickOutside
+  }
 }
 </script>
 
@@ -121,5 +133,5 @@ export default {
   transition: all .5s ease
 
 .menu-enter, .menu-leave-to
-  transform: translateY(-80px)
+  transform: translateY(-100px)
 </style>

@@ -39,7 +39,7 @@
         保存して投稿完了
       </button>
     </div>
-    <Modal v-bind:show="isShowModal">
+    <Modal v-bind:show="isShowModal" @close="description">
       <p class="text-xl">公開とは?</p>
       <div class="text-sm mt-2">
         <p class="text-left">
@@ -55,7 +55,8 @@
 </template>
 
 <script>
-import firebase from "firebase"
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 import Modal from "@/components/Modal"
 import Firebase from "./../../firebase"
 export default {

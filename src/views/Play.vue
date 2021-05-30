@@ -11,12 +11,24 @@
         <div class="px-4">Timer:{{ displayTimer }}</div>
       </div>
       <hr />
-      
-      <div v-if="!isStart" @click="()=>{isStart = !isStart}" class="absolute z-10 start-cover w-[402px] bg-gray-700 flex justify-center items-center">
-        <button class="text-6xl font-extrabold font-sans bg-white p-4 rounded-2xl hover:bg-yellow-300 hover:text-white focus:outline-none">スタート</button>
+
+      <div
+        v-if="!isStart"
+        @click="
+          () => {
+            isStart = !isStart
+          }
+        "
+        class="absolute z-10 start-cover w-[402px] bg-gray-700 flex justify-center items-center"
+      >
+        <button
+          class="text-6xl font-extrabold font-sans bg-white p-4 rounded-2xl hover:bg-yellow-300 hover:text-white focus:outline-none"
+        >
+          スタート
+        </button>
       </div>
       <div class="mt-4">
-        <div class="correctBox mx-auto">
+        <div class="mx-auto">
           <p class="text-left font-bold px-2">見本画像</p>
           <img :src="correctImgPath" class="border-2 w-full" />
         </div>
@@ -46,16 +58,15 @@
 </template>
 
 <script>
-
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 const WIDTH = 400
 const HEIGHT = 225
 
-import * as PIXI from "pixi.js" // node_modulesから PIXI.jsをインポート
-import Loading from "@/components/Loading"
-import Modal from "@/components/Modal"
-import { getAuthor } from "@/utils/get_author"
+import * as PIXI from 'pixi.js' // node_modulesから PIXI.jsをインポート
+import Loading from '@/components/Loading'
+import Modal from '@/components/Modal'
+import { getAuthor } from '@/utils/get_author'
 
 export default {
   // metaInfo() {
@@ -77,22 +88,22 @@ export default {
   // },
   data: function() {
     return {
-      correctImgPath: "", //正解画像のパスを入れる
-      incorrectImgPath: "", //不正解画像のパスを入れる
+      correctImgPath: '', //正解画像のパスを入れる
+      incorrectImgPath: '', //不正解画像のパスを入れる
       app: null,
       gameLoops: [], // 毎フレーム毎に実行する関数たち
       title: null,
       name: null,
       differences: [],
-      textTimer: "",
+      textTimer: '',
       resources: null,
       db: null,
       loading: true,
       timer: 0.0,
-      displayTimer: "0.00",
+      displayTimer: '0.00',
       score: 0,
       isCrear: false,
-      isStart: false
+      isStart: false,
     }
   },
   components: {
@@ -118,7 +129,7 @@ export default {
     //スクロール位置を指定
     scrollTo(0, 100)
     //間違え位置の取得
-    let docRef = await this.db.collection("quizzes").doc(this.id)
+    let docRef = await this.db.collection('quizzes').doc(this.id)
     docRef
       .get()
       .then(async (doc) => {
@@ -143,15 +154,15 @@ export default {
             }
           }
           this.app = new PIXI.Application({ width: WIDTH, height: HEIGHT })
-          let el = document.getElementById("canvas")
+          let el = document.getElementById('canvas')
           el.appendChild(this.app.view)
 
           // ゲームcanvasのcssを定義する
           // ここで定義した画面サイズ(width,height)は実際に画面に表示するサイズ
-          this.app.renderer.view.style.position = "relative"
-          this.app.renderer.view.style.width = "400px"
-          this.app.renderer.view.style.height = "225px"
-          this.app.renderer.view.style.display = "block"
+          this.app.renderer.view.style.position = 'relative'
+          this.app.renderer.view.style.width = '400px'
+          this.app.renderer.view.style.height = '225px'
+          this.app.renderer.view.style.display = 'block'
 
           // canvasの背景色
           this.app.renderer.backgroundColor = 0xffffff
@@ -166,13 +177,13 @@ export default {
           })
         } else {
           // doc.data() が未定義の場合
-          console.log("No such document!")
-          this.$router.push({ name: "Home", query: this.$route.query })
+          console.log('No such document!')
+          this.$router.push({ name: 'Home', query: this.$route.query })
         }
       })
       .catch((error) => {
-        console.log("Error getting document:", error)
-        this.$router.push({ name: "Home", query: this.$route.query })
+        console.log('Error getting document:', error)
+        this.$router.push({ name: 'Home', query: this.$route.query })
       })
       .finally(() => {
         this.loading = false
@@ -222,7 +233,7 @@ export default {
         difference.obj.interactive = true // クリック可能にする
         difference.obj.hitArea = rect
 
-        difference.obj.on("pointerdown", function() {
+        difference.obj.on('pointerdown', function() {
           // クリック時に発動する関数
           if (difference.status === 0) {
             //正解を示す円を表示させる
@@ -265,11 +276,10 @@ export default {
     gameLoop() {
       // 毎フレームごとに処理するゲームループ
       // スコアテキストを毎フレームアップデートする
-      if(this.isStart){
+      if (this.isStart) {
         this.score = this.differences.filter(function(difference) {
           return difference.status === 1
         }).length
-
 
         this.timer += 1 / 60
         this.displayTimer = this.timer.toFixed(2)
@@ -286,16 +296,16 @@ export default {
       this.timer = 0
       this.isCrear = true
 
-      let docRef = await this.db.collection("quizzes").doc(this.id)
+      let docRef = await this.db.collection('quizzes').doc(this.id)
       docRef.update({
-        playedCount: firebase.firestore.FieldValue.increment(1)
+        playedCount: firebase.firestore.FieldValue.increment(1),
       })
     },
     tweet() {
       location.href = this.tweetURL
     },
     gotoHome() {
-      this.$router.push({ name: "Home", query: this.$route.query })
+      this.$router.push({ name: 'Home', query: this.$route.query })
     },
   },
   beforeDestroy() {
@@ -306,7 +316,7 @@ export default {
 </script>
 
 <style>
-.main-card{
+.main-card {
   width: 400px;
 }
 .canvas {
@@ -314,9 +324,9 @@ export default {
   margin: 0 auto;
   width: 400px;
 }
-.start-cover{
-  background-color: rgb(50,50,50,0.95);
-
+.start-cover {
+  background-color: rgb(50, 50, 50, 0.95);
+  width: 401px;
   height: 540px;
 }
 </style>

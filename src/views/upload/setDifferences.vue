@@ -9,7 +9,7 @@
     <h3 class="description">間違え位置を設定してください</h3>
     <button
       @click="showCorrent"
-      class="block py-1 ml-auto text-xs text-blue-400 focus:outline-none"
+      class="block py-1 ml-auto text-blue-400 focus:outline-none"
     >
       <p v-if="isShowCorrect">見本画像を閉じる</p>
       <p v-else>見本画像を確認</p>
@@ -158,7 +158,7 @@ export default {
 
 .v-leave-active,
 .v-enter-active
-  transition: opacity 0.5s
+  transition: opacity 0.2s
 .v-enter,
 .v-leave-to
   opacity: 0
