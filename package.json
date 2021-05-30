@@ -15,7 +15,7 @@
     "element": "^0.1.4",
     "element-ui": "^2.4.5",
     "firebase": "^7.13.1",
-    "node-sass": "^6.0.0",
+    "node-sass": "^4.14.1",
     "pixi-sound": "^3.0.5",
     "pixi.js": "^5.3.7",
     "postcss": "^7.0.35",
