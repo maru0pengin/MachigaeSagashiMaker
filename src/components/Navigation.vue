@@ -5,7 +5,7 @@
     >
       <div class="tracking-tighter mx-2 md:w-60">
         <router-link to="/" class="text-xl lg:text-2xl">
-          <img src="@/assets/logo.png"  class="w-56" />
+          <img src="@/assets/logo.png" class="w-56" />
         </router-link>
       </div>
 
@@ -31,7 +31,7 @@
           v-if="userStatus"
           v-click-outside="hide"
           @click="toggle"
-          class="ml-auto"
+          class="ml-auto my-auto"
         >
           <img src="@/assets/menu.png" class="w-8 h-8" />
         </div>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import Firebase from "./../firebase"
+import Firebase from './../firebase'
 import ClickOutside from 'vue-click-outside'
 
 export default {
@@ -101,7 +101,7 @@ export default {
     // ログアウト処理
     gotoLogout() {
       this.$router.push({
-        name: "login_logout_loading",
+        name: 'login_logout_loading',
         query: this.$route.query,
         params: {
           isLogout: true,
@@ -109,22 +109,22 @@ export default {
       })
     },
     gotoMyPage() {
-      if (this.$route.path !== "/my_page")
+      if (this.$route.path !== '/my_page')
         this.$router.push({
-          name: "MyPage",
+          name: 'MyPage',
           query: this.$route.query,
         })
     },
     toggle() {
-      this.isMenuOpen  = !this.isMenuOpen
+      this.isMenuOpen = !this.isMenuOpen
     },
     hide() {
-      this.isMenuOpen  = false
-    }
+      this.isMenuOpen = false
+    },
   },
   directives: {
-    ClickOutside
-  }
+    ClickOutside,
+  },
 }
 </script>
 

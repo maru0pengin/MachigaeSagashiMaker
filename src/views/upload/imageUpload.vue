@@ -1,18 +1,27 @@
 <template>
   <div>
     <Modal v-bind:show="isShowModal" @close="toggleModal">
-      <p class="text-xl mx-auto font-bold">まちがいさがしを作ろう！</p>
+      <p class="mx-auto description">まちがいさがしを作ろう！</p>
       <div class="text-sm mt-2">
         <div class="text-left">
-          以下の項目を満たした<span class="font-bold text-lg">2つの画像</span>を用意してください
+          以下の項目を満たした<span class="font-bold text-lg">2つの画像</span
+          >を用意してください
           <div class="my-2">
-          ・<span class="font-bold">同じサイズ</span>の見本画像と間違い画像<br />
-          ・画像は<span class="font-bold">横長</span>にトリミングされることを想定してください<br />
+            ・<span class="font-bold">同じサイズ</span
+            >の見本画像と間違い画像<br />
+            ・<span class="font-bold">横長</span
+            >にトリミングされることを想定した画像<br />
           </div>
         </div>
       </div>
-      <div class="min-h-40 mx-auto mt-4">
-        <img src="@/assets/example.png" class="w-auto"/>
+      <div class="min-h-40 mx-auto mt-2">
+        <img src="@/assets/example.png" class="w-auto" />
+      </div>
+      <div class="text-left text-xs">
+        ※Twitterログインを行わずに作品を投稿すると、投稿後に作品を削除することはできません。
+        <router-link to="/login" class="text-blue-500"
+          >Twitterログインはこちら
+        </router-link>
       </div>
       <div class="ml-auto">
         <button class="main_button mx-2" @click="toggleModal">OK</button>
@@ -72,7 +81,7 @@ export default {
     incorrectUploadFlag: false,
     correctImage: null,
     incorrectImage: null,
-    isShowModal: true
+    isShowModal: true,
   }),
   components: { Modal },
   methods: {
@@ -148,9 +157,9 @@ export default {
         )
       }
     },
-    toggleModal(){
+    toggleModal() {
       this.isShowModal = !this.isShowModal
-    }
+    },
   },
 }
 </script>
