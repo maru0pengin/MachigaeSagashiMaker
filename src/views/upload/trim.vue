@@ -24,14 +24,6 @@
           drag-mode="crop"
         />
         <br />
-
-        <button
-          class="upload_button"
-          @click="cropImage"
-          v-if="correctImage !== ''"
-        >
-          トリミング
-        </button>
       </div>
       <div v-show="false">
         <vue-cropper ref="cropper2" :src="incorrectImage" :view-mode="2" />
@@ -41,33 +33,60 @@
         <canvas id="incorrect" width="100" height="100" />
       </div>
       <br />
-      <img
-        v-show="resizeCorrect"
-        :src="resizeCorrect"
-        width="300"
-        class="mt-6 mx-auto border-2"
-      />
-      <img
-        v-show="resizeIncorrect"
-        :src="resizeIncorrect"
-        width="300"
-        class="mt-6 mx-auto border-2"
-      />
+      <Modal v-bind:show="isShowModal" @close="closeModal">
+        <div class="mx-auto">
+          <h3 class="description">
+            トリミング結果
+          </h3>
+          <div class="mx-auto">
+            <p class="text-left font-bold px-2">見本画像</p>
+            <img
+              :src="resizeCorrect"
+              width="300"
+              class="border-2"
+            />
+          </div>
+          <div class="mx-auto mt-2">
+            <p class="text-left font-bold px-2">間違い画像</p>
+            <img
+              :src="resizeIncorrect"
+              width="300"
+              class="border-2"
+            />
+          </div>
+
+        </div>
+        <div class="flex mx-auto">
+          <div class="ml-auto">
+            <button class="main_button mx-2" @click="closeModal">キャンセル</button>
+          </div>
+          <div class="ml-auto">
+            <button class="main_button mx-2" @click="gotoNext">次へ</button>
+          </div>
+        </div>
+      </Modal>
     </div>
     <div class="py-2">
-      <button class="main_button mx-2" @click="gotoBack">戻る</button>
-      <button class="main_button mx-2" @click="gotoNext">次へ</button>
+      <button class="main_button mx-2" @click="gotoBack">戻る</button>   
+      <button
+        class="upload_button"
+        @click="cropImage"
+        v-if="correctImage !== ''"
+      >
+        トリミング
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import VueCropper from "vue-cropperjs";
+import Modal from '@/components/Modal'
 import "cropperjs/dist/cropper.css";
 export default {
   name: "trim",
   components: {
-    VueCropper,
+    VueCropper,Modal 
   },
   props: {
     correctImage: String,
@@ -83,10 +102,11 @@ export default {
       cropIncorrect: "",
       resizeCorrect: "",
       resizeIncorrect: "",
+      isShowModal: false
     };
   },
   methods: {
-    async cropImage() {
+    cropImage() {
       this.Data = this.$refs.cropper1.getData();
       this.cropCorrect = this.$refs.cropper1.getCroppedCanvas().toDataURL();
       this.$refs.cropper2.setData(this.Data);
@@ -94,6 +114,7 @@ export default {
 
       this.resizeImage("incorrect");
       this.resizeImage("correct");
+      this.isShowModal = true
     },
     resizeImage(id) {
       const width = 400;
@@ -150,6 +171,9 @@ export default {
         query: this.$route.query,
       });
     },
+    closeModal(){
+      this.isShowModal = false
+    }
   },
 };
 </script>
