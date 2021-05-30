@@ -48,7 +48,7 @@
     <transition name="menu">
       <div
         v-show="isMenuOpen && userStatus"
-        class="bg-blue-300 w-28 h-auto absolute right-0 p-2 rounded-b-lg font-bold text-white z-10"
+        class="bg-blue-300 w-32 h-auto absolute right-0 p-2 rounded-b-lg font-bold text-white text-lg z-10"
       >
         <button
           @click="gotoLogout"

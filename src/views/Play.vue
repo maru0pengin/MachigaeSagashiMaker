@@ -12,17 +12,14 @@
       </div>
       <hr />
 
-      <div
-        v-if="!isStart"
-        @click="
-          () => {
-            isStart = !isStart
-          }
-        "
-        class="absolute z-10 start-cover w-[402px] bg-gray-700 flex justify-center items-center"
-      >
+      <div v-if="!isStart" class="start-cover">
         <button
           class="text-6xl font-extrabold font-sans bg-white p-4 rounded-2xl hover:bg-yellow-300 hover:text-white focus:outline-none"
+          @click="
+            () => {
+              isStart = !isStart
+            }
+          "
         >
           スタート
         </button>
@@ -127,7 +124,7 @@ export default {
   },
   mounted: async function() {
     //スクロール位置を指定
-    scrollTo(0, 100)
+    scrollTo(0, 110)
     //間違え位置の取得
     let docRef = await this.db.collection('quizzes').doc(this.id)
     docRef
@@ -192,6 +189,9 @@ export default {
   methods: {
     createGameScene() {
       this.timmer = 0
+      this.displayTimer = '0.00'
+      this.score = 0
+
       this.isCrear = false
       this.isStart = false
 
@@ -328,5 +328,6 @@ export default {
   background-color: rgb(50, 50, 50, 0.95);
   width: 401px;
   height: 540px;
+  @apply absolute z-10 flex justify-center items-center;
 }
 </style>

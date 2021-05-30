@@ -68,7 +68,7 @@ export default {
   components: {
     Loading,
   },
-  created: async function() {
+  created: function() {
     this.db = firebase.firestore() // dbインスタンスを初期化
   },
   mounted: async function() {

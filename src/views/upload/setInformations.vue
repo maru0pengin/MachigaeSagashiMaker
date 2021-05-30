@@ -57,24 +57,27 @@
 <script>
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import Modal from "@/components/Modal"
-import Firebase from "./../../firebase"
+import 'firebase/storage'
+
+import Modal from '@/components/Modal'
+import Firebase from './../../firebase'
 export default {
-  name: "setInformations",
+  name: 'setInformations',
   components: { Modal },
   data() {
     return {
       db: null,
-      title: "",
-      name: "匿名さん",
+      title: '',
+      name: '匿名さん',
       id: String,
-      radio: "1",
+      radio: '1',
       isShowModal: false,
+      storageRef: null,
     }
   },
   computed: {
     isPublic() {
-      return this.radio === "1"
+      return this.radio === '1'
     },
     userStatus() {
       // ログインするとtrue
@@ -95,11 +98,12 @@ export default {
   created: function() {
     Firebase.onAuth()
     this.db = firebase.firestore() // dbインスタンスを初期化
+    this.storageRef = firebase.storage().ref()
   },
   mounted() {
     //画像が渡されてない場合は、アップロード画面へ飛ばす
     if (!this.correctImage || !this.incorrectImage) {
-      this.$router.push({ name: "imageUpload", query: this.$route.query })
+      this.$router.push({ name: 'imageUpload', query: this.$route.query })
     }
   },
   methods: {
@@ -109,14 +113,14 @@ export default {
           userRef = null
         if (this.userStatus) {
           uid = this.user?.uid
-          userRef = this.db.collection("users").doc(uid)
+          userRef = this.db.collection('users').doc(uid)
         }
 
         let submitDifferences = this.differences.map((element) => {
           delete element.obj
           return element
         })
-        let quizzesCollection = this.db.collection("quizzes")
+        let quizzesCollection = this.db.collection('quizzes')
         let images = {
           correct: this.correctImage,
           incorrect: this.incorrectImage,
@@ -127,35 +131,39 @@ export default {
             images: images,
           },
         ]
-        let self = this
-        let quizRef
+        //let self = this
+        //let quizRef
         // 「quizzes」というコレクションに対して {} で定義した情報を add する
         /*FireStoreへの保存*/
-        await quizzesCollection
+        const quizRef = await quizzesCollection
           .add({
             createdAt: new Date(),
             isPublic: this.isPublic,
-            name: this.name ?? "",
+            name: this.name ?? '',
             title: this.title,
-            authorRef: userRef ?? "",
+            authorRef: userRef ?? '',
             quiz: quiz,
             playedCount: 0,
+            imageURL: '',
           })
-          .then(function(docRef) {
-            self.id = docRef.id
-            quizRef = docRef
-          })
-          .catch(function(error) {
-            // 保存に失敗した時
+          .catch(() => {
             this.$message.warning(
-              "作品の投稿に失敗しました。時間を置いて再度お試しください。",
+              '作品の投稿に失敗しました。時間を置いて再度お試しください。',
               {
                 showClose: false,
-                type: "error",
+                type: 'error',
               }
             )
-            console.error(error)
+            return false
           })
+        this.id = quizRef.id
+        //storageへ見本画像を保存&URLの取得
+        const imageURL = await this.saveImage(this.id)
+        //firestoreへURLを保存
+        await quizzesCollection.doc(this.id).update({
+          imageURL: imageURL,
+        })
+
         // ログインしているのであれば、usersコレクションへ作品情報を追加
         if (this.userStatus) {
           await userRef.update({
@@ -164,18 +172,24 @@ export default {
         }
         this.gotoNext()
       } else {
-        this.$message.warning("作品情報を入力してください", {
+        this.$message.warning('作品情報を入力してください', {
           showClose: false,
-          type: "error",
+          type: 'error',
         })
       }
+    },
+    async saveImage(id) {
+      let image_url = this.correctImage
+      let ref = this.storageRef.child(`${id}/correct.png`)
+      await ref.putString(image_url, 'data_url')
+      return await ref.getDownloadURL()
     },
     description() {
       this.isShowModal = !this.isShowModal
     },
     gotoNext() {
       this.$router.push({
-        name: "completed",
+        name: 'completed',
         query: this.$route.query,
         params: {
           completedFlag: true,
@@ -185,7 +199,7 @@ export default {
     },
     gotoBack() {
       this.$router.push({
-        name: "setDifferences",
+        name: 'setDifferences',
         query: this.$route.query,
         params: {
           correctImage: this.correctImage,

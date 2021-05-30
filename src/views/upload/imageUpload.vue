@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="min-h-40 mx-auto mt-2">
-        <img src="@/assets/example.png" class="w-auto" />
+        <img src="@/assets/example.png" class="w-auto min-h-40" />
       </div>
       <div class="text-left text-xs">
         ※Twitterログインを行わずに作品を投稿すると、投稿後に作品を削除することはできません。

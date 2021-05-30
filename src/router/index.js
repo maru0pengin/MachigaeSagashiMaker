@@ -25,6 +25,10 @@ const routes = [
     props: true,
   },
   {
+    path: '/_play/:id',
+    redirect: '/play/:id'
+  },
+  {
     path: '/login/',
     name: 'Login',
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue'),
