@@ -79,7 +79,7 @@ export default {
     this.db
       .collection('quizzes')
       .where('isPublic', '==', true)
-      .orderBy('createdAt', 'asc')
+      .orderBy('createdAt', 'desc')
       .get()
       .then(async (querySnapshot) => {
         //console.log(performance.now() - startTime)
