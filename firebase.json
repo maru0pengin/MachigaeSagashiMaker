@@ -12,8 +12,8 @@
     ],
     "rewrites": [
       {
-        "source": "/public/**",
-        "destination": "/public.html"
+        "source": "/play/*",
+        "function": "playpage"
       },
       {
         "source": "**",
