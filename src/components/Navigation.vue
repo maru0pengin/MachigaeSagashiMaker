@@ -27,43 +27,44 @@
           </div>
         </div>
 
-        <div
-          v-if="userStatus"
-          v-click-outside="hide"
-          @click="toggle"
-          class="ml-auto my-auto"
-        >
-          <img src="@/assets/menu.png" class="w-8 h-8" />
-        </div>
-
         <router-link
-          v-else
+          v-if="!userStatus"
           to="/login"
           class="font-bold px-4 py-2 hover:text-blue-100 ml-auto"
         >
           ログイン
         </router-link>
+        <div v-else class="py-6 px-4"></div>
       </div>
     </nav>
-    <transition name="menu">
+    <div v-click-outside="hide">
       <div
-        v-show="isMenuOpen && userStatus"
-        class="bg-blue-300 w-32 h-auto absolute right-0 p-2 rounded-b-lg font-bold text-white text-lg z-10"
+        v-show="userStatus"
+        @click="toggle"
+        class="z-20 py-6 px-4 ml-auto my-auto absolute top-0 right-0"
       >
-        <button
-          @click="gotoLogout"
-          class="p-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
-        >
-          ログアウト
-        </button>
-        <button
-          @click="gotoMyPage"
-          class="p-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
-        >
-          マイページ
-        </button>
+        <img src="@/assets/menu.png" class="w-8 h-8" />
       </div>
-    </transition>
+      <transition name="menu">
+        <div
+          v-show="isMenuOpen && userStatus"
+          class="bg-blue-300 w-32 py-4 h-auto absolute right-0 top-16 p-2 rounded-b-lg font-bold text-white z-10"
+        >
+          <button
+            @click="gotoLogout"
+            class="p-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
+          >
+            ログアウト
+          </button>
+          <button
+            @click="gotoMyPage"
+            class="p-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
+          >
+            マイページ
+          </button>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -133,5 +134,5 @@ export default {
   transition: all .5s ease
 
 .menu-enter, .menu-leave-to
-  transform: translateY(-100px)
+  transform: translateY(-120px)
 </style>
