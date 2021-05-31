@@ -4,15 +4,15 @@ admin.initializeApp()
 //require('dotenv').config()
 //const firebaseConfigObj = JSON.parse(process.env.VUE_APP_FIREBASE_CONFIG)
 
-const app_domain = "machigaesagashi-dev.web.app"
-//const app_domain = "machigaesagashi.site"
+//const app_domain = "machigaesagashi-dev.web.app"
+const app_domain = "machigaesagashi.site"
 const OGP_IMG_WIDTH = 1200
 const OGP_IMG_HEIGHT = 630
 
 // データベースの参照を作成
 let db = admin.firestore()
-const bucket = admin.storage().bucket("machigaesagashi-dev.appspot.com")
-//const bucket = admin.storage().bucket("game-test-project-3785f.appspot.com")
+//const bucket = admin.storage().bucket("machigaesagashi-dev.appspot.com")
+const bucket = admin.storage().bucket("game-test-project-3785f.appspot.com")
 
 exports.addUser = functions.auth.user().onCreate((user) => {
   db.collection("users")
