@@ -68,7 +68,7 @@ const createHtml = (title, playid , imageURL) => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>colorinco</title>
+    <title>まちがいさがしメーカー</title>
     <meta property="og:title" content="${title}|まちがいさがしメーカー">
     <meta property="og:image" content="${imageURL}">
     <meta property="og:image:width" content="${OGP_IMG_WIDTH}">

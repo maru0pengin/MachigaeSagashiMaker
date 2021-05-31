@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav
-      class="w-full h-20 z-20 flex bg-blue-300 lg:px-8 px-4 py-2 text-white items-center relative justify-between md:justify-start"
+      class="w-full  z-20 flex bg-blue-300 px-4 lg:px-8 py-2 text-white items-center relative justify-between md:justify-start"
     >
       <div class="tracking-tighter mx-2 md:w-60">
         <router-link to="/" class="text-xl lg:text-2xl">
@@ -37,9 +37,8 @@
         <div v-else class="py-6 px-4"></div>
       </div>
     </nav>
-    <div v-click-outside="hide">
+    <div v-show="userStatus" v-click-outside="hide">
       <div
-        v-show="userStatus"
         @click="toggle"
         class="z-20 py-6 px-4 ml-auto my-auto absolute top-0 right-0"
       >
@@ -134,5 +133,5 @@ export default {
   transition: all .5s ease
 
 .menu-enter, .menu-leave-to
-  transform: translateY(-120px)
+  transform: translateY(-100px)
 </style>
