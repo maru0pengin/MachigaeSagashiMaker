@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-screen pb-10">
     <Loading v-bind:loading="loading" />
     <transition>
       <div v-show="!loading" class="my-2 mx-auto w-11/12">

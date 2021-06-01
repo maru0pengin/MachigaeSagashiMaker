@@ -26,7 +26,8 @@ const routes = [
   },
   {
     path: '/_play/:id',
-    redirect: '/play/:id'
+    redirect: '/play/:id',
+    component: () => import(/* webpackChunkName: "about" */ '../views/_Play.vue'),
   },
   {
     path: '/login/',
