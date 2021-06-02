@@ -13,40 +13,55 @@
       <hr />
 
       <div v-if="!isStart" class="start-cover">
-        <button
-          class="text-6xl font-extrabold font-sans bg-white p-4 rounded-2xl hover:bg-yellow-300 hover:text-white focus:outline-none"
-          @click="
-            () => {
-              isStart = !isStart
-            }
-          "
-        >
-          スタート
-        </button>
+        <div class="flex flex-col bg-white rounded-2xl p-6">
+          <div class="my-2">
+            間違いは{{ differences.length }}個あります。<br />
+            上の画像と見比べて、<span class="text-lg font-bold">下の画像</span
+            >の間違いを<br />タップ・クリックしよう！！
+          </div>
+          <button
+            class="text-5xl font-extrabold font-sans bg-blue-300 mx-8 mt-4 py-2 rounded-2xl hover:bg-yellow-300 hover:text-white focus:outline-none"
+            @click="
+              () => {
+                isStart = !isStart
+              }
+            "
+          >
+            スタート
+          </button>
+        </div>
       </div>
       <div class="mt-4">
         <div class="mx-auto">
-          <p class="text-left font-bold px-2">見本画像</p>
-          <img :src="correctImgPath" class="border-2 w-full" />
+          <p class="text-left text-xl font-bold px-2">みほん</p>
+          <img :src="correctImgPath" class="border-2 w-[400px] mx-auto" />
         </div>
-        <p class="py-2">下の画像の間違えをタップ・クリックしよう!</p>
-
-        <div id="canvas" class="canvas bg-white w-full border-2" />
+        <p class="py-2">
+          <span class="font-bold">下の画像の間違い</span
+          >をタップ・クリックしよう!
+        </p>
+        <p class="text-left text-lg font-bold px-2">まちがい</p>
+        <div
+          id="canvas"
+          class="canvas bg-white w-[416px] border-double border-8 border-yellow-300"
+        />
       </div>
     </div>
     <Modal v-bind:show="isCrear">
-      <div class="mx-auto">
-        <h3 class="font-bold text-gray-900 text-2xl text-blue-500">
-          クリア！！
-        </h3>
+      <h3 class="mx-auto mt-4 font-bold text-gray-900 text-4xl text-blue-500">
+        クリア！！
+      </h3>
+      <p class="mx-auto my-2 text-xl">
         {{ displayTimer }}秒で見つけられました！
-      </div>
-      <div class="mx-auto flex justify-center items-center">
-        <button class="min_button mx-2" @click="gotoHome">戻る</button>
-        <button class="min_button mx-2" @click="createGameScene">
+      </p>
+      <div class="mx-auto flex flex-col justify-center items-center">
+        <button class="main_button text-xl w-36" @click="gotoHome">
+          戻る
+        </button>
+        <button class="main_button text-xl w-36" @click="createGameScene">
           再プレイ
         </button>
-        <button class="min_button mx-2" @click="tweet">
+        <button class="main_button text-xl w-36" @click="tweet">
           ツイート
         </button>
       </div>
@@ -66,23 +81,6 @@ import Modal from '@/components/Modal'
 import { getAuthor } from '@/utils/get_author'
 
 export default {
-  // metaInfo() {
-  //   return {
-  //     prefix: "og: http://ogp.me/ns# article: http://ogp.me/ns/article#",
-  //     meta: [
-  //       {
-  //         hid: "og:title",
-  //         property: "og:title",
-  //         content: this?.title,
-  //       },
-  //       {
-  //         hid: "og:image",
-  //         property: "og:image",
-  //         content: this?.correctImgPath,
-  //       },
-  //     ],
-  //   }
-  // },
   data: function() {
     return {
       correctImgPath: '', //正解画像のパスを入れる
@@ -317,17 +315,15 @@ export default {
 
 <style>
 .main-card {
-  width: 400px;
-}
-.canvas {
-  text-align: center;
-  margin: 0 auto;
-  width: 400px;
+  width: 416px;
 }
 .start-cover {
   background-color: rgb(50, 50, 50, 0.95);
-  width: 401px;
-  height: 540px;
+  width: 416px;
+  height: 580px;
   @apply absolute z-10 flex justify-center items-center;
+}
+.button {
+  @apply inline-block px-4 py-1 text-sm font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded shadow hover:shadow-lg focus:bg-indigo-500 focus:outline-none;
 }
 </style>

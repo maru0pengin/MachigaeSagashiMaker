@@ -10,18 +10,18 @@
 </template>
 
 <script>
-import Vue from "vue"
-import VueClipboard from "vue-clipboard2"
-import Navigation from "@/components/Navigation.vue"
-import VueMeta from "vue-meta"
+import Vue from 'vue'
+import VueClipboard from 'vue-clipboard2'
+import Navigation from '@/components/Navigation.vue'
+import VueMeta from 'vue-meta'
 Vue.use(VueMeta, {
-  tagIDKeyName: "hid",
+  tagIDKeyName: 'hid',
 })
 Vue.use(VueClipboard)
 
 export default {
   metaInfo: {
-    meta: [{ name: "viewport", content: "width=420,user-scalable=no" }],
+    meta: [{ name: 'viewport', content: 'width=420,user-scalable=no' }],
   },
   components: {
     Navigation,
@@ -53,7 +53,7 @@ export default {
   @apply mt-4 inline-block px-4 py-1 font-medium leading-6 text-center transition text-red-500 border-4 transition border-red-500  transition bg-transparent rounded shadow hover:shadow-lg hover:bg-red-500 hover:text-white focus:shadow-lg focus:bg-red-500 focus:text-white focus:outline-none;
 }
 .min_button {
-  @apply inline-block px-1 py-1 w-16 text-sm font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded shadow hover:shadow-lg focus:bg-indigo-500 focus:outline-none;
+  @apply inline-block px-4 py-1 text-sm font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded shadow hover:shadow-lg focus:bg-indigo-500 focus:outline-none;
 }
 .upload_button {
   @apply inline-block px-4 py-2 font-medium leading-6 text-center text-blue-500 uppercase transition bg-transparent border-2 border-blue-500 rounded-md hover:bg-blue-100 focus:outline-none;
