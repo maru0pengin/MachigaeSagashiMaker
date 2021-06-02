@@ -40,7 +40,7 @@
           <span class="font-bold">下の画像の間違い</span
           >をタップ・クリックしよう!
         </p>
-        <p class="text-left text-lg font-bold px-2">まちがい</p>
+        <p class="text-left text-xl font-bold px-2">まちがい</p>
         <div
           id="canvas"
           class="canvas bg-white w-[416px] border-double border-8 border-yellow-300"
@@ -55,14 +55,26 @@
         {{ displayTimer }}秒で見つけられました！
       </p>
       <div class="mx-auto flex flex-col justify-center items-center">
-        <button class="main_button text-xl w-36" @click="gotoHome">
+        <button
+          class="main_button text-xl w-52"
+          @click="tweet"
+          v-bind:disabled="!isCrear"
+        >
+          ツイートする
+        </button>
+        <button
+          class="main_button text-xl w-52"
+          @click="createGameScene"
+          v-bind:disabled="!isCrear"
+        >
+          もう一度遊ぶ
+        </button>
+        <button
+          class="main_button text-xl w-52"
+          @click="gotoHome"
+          v-bind:disabled="!isCrear"
+        >
           戻る
-        </button>
-        <button class="main_button text-xl w-36" @click="createGameScene">
-          再プレイ
-        </button>
-        <button class="main_button text-xl w-36" @click="tweet">
-          ツイート
         </button>
       </div>
     </Modal>
