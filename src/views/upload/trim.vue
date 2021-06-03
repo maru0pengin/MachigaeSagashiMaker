@@ -40,34 +40,29 @@
           </h3>
           <div class="mx-auto">
             <p class="text-left font-bold px-2">見本画像</p>
-            <img
-              :src="resizeCorrect"
-              width="300"
-              class="border-2"
-            />
+            <img :src="resizeCorrect" width="300" class="border-2" />
           </div>
           <div class="mx-auto mt-2">
             <p class="text-left font-bold px-2">間違い画像</p>
-            <img
-              :src="resizeIncorrect"
-              width="300"
-              class="border-2"
-            />
+            <img :src="resizeIncorrect" width="300" class="border-2" />
           </div>
-
         </div>
         <div class="flex mx-auto">
           <div class="ml-auto">
-            <button class="main_button mx-2" @click="closeModal">キャンセル</button>
+            <button class="main_button mt-4 mx-2" @click="closeModal">
+              キャンセル
+            </button>
           </div>
           <div class="ml-auto">
-            <button class="main_button mx-2" @click="gotoNext">次へ</button>
+            <button class="main_button mt-4 mx-2" @click="gotoNext">
+              次へ
+            </button>
           </div>
         </div>
       </Modal>
     </div>
     <div class="py-2">
-      <button class="main_button mx-2" @click="gotoBack">戻る</button>   
+      <button class="main_button mx-2" @click="gotoBack">戻る</button>
       <button
         class="upload_button"
         @click="cropImage"
@@ -80,13 +75,14 @@
 </template>
 
 <script>
-import VueCropper from "vue-cropperjs";
+import VueCropper from 'vue-cropperjs'
 import Modal from '@/components/Modal'
-import "cropperjs/dist/cropper.css";
+import 'cropperjs/dist/cropper.css'
 export default {
-  name: "trim",
+  name: 'trim',
   components: {
-    VueCropper,Modal 
+    VueCropper,
+    Modal,
   },
   props: {
     correctImage: String,
@@ -94,62 +90,52 @@ export default {
   },
   mounted() {
     // 画像のアップロードが住んでいない場合は、アップロード画面へ飛ばす
-    if (!this.correctImage || !this.incorrectImage) this.gotoBack();
+    if (!this.correctImage || !this.incorrectImage) this.gotoBack()
   },
   data() {
     return {
-      cropCorrect: "",
-      cropIncorrect: "",
-      resizeCorrect: "",
-      resizeIncorrect: "",
-      isShowModal: false
-    };
+      cropCorrect: '',
+      cropIncorrect: '',
+      resizeCorrect: '',
+      resizeIncorrect: '',
+      isShowModal: false,
+    }
   },
   methods: {
     cropImage() {
-      this.Data = this.$refs.cropper1.getData();
-      this.cropCorrect = this.$refs.cropper1.getCroppedCanvas().toDataURL();
-      this.$refs.cropper2.setData(this.Data);
-      this.cropIncorrect = this.$refs.cropper2.getCroppedCanvas().toDataURL();
+      this.Data = this.$refs.cropper1.getData()
+      this.cropCorrect = this.$refs.cropper1.getCroppedCanvas().toDataURL()
+      this.$refs.cropper2.setData(this.Data)
+      this.cropIncorrect = this.$refs.cropper2.getCroppedCanvas().toDataURL()
 
-      this.resizeImage("incorrect");
-      this.resizeImage("correct");
+      this.resizeImage('incorrect')
+      this.resizeImage('correct')
       this.isShowModal = true
     },
     resizeImage(id) {
-      const width = 400;
-      const height = 225;
-      let img = new Image();
-      let canvas = document.getElementById(id);
-      canvas.width = width;
-      canvas.height = height;
-      let context = canvas?.getContext("2d");
+      const width = 400
+      const height = 225
+      let img = new Image()
+      let canvas = document.getElementById(id)
+      canvas.width = width
+      canvas.height = height
+      let context = canvas?.getContext('2d')
 
       //あらかじめimgロード時の処理を設定しておく
       img.onload = () => {
-        context.drawImage(
-          img,
-          0,
-          0,
-          img.width,
-          img.height,
-          0,
-          0,
-          width,
-          height
-        );
-        let base64 = canvas.toDataURL("image/png");
+        context.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, height)
+        let base64 = canvas.toDataURL('image/png')
 
-        if (id === "correct") this.resizeCorrect = base64;
-        else this.resizeIncorrect = base64;
-      };
-      if (id === "correct") img.src = this.cropCorrect;
-      else img.src = this.cropIncorrect;
+        if (id === 'correct') this.resizeCorrect = base64
+        else this.resizeIncorrect = base64
+      }
+      if (id === 'correct') img.src = this.cropCorrect
+      else img.src = this.cropIncorrect
     },
     gotoNext() {
       if (this.resizeCorrect && this.resizeIncorrect) {
         this.$router.push({
-          name: "setDifferences",
+          name: 'setDifferences',
           query: this.$route.query,
           params: {
             correctImage: this.resizeCorrect,
@@ -157,25 +143,25 @@ export default {
             defaltCorrect: this.correctImage,
             defaltIncorrect: this.incorrectImage,
           },
-        });
+        })
       } else {
-        this.$message.warning("画像のトリミングをしてください", {
+        this.$message.warning('画像のトリミングをしてください', {
           showClose: false,
-          type: "error",
-        });
+          type: 'error',
+        })
       }
     },
     gotoBack() {
       this.$router.push({
-        name: "imageUpload",
+        name: 'imageUpload',
         query: this.$route.query,
-      });
+      })
     },
-    closeModal(){
+    closeModal() {
       this.isShowModal = false
-    }
+    },
   },
-};
+}
 </script>
 
 <style scoped>

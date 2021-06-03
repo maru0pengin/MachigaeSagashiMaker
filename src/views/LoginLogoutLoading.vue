@@ -33,14 +33,16 @@ export default {
   },
   mounted: function() {
     if (this.isLogin) Firebase.login()
-    //ログアウトした間を出すために1秒待つ
+    //ログアウトした感を出すために1秒待つ
     if (this.isLogout) {
       setTimeout(() => {
         Firebase.logout()
       }, 1000)
     }
     if (!this.isLogin && !this.isLogout) {
-      this.$router.push('/')
+      setTimeout(() => {
+        this.$router.push('/')
+      }, 1000)
     }
   },
   computed: {

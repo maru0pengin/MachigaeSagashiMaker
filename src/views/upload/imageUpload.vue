@@ -14,8 +14,8 @@
           </div>
         </div>
       </div>
-      <div class="min-h-40 mx-auto mt-2">
-        <img src="@/assets/example.png" class="w-auto min-h-40" />
+      <div class="min-h-40 mx-auto mt-2 min-h-[100px]">
+        <img src="@/assets/example.jpg" class="w-auto" />
       </div>
       <div class="text-left text-xs">
         ※Twitterログインを行わずに作品を投稿すると、投稿後に作品を削除することはできません。
@@ -24,7 +24,7 @@
         </router-link>
       </div>
       <div class="ml-auto">
-        <button class="main_button mx-2" @click="toggleModal">OK</button>
+        <button class="main_button mt-4 mx-2" @click="toggleModal">OK</button>
       </div>
     </Modal>
     <h3 class="description">
@@ -67,7 +67,7 @@
         </button>
       </el-upload>
     </div>
-    <button class="main_button" @click="gotoNext">次へ</button>
+    <button class="main_button mt-4 " @click="gotoNext">次へ</button>
   </div>
 </template>
 

@@ -44,16 +44,13 @@ export default {
   @apply font-bold text-gray-900 text-xl text-blue-500;
 }
 .main_button {
-  @apply mt-4 inline-block px-6 py-2 font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded shadow hover:shadow-lg hover:bg-indigo-500 focus:outline-none;
+  @apply inline-block px-6 py-2 font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded shadow hover:shadow-lg hover:bg-indigo-500 focus:outline-none;
 }
 .submit_button {
   @apply mt-4 inline-block px-6 py-2 font-medium leading-6 text-center text-white uppercase transition bg-indigo-500 rounded shadow hover:shadow-lg hover:bg-indigo-800 focus:outline-none;
 }
 .delete-button {
   @apply mt-4 inline-block px-4 py-1 font-medium leading-6 text-center transition text-red-500 border-4 transition border-red-500  transition bg-transparent rounded shadow hover:shadow-lg hover:bg-red-500 hover:text-white focus:shadow-lg focus:bg-red-500 focus:text-white focus:outline-none;
-}
-.min_button {
-  @apply inline-block px-4 py-1 text-sm font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded shadow hover:shadow-lg focus:bg-indigo-500 focus:outline-none;
 }
 .upload_button {
   @apply inline-block px-4 py-2 font-medium leading-6 text-center text-blue-500 uppercase transition bg-transparent border-2 border-blue-500 rounded-md hover:bg-blue-100 focus:outline-none;

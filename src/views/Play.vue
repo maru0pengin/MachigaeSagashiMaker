@@ -20,7 +20,7 @@
             >の間違いを<br />タップ・クリックしよう！！
           </div>
           <button
-            class="text-5xl font-extrabold font-sans bg-blue-300 mx-8 mt-4 py-2 rounded-2xl hover:bg-yellow-300 hover:text-white focus:outline-none"
+            class="start_button"
             @click="
               () => {
                 isStart = !isStart
@@ -47,37 +47,37 @@
         />
       </div>
     </div>
-    <Modal v-bind:show="isCrear">
-      <h3 class="mx-auto mt-4 font-bold text-gray-900 text-4xl text-blue-500">
+    <ClearModal v-bind:show="isCrear">
+      <h3 class="mx-auto mt-4 font-bold text-4xl text-yellow-400">
         クリア！！
       </h3>
       <p class="mx-auto my-2 text-xl">
         {{ displayTimer }}秒で見つけられました！
       </p>
-      <div class="mx-auto flex flex-col justify-center items-center">
+      <div class="mx-auto flex flex-col justify-center items-center mt-2">
         <button
-          class="main_button text-xl w-52"
+          class="clear_button w-40"
           @click="tweet"
           v-bind:disabled="!isCrear"
         >
           ツイートする
         </button>
         <button
-          class="main_button text-xl w-52"
+          class="clear_button w-40 mt-1"
           @click="createGameScene"
           v-bind:disabled="!isCrear"
         >
           もう一度遊ぶ
         </button>
         <button
-          class="main_button text-xl w-52"
+          class="clear_button w-40 mt-1"
           @click="gotoHome"
           v-bind:disabled="!isCrear"
         >
           戻る
         </button>
       </div>
-    </Modal>
+    </ClearModal>
   </div>
 </template>
 
@@ -89,7 +89,7 @@ const HEIGHT = 225
 
 import * as PIXI from 'pixi.js' // node_modulesから PIXI.jsをインポート
 import Loading from '@/components/Loading'
-import Modal from '@/components/Modal'
+import ClearModal from '@/components/ClearModal'
 import { getAuthor } from '@/utils/get_author'
 
 export default {
@@ -115,7 +115,7 @@ export default {
   },
   components: {
     Loading,
-    Modal,
+    ClearModal,
   },
   created: function() {
     this.db = firebase.firestore() // dbインスタンスを初期化
@@ -335,7 +335,19 @@ export default {
   height: 580px;
   @apply absolute z-10 flex justify-center items-center;
 }
-.button {
-  @apply inline-block px-4 py-1 text-sm font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded shadow hover:shadow-lg focus:bg-indigo-500 focus:outline-none;
+.clear_button {
+  @apply px-4 py-1 text-sm font-medium leading-6 text-center text-white bg-blue-400 rounded-full shadow hover:shadow-lg focus:bg-indigo-500 focus:outline-none;
+}
+.start_button {
+  transition: all 0.25s ease;
+  &:active {
+    //letter-spacing: 2px;
+    letter-spacing: 4px;
+  }
+  &:after {
+    content: 'SUBMIT';
+  }
+  cursor: pointer;
+  @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px];
 }
 </style>
