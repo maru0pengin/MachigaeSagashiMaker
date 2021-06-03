@@ -7,7 +7,7 @@
         class="flex flex-col max-w-md items-center grid grid-cols-1 "
       >
         <div>
-          <div class="bg-white py-6 px-10 rounded-xl shadow-lg w-96 mx-auto">
+          <div class="bg-white py-6 px-10 rounded-xl border-4 w-96 mx-auto">
             <h3 class="description">
               マイページ
             </h3>
@@ -33,7 +33,7 @@
           <div class="m-1">
             <div
               v-show="!loading"
-              class="m-2 bg-white shadow-lg rounded-lg overflow-hidden relative"
+              class="m-2 bg-white border-4 rounded-lg overflow-hidden relative"
             >
               <button
                 type="primary"
@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading"
-import firebase from "firebase"
-import Modal from "@/components/Modal"
+import Loading from '@/components/Loading'
+import firebase from 'firebase'
+import Modal from '@/components/Modal'
 export default {
   data() {
     return {
@@ -112,7 +112,7 @@ export default {
   mounted: async function() {
     if (this.user.uid) {
       // ユーザー情報から作品のリファレンスを取得
-      let userRef = await this.db.collection("users").doc(this.user.uid)
+      let userRef = await this.db.collection('users').doc(this.user.uid)
       await userRef.get().then(async (doc) => {
         if (doc.exists) {
           this.workPaths = doc.data().works
@@ -132,7 +132,7 @@ export default {
       }
     } else {
       this.$router.push({
-        name: "Home",
+        name: 'Home',
         query: this.$route.query,
       })
     }
@@ -141,24 +141,24 @@ export default {
   methods: {
     async deleteWork() {
       //削除する間違え探しの参照を取得
-      let quizRef = await this.db.collection("quizzes").doc(this.selectedWorkId)
+      let quizRef = await this.db.collection('quizzes').doc(this.selectedWorkId)
       //ユーザー情報から、削除する間違え探しへの参照を削除
       await this.db
-        .collection("users")
+        .collection('users')
         .doc(this.user.uid)
         .update({
           works: firebase.firestore.FieldValue.arrayRemove(quizRef),
         })
       //対象の間違え探しを削除
       await quizRef.delete().catch((error) => {
-        console.error("Error removing document: ", error)
+        console.error('Error removing document: ', error)
       })
       this.works = this.works.filter((work) => work.id !== this.selectedWorkId)
       this.closeModal()
     },
     gotoGame(id) {
       this.$router.push({
-        name: "Play",
+        name: 'Play',
         query: this.$route.query,
         params: { id: id },
       })

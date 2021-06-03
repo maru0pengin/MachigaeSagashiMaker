@@ -327,7 +327,8 @@ export default {
 
 <style>
 .main-card {
-  width: 416px;
+  width: 424px;
+  @apply border-4;
 }
 .start-cover {
   background-color: rgb(50, 50, 50, 0.95);
@@ -341,11 +342,7 @@ export default {
 .start_button {
   transition: all 0.25s ease;
   &:active {
-    //letter-spacing: 2px;
     letter-spacing: 4px;
-  }
-  &:after {
-    content: 'SUBMIT';
   }
   cursor: pointer;
   @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px];

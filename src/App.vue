@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <Navigation />
+
     <router-view />
 
-    <div class="bg-blue-300 h-44 text-white p-10">
-      <p class="text-sm">© 2021 ペンギン丸</p>
+    <div class="bg-blue font-sans h-44 text-white p-10">
+      <p class="text-sm">開発・運営 © 2021 @pengin_enginner ペンギン丸</p>
     </div>
   </div>
 </template>
@@ -38,7 +39,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   font-family: arial black;
-  @apply bg-gray-100;
 }
 .description {
   @apply font-bold text-gray-900 text-xl text-blue-500;

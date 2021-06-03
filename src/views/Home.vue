@@ -3,15 +3,23 @@
     <Loading v-bind:loading="loading" />
     <transition>
       <div v-show="!loading" class="my-2 mx-auto w-11/12">
+        <img
+          src="@/assets/logo_large.png"
+          class="w-[600px] mt-4 mb-8 mx-auto"
+        />
+        <router-link to="/upload" class="start_button">
+          まちがいさがしを作る
+        </router-link>
         <div class="flex mx-3 mb-2 justify-center md:justify-start">
           <input
             type="text"
             v-model="filterInput"
-            class="mt-14 px-2 py-1 border border-blue-300 hover:border-blue-400 rounded-lg placeholder-gray-300 outline-none"
+            class="mt-8 px-2 py-1 border border-blue-300 hover:border-blue-400 rounded-lg placeholder-gray-300 outline-none"
             placeholder="キーワード検索"
             required
           />
         </div>
+        <!--
         開発途中であるため、告知なくデータの削除等を行う可能性があります。
         あらかじめご了承ください。
         <div class="description flex mr-auto pl-4 pt-4">お知らせ</div>
@@ -19,17 +27,22 @@
           <div class="mr-auto">2021/5/19 ログイン機能を追加しました</div>
           <div class="mr-auto">2021/5/19 投稿作品の削除機能を追加しました</div>
         </div>
-        <div class="description flex mr-auto pl-4 pt-4">新着</div>
+        -->
+        <div
+          class="font-bold text-gray-900 text-2xl text-blue-500 flex mr-auto pl-4 pt-4"
+        >
+          新着
+        </div>
         <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
           <div v-for="quizze in filteredItems" :key="quizze.id">
             <button
               type="primary"
               @click="gotoGame(quizze.id)"
-              class="focus:outline-none m-1"
+              class="focus:outline-none m-1 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
             >
               <div
                 v-show="!loading"
-                class="m-2 bg-white shadow-lg rounded-lg overflow-hidden relative"
+                class="m-2 bg-white border-4 rounded-lg overflow-hidden relative"
               >
                 <img class="object-cover" :src="quizze.img" />
                 <p class="text-lg font-bold text-left pl-2 pt-2">
@@ -145,4 +158,11 @@ h3
 .v-enter,
 .v-leave-to
   opacity: 0
+
+.start_button
+  transition: all 0.25s ease
+  &:active
+    letter-spacing: 4px
+  cursor: pointer
+  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px]
 </style>
