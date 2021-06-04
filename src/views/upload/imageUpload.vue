@@ -19,7 +19,7 @@
       </div>
       <div class="text-left text-xs">
         ※Twitterログインを行わずに作品を投稿すると、投稿後に作品を削除することはできません。
-        <router-link to="/login" class="text-blue-500"
+        <router-link to="/login" class="text-blue-500 font-bold"
           >Twitterログインはこちら
         </router-link>
       </div>
@@ -81,8 +81,13 @@ export default {
     incorrectUploadFlag: false,
     correctImage: null,
     incorrectImage: null,
-    isShowModal: true,
+    isShowModal: false,
   }),
+  mounted() {
+    setTimeout(() => {
+      this.isShowModal = true
+    }, 100)
+  },
   components: { Modal },
   methods: {
     upload({ file }) {

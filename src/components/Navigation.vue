@@ -47,7 +47,7 @@
       <transition name="menu">
         <div
           v-show="isMenuOpen && userStatus"
-          class="bg-blue w-40 pb-2 h-auto absolute right-0 top-16 p-2 rounded-b-lg font-bold text-white z-10"
+          class="bg-blue w-40 pb-2 h-auto absolute right-0 top-12 p-2 rounded-b-lg font-bold text-white z-10"
         >
           <button
             @click="gotoLogout"
@@ -133,5 +133,5 @@ export default {
   transition: all .5s ease
 
 .menu-enter, .menu-leave-to
-  transform: translateY(-100px)
+  transform: translateY(-120px)
 </style>

@@ -39,11 +39,6 @@ export default {
         Firebase.logout()
       }, 1000)
     }
-    if (!this.isLogin && !this.isLogout) {
-      setTimeout(() => {
-        this.$router.push('/')
-      }, 1000)
-    }
   },
   computed: {
     user() {

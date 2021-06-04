@@ -302,14 +302,15 @@ export default {
     async createEndScene() {
       // 毎フレームイベントを削除
       this.removeAllGameLoops()
-
       this.timer = 0
-      this.isCrear = true
-
       let docRef = await this.db.collection('quizzes').doc(this.id)
       docRef.update({
         playedCount: firebase.firestore.FieldValue.increment(1),
       })
+      //クリアフラグを少し遅らせ、ボタンの自動クリックを防ぐ
+      await setTimeout(() => {
+        this.isCrear = true
+      }, 100)
     },
     tweet() {
       location.href = this.tweetURL

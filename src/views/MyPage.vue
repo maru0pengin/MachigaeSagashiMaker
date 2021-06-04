@@ -55,7 +55,7 @@
           </div>
         </div>
         <router-link class="font-bold mt-10" to="/upload">
-          間違え探しを作成するならこちら
+          間違え探しを作成するなら<span class="text-blue-500">こちら</span>
         </router-link>
       </div>
     </transition>
