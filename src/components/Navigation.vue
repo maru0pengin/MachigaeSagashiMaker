@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav
-      class="w-full z-20 flex bg-blue px-4 lg:px-8 py-1 text-white items-center relative justify-between md:justify-start"
+      class="w-full z-20 flex bg-blue px-4 py-1 text-white items-center relative justify-between md:justify-start"
     >
       <div class="tracking-tighter mx-2 md:w-60">
         <router-link to="/">
