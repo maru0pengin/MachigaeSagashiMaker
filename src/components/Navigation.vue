@@ -1,28 +1,41 @@
 <template>
   <div>
     <nav
-      class="w-full z-20 flex bg-blue px-4 py-1 text-white items-center relative justify-between md:justify-start"
+      class="w-full z-20 h-[65px] md:h-[80px] flex items-center bg-blue px-4 text-white relative justify-between md:justify-start"
     >
-      <div class="tracking-tighter mx-2 md:w-60">
+      <div class="tracking-tighter md:w-60">
         <router-link to="/">
-          <img src="@/assets/logo_small.png" class="w-48" />
+          <img src="@/assets/logo_small.png" class="w-64" />
         </router-link>
       </div>
 
-      <div class="text-white flex top-full w-full text-sm lg:text-lg">
+      <div
+        class="text-white flex items-center top-full w-full text-sm lg:text-lg"
+      >
         <div class="">
           <div class="flex mx-auto">
             <router-link
               to="/upload"
-              class="font-bold px-2 lg:px-4 py-2 hover:text-blue-100"
+              class="flex items-center font-bold px-2 lg:px-4 hover:text-blue-100"
             >
-              まちがいさがしを作る
+              <div class="w-10 md:w-0">
+                <img src="@/assets/create.svg" class="w-8 mx-2" />
+                <div class="text-[10px] md:text-[0px]">つくる</div>
+              </div>
+              <img src="@/assets/create.svg" class="w-0 md:w-8 md:mx-4" />
+              <div class="text-[0px] md:text-lg">まちがいさがしをつくる</div>
             </router-link>
             <button
               @click="gotoContact"
-              class="font-bold px-4 py-2 hover:text-blue-100 focus:outline-none"
+              class="flex items-center font-bold px-4 hover:text-blue-100 focus:outline-none"
             >
-              お問い合わせ
+              <div class="w-18 md:w-0">
+                <img src="@/assets/contact.svg" class="w-8 mx-auto" />
+                <div class="text-[10px] md:text-[0px]">お問い合わせ</div>
+              </div>
+
+              <img src="@/assets/contact.svg" class="w-0 md:w-8 md:mx-4" />
+              <div class="text-[0px] md:text-lg">お問い合わせ</div>
             </button>
           </div>
         </div>
@@ -30,9 +43,14 @@
         <router-link
           v-if="!userStatus"
           to="/login"
-          class="font-bold px-4 py-2 hover:text-blue-100 ml-auto"
+          class="flex font-bold px-4 hover:text-blue-100 ml-auto"
         >
-          ログイン
+          <div class="w-10 md:w-0">
+            <img src="@/assets/login.svg" class="w-8 mx-2" />
+            <div class="text-[10px] md:text-[0px]">ログイン</div>
+          </div>
+          <img src="@/assets/login.svg" class="w-0 md:w-8 md:mx-4" />
+          <div class="text-[0px] md:text-lg">ログイン</div>
         </router-link>
         <div v-else class="py-6 px-4"></div>
       </div>
@@ -40,25 +58,32 @@
     <div v-show="userStatus" v-click-outside="hide">
       <div
         @click="toggle"
-        class="z-20 py-4 px-6 ml-auto my-auto absolute top-0 right-0"
+        class="flex items-center z-20 py-4 px-6 text-white font-bold  ml-auto my-auto absolute -top-2 md:top-2 right-0"
       >
-        <img src="@/assets/menu.png" class="w-8 h-8" />
+        <div class="w-10 md:w-0">
+          <img src="@/assets/menu.png" class="w-8 mx-2" />
+          <div class="text-[10px] md:text-[0px]">メニュー</div>
+        </div>
+        <img src="@/assets/menu.png" class="w-0 md:w-8 md:mx-4" />
+        <div class="text-[0px] md:text-lg">メニュー</div>
       </div>
       <transition name="menu">
         <div
           v-show="isMenuOpen && userStatus"
-          class="bg-blue w-40 pb-2 h-auto absolute right-0 top-12 p-2 rounded-b-lg font-bold text-white z-10"
+          class="bg-blue mx-auto px-4 pb-4 h-auto absolute right-0 top-16 p-2 rounded-b-lg font-bold text-white z-10"
         >
           <button
             @click="gotoLogout"
-            class="p-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
+            class="mx-auto p-2 flex items-center mt-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
           >
+            <img src="@/assets/logout.svg" class="w-6 mr-4" />
             ログアウト
           </button>
           <button
             @click="gotoMyPage"
-            class="p-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
+            class="mx-auto p-2 flex items-center hover:text-blue-100 focus:outline-none ml-auto font-bold"
           >
+            <img src="@/assets/mypage.svg" class="w-6 mr-4" />
             マイページ
           </button>
         </div>

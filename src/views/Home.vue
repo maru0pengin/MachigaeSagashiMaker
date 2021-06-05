@@ -7,7 +7,7 @@
           src="@/assets/logo_large.png"
           class="w-[600px] mt-4 mb-8 mx-auto"
         />
-        <router-link to="/upload" class="start_button">
+        <router-link to="/upload" class="create_button">
           まちがいさがしを作る
         </router-link>
         <div class="flex mx-3 mb-2 justify-center md:justify-start">
@@ -159,10 +159,10 @@ h3
 .v-leave-to
   opacity: 0
 
-.start_button
+.create_button
   transition: all 0.25s ease
-  &:active
-    letter-spacing: 4px
+  &:hover
+    letter-spacing: 8px
   cursor: pointer
-  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px]
+  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white active:text-white focus:outline-none hover:tracking-[10px] active:tracking-[10px]
 </style>
