@@ -85,6 +85,10 @@ export default {
     this.db = firebase.firestore() // dbインスタンスを初期化
   },
   mounted: async function() {
+    const script = document.createElement('script')
+
+    script.src = 'opencv.js'
+    document.head.appendChild(script)
     //スクロール位置を指定
     scrollTo(0, 0)
     //const startTime = performance.now()

@@ -78,6 +78,8 @@
 import VueCropper from 'vue-cropperjs'
 import Modal from '@/components/Modal'
 import 'cropperjs/dist/cropper.css'
+//import Opencv from '@/opencv'
+
 export default {
   name: 'trim',
   components: {
@@ -90,6 +92,11 @@ export default {
   },
   mounted() {
     // 画像のアップロードが住んでいない場合は、アップロード画面へ飛ばす
+    let recaptchaScript = document.createElement('script')
+    recaptchaScript.setAttribute('src', 'opencv.js')
+    document.head.appendChild(recaptchaScript)
+    //let mat = cv.imread(this.correctImage)
+    //console.log(mat)
     if (!this.correctImage || !this.incorrectImage) this.gotoBack()
   },
   data() {
