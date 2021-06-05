@@ -341,11 +341,11 @@ export default {
   @apply px-4 py-1 text-sm font-medium leading-6 text-center text-white bg-blue-400 rounded-full shadow hover:shadow-lg focus:bg-indigo-500 focus:outline-none;
 }
 .start_button {
-  transition: all 0.25s ease;
+  transition: all 0.5s ease;
   &:active {
     letter-spacing: 4px;
   }
   cursor: pointer;
-  @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px];
+  @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 py-2 px-8 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px];
 }
 </style>

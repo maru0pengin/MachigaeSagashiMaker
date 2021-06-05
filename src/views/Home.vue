@@ -19,9 +19,10 @@
             required
           />
         </div>
-        <!--
+
         開発途中であるため、告知なくデータの削除等を行う可能性があります。
         あらかじめご了承ください。
+        <!--
         <div class="description flex mr-auto pl-4 pt-4">お知らせ</div>
         <div class="flex flex-col pl-4 pt-4 text-sm">
           <div class="mr-auto">2021/5/19 ログイン機能を追加しました</div>
@@ -164,5 +165,5 @@ h3
   &:hover
     letter-spacing: 8px
   cursor: pointer
-  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white active:text-white focus:outline-none hover:tracking-[10px] active:tracking-[10px]
+  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white active:text-white focus:outline-none
 </style>

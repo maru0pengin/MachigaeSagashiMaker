@@ -39,19 +39,22 @@
             </button>
           </div>
         </div>
-
         <router-link
-          v-if="!userStatus"
           to="/login"
+          v-if="!userStatus"
           class="flex font-bold px-4 hover:text-blue-100 ml-auto"
         >
-          <div class="w-10 md:w-0">
-            <img src="@/assets/login.svg" class="w-8 mx-2" />
-            <div class="text-[10px] md:text-[0px]">ログイン</div>
+          <div v-if="width < 770" class="w-10 ">
+            <img src="@/assets/login.svg" class="w-8" />
+            <div class="text-[10px]">ログイン</div>
           </div>
-          <img src="@/assets/login.svg" class="w-0 md:w-8 md:mx-4" />
-          <div class="text-[0px] md:text-lg">ログイン</div>
+
+          <div v-else class="flex flex-row items-center">
+            <img src="@/assets/login.svg" class="md:w-8 md:mx-4" />
+            <p class="md:text-lg">ログイン</p>
+          </div>
         </router-link>
+
         <div v-else class="py-6 px-4"></div>
       </div>
     </nav>
@@ -60,12 +63,15 @@
         @click="toggle"
         class="flex items-center z-20 py-4 px-6 text-white font-bold  ml-auto my-auto absolute -top-2 md:top-2 right-0"
       >
-        <div class="w-10 md:w-0">
-          <img src="@/assets/menu.png" class="w-8 mx-2" />
-          <div class="text-[10px] md:text-[0px]">メニュー</div>
+        <div v-if="width < 770" class="w-10 ">
+          <img src="@/assets/menu.png" class="w-8" />
+          <div class="text-[10px]">メニュー</div>
         </div>
-        <img src="@/assets/menu.png" class="w-0 md:w-8 md:mx-4" />
-        <div class="text-[0px] md:text-lg">メニュー</div>
+
+        <div v-else class="flex flex-row items-center">
+          <img src="@/assets/menu.png" class="md:w-8 md:mx-4" />
+          <p class="md:text-lg">メニュー</p>
+        </div>
       </div>
       <transition name="menu">
         <div
@@ -103,6 +109,7 @@ export default {
   data() {
     return {
       isMenuOpen: false,
+      width: window.innerWidth,
     }
   },
   computed: {
@@ -118,6 +125,9 @@ export default {
     $route: function() {
       this.isMenuOpen = false
     },
+  },
+  mounted: function() {
+    window.addEventListener('resize', this.handleResize)
   },
   methods: {
     gotoContact() {
@@ -146,9 +156,15 @@ export default {
     hide() {
       this.isMenuOpen = false
     },
+    handleResize: function() {
+      this.width = window.innerWidth
+    },
   },
   directives: {
     ClickOutside,
+  },
+  beforeDestroy: function() {
+    window.removeEventListener('resize', this.handleResize)
   },
 }
 </script>
