@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
     }
   })
 
-  Vue.config.errorHandler = (err, vm, info) => {
+  Vue.config.errorHandler = (err, vm) => {
     vm.$rollbar.error(err)
     throw err // rethrow
   }
