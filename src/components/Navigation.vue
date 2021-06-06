@@ -18,7 +18,7 @@
               to="/upload"
               class="flex items-center font-bold px-2 lg:px-4 hover:text-blue-100"
             >
-              <div v-if="width < 770" class="w-18 pt-1">
+              <div v-if="width < 770" class="w-18 pt-1 pl-4">
                 <img src="@/assets/create.svg" class="w-8 mx-auto" />
                 <div class="text-[10px]">つくる</div>
               </div>
@@ -47,14 +47,14 @@
         <router-link
           to="/login"
           v-if="!userStatus"
-          class="flex font-bold px-4 hover:text-blue-100 ml-auto"
+          class="flex font-bold hover:text-blue-100 ml-auto "
         >
-          <div v-if="width < 770" class="w-10 pt-1">
+          <div v-if="width < 770" class="w-10 pt-1 ">
             <img src="@/assets/login.svg" class="w-8" />
             <div class="text-[10px]">ログイン</div>
           </div>
 
-          <div v-else class="flex flex-row items-center">
+          <div v-else class="flex flex-row pr-4 items-center">
             <img src="@/assets/login.svg" class="md:w-8 md:mx-4" />
             <p class="md:text-lg">ログイン</p>
           </div>
