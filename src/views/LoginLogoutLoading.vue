@@ -36,6 +36,10 @@ export default {
         Firebase.logout()
       }, 1000)
     }
+    //15秒待ってもユーザーステータスが変わらなかったらホームへ移動
+    setTimeout(() => {
+      this.$router.push('/')
+    }, 15000)
   },
   computed: {
     user() {
