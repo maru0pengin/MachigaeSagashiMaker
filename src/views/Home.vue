@@ -87,8 +87,9 @@ export default {
 
     try {
       console.log('aiueo')
+      throw 'Error2'
     } catch {
-      console.log('エラー')
+      this.$rollbar.error('errエラー')
     }
 
     //const startTime = performance.now()
