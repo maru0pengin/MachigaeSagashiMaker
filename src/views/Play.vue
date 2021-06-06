@@ -3,7 +3,7 @@
     <Loading v-bind:loading="loading" />
     <div v-show="!loading" class="main-card bg-white shadow">
       <p class="font-bold text-xl pl-2 pt-1">{{ title }}</p>
-      
+
       <div class="flex items-end">
         <div class="text-left px-2 text-xl">
           間違い:{{ score }}/{{ differences.length }}
