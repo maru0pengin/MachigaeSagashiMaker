@@ -2,7 +2,7 @@
   <div class="min-h-screen pb-10">
     <Loading v-bind:loading="loading" />
     <transition>
-      <div v-show="!loading" class="my-2 mx-auto w-11/12">
+      <div v-show="!loading" class="mt-24 mx-auto w-11/12">
         <img
           src="@/assets/logo_large.png"
           class="w-[600px] mt-4 mb-8 mx-auto"

@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="my-20 mx-10">
+    <div class="mt-40 mb-24 mx-10">
       <div class="bg-white rounded-xl border-4 py-6 flex flex-col items-center">
         ボタンをクリックすると<br />Twitterのログイン画面へ遷移します。
         <button

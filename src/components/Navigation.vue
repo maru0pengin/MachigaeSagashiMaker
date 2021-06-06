@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fixed left-0 right-0 top-0 z-10">
     <nav
       class="w-full z-20 h-[65px] md:h-[80px] flex items-center bg-blue px-4 text-white relative justify-between md:justify-start"
     >
@@ -66,7 +66,7 @@
     <div v-show="userStatus" v-click-outside="hide">
       <div
         @click="toggle"
-        class="flex items-center z-20 py-4 px-6 text-white font-bold  ml-auto my-auto absolute -top-2 md:top-2 right-0"
+        class="flex items-center z-20 pt-[0.95rem] px-4 text-white font-bold  ml-auto my-auto absolute -top-2 md:top-2 right-0"
       >
         <div v-if="width < 770" class="w-10 pt-[0.15rem] cursor-pointer">
           <img src="@/assets/menu.png" class="w-[2.1rem] mx-auto" />

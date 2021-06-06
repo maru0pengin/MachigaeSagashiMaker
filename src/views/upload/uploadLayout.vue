@@ -1,6 +1,6 @@
 <template>
   <div class="h-full">
-    <div class="mt-14 w-3/4 mx-auto">
+    <div class="mt-28 w-3/4 mx-auto">
       <UploadSteps />
     </div>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen-1/2 flex justify-center my-16">
+  <div class="min-h-screen-1/2 flex justify-center my-28">
     <Loading v-bind:loading="loading" />
     <transition>
       <div
