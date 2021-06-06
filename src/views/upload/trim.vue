@@ -89,6 +89,7 @@ export default {
     incorrectImage: String,
   },
   mounted() {
+    scrollTo(0, 0)
     // 画像のアップロードが住んでいない場合は、アップロード画面へ飛ばす
     if (!this.correctImage || !this.incorrectImage) this.gotoBack()
   },
