@@ -27,11 +27,6 @@ export default {
   components: {
     Navigation,
   },
-  methods: {
-    gotoContact() {
-      window.open(`https://forms.gle/1uCV8gduy8PZu4jE9`)
-    },
-  },
 }
 </script>
 <style>

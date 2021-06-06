@@ -16,11 +16,17 @@ import Rollbar from 'rollbar' // クライアント側で起きたエラーを�
 
 if (process.env.NODE_ENV === 'production') {
   Vue.prototype.$rollbar = new Rollbar({
-    accessToken: process.env.VUE_APP_ROLLBAR_ACCESS_TOKEN,
+    // accessToken: process.env.VUE_APP_ROLLBAR_ACCESS_TOKEN,
+    // captureUncaught: true,
+    // captureUnhandledRejections: true,
+    // payload: {
+    //   environment: process.env.VUE_APP_ROLLBAR_ENV
+    // }
+    accessToken: "f7d57fa9ab424093bb40775b5c4a0b1e",
     captureUncaught: true,
     captureUnhandledRejections: true,
     payload: {
-      environment: process.env.VUE_APP_ROLLBAR_ENV
+        environment: "production"
     }
   })
 
