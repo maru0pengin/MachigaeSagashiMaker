@@ -151,7 +151,8 @@ export default {
             playedCount: 0,
             imageURL: '',
           })
-          .catch(() => {
+          .catch((err) => {
+            this.$rollbar.error(err)
             this.$message.warning(
               '作品の投稿に失敗しました。時間を置いて再度お試しください。',
               {
@@ -165,15 +166,24 @@ export default {
         //storageへ見本画像を保存&URLの取得
         const imageURL = await this.saveImage(this.id)
         //firestoreへURLを保存
-        await quizzesCollection.doc(this.id).update({
-          imageURL: imageURL,
-        })
+        await quizzesCollection
+          .doc(this.id)
+          .update({
+            imageURL: imageURL,
+          })
+          .catch((err) => {
+            this.$rollbar.error(err)
+          })
 
         // ログインしているのであれば、usersコレクションへ作品情報を追加
         if (this.userStatus) {
-          await userRef.update({
-            works: firebase.firestore.FieldValue.arrayUnion(quizRef),
-          })
+          await userRef
+            .update({
+              works: firebase.firestore.FieldValue.arrayUnion(quizRef),
+            })
+            .catch((err) => {
+              this.$rollbar.error(err)
+            })
         }
         this.loading = false
         this.gotoNext()
@@ -187,7 +197,9 @@ export default {
     async saveImage(id) {
       let image_url = this.correctImage
       let ref = this.storageRef.child(`${id}/correct.png`)
-      await ref.putString(image_url, 'data_url')
+      await ref.putString(image_url, 'data_url').catch((err) => {
+        this.$rollbar.error(err)
+      })
       return await ref.getDownloadURL()
     },
     description() {
