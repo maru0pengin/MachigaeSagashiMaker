@@ -53,7 +53,8 @@
         クリア！！
       </h3>
       <p class="mx-auto my-2 text-xl">
-        {{ displayTimer }}秒で見つけられました！
+        <span class="font-bold text-2xl">{{ displayTimer }}秒</span
+        >で見つけられました！
       </p>
       <div class="mx-auto flex flex-col justify-center items-center mt-2">
         <button
