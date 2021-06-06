@@ -77,10 +77,14 @@ export default {
             }
           })
         //Authのユーザー情報も更新(TwitterIDは更新していない)
-        this.user.updateProfile({
-          displayName: this.displayName,
-          photoURL: this.photoURL,
-        })
+        this.user
+          .updateProfile({
+            displayName: this.displayName,
+            photoURL: this.photoURL,
+          })
+          .catch((err) => {
+            this.$rollbar.error(err)
+          })
       }
       this.$router.push('/')
     },
