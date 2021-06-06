@@ -1,14 +1,11 @@
 <template>
-  <div>
-    <div class="h-screen" />
-    <div class="background">
-      <Loading v-bind:loading="true" />
-    </div>
+  <div class="h-[85vh]">
+    <FullScreenLoading v-bind:loading="true" />
   </div>
 </template>
 
 <script>
-import Loading from '@/components/Loading'
+import FullScreenLoading from '@/components/FullScreenLoading'
 import Firebase from './../firebase'
 
 import firebase from 'firebase/app'
@@ -25,7 +22,7 @@ export default {
     }
   },
   components: {
-    Loading,
+    FullScreenLoading,
   },
   props: {
     isLogin: { type: Boolean, default: false },
