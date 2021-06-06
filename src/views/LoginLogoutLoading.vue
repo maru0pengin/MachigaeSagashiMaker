@@ -38,7 +38,7 @@ export default {
     }
     //15秒待ってもユーザーステータスが変わらなかったらホームへ移動
     setTimeout(() => {
-      this.$router.push('/')
+      if (this.$route.path !== '/') this.$router.push('/')
     }, 15000)
   },
   computed: {

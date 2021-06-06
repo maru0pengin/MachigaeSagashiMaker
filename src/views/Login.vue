@@ -7,7 +7,7 @@
           @click="gotoLogin"
           class="button_twitter m-4 focus:outline-none"
         >
-          <img src="@/assets/icons/Twitter_white.svg" class="w-5 h-5" />
+          <img src="@/assets/icons/Twitter_white.svg" class="w-6 h-6" />
           <p class="text-white pl-2">Twitterでログイン</p>
         </button>
         <hr width="400" />

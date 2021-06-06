@@ -76,8 +76,9 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 import Loading from '@/components/Loading'
-import firebase from 'firebase'
 import Modal from '@/components/Modal'
 export default {
   data() {
