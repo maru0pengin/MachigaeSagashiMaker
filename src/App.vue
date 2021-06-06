@@ -38,7 +38,7 @@ export default {
 #app {
   text-align: center;
   color: #2c3e50;
-  font-family: arial black;
+  @apply font-sans;
 }
 .description {
   @apply font-bold text-gray-900 text-xl text-blue-500;

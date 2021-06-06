@@ -12,30 +12,35 @@
       <div
         class="text-white flex items-center top-full w-full text-sm lg:text-lg"
       >
-        <div class="">
+        <div>
           <div class="flex mx-auto">
             <router-link
               to="/upload"
               class="flex items-center font-bold px-2 lg:px-4 hover:text-blue-100"
             >
-              <div class="w-10 md:w-0">
-                <img src="@/assets/create.svg" class="w-8 mx-2" />
-                <div class="text-[10px] md:text-[0px]">つくる</div>
+              <div v-if="width < 770" class="w-18 pt-1">
+                <img src="@/assets/create.svg" class="w-8 mx-auto" />
+                <div class="text-[10px]">つくる</div>
               </div>
-              <img src="@/assets/create.svg" class="w-0 md:w-8 md:mx-4" />
-              <div class="text-[0px] md:text-lg">まちがいさがしをつくる</div>
+
+              <div v-else class="flex flex-row items-center">
+                <img src="@/assets/create.svg" class="w-8 mx-4" />
+                <p class="text-lg">まちがいさがしをつくる</p>
+              </div>
             </router-link>
             <button
               @click="gotoContact"
               class="flex items-center font-bold px-4 hover:text-blue-100 focus:outline-none"
             >
-              <div class="w-18 md:w-0">
+              <div v-if="width < 770" class="w-18 pt-1">
                 <img src="@/assets/contact.svg" class="w-8 mx-auto" />
-                <div class="text-[10px] md:text-[0px]">お問い合わせ</div>
+                <div class="text-[10px]">お問い合わせ</div>
               </div>
 
-              <img src="@/assets/contact.svg" class="w-0 md:w-8 md:mx-4" />
-              <div class="text-[0px] md:text-lg">お問い合わせ</div>
+              <div v-else class="flex flex-row items-center">
+                <img src="@/assets/contact.svg" class="w-8 mx-4" />
+                <p class="text-lg">お問い合わせ</p>
+              </div>
             </button>
           </div>
         </div>
@@ -44,7 +49,7 @@
           v-if="!userStatus"
           class="flex font-bold px-4 hover:text-blue-100 ml-auto"
         >
-          <div v-if="width < 770" class="w-10 ">
+          <div v-if="width < 770" class="w-10 pt-1">
             <img src="@/assets/login.svg" class="w-8" />
             <div class="text-[10px]">ログイン</div>
           </div>
@@ -63,14 +68,14 @@
         @click="toggle"
         class="flex items-center z-20 py-4 px-6 text-white font-bold  ml-auto my-auto absolute -top-2 md:top-2 right-0"
       >
-        <div v-if="width < 770" class="w-10 ">
-          <img src="@/assets/menu.png" class="w-8" />
+        <div v-if="width < 770" class="w-10 pt-[0.15rem] cursor-pointer">
+          <img src="@/assets/menu.png" class="w-[2.1rem] mx-auto" />
           <div class="text-[10px]">メニュー</div>
         </div>
 
-        <div v-else class="flex flex-row items-center">
-          <img src="@/assets/menu.png" class="md:w-8 md:mx-4" />
-          <p class="md:text-lg">メニュー</p>
+        <div v-else class="flex flex-row items-center cursor-pointer">
+          <img src="@/assets/menu.png" class="w-8 mx-2" />
+          <p class="text-lg">メニュー</p>
         </div>
       </div>
       <transition name="menu">
