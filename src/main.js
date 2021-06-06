@@ -12,6 +12,8 @@ Firebase.init()
 firebase.analytics()
 
 console.log(process.env.NODE_ENV)
+console.log(process.env.VUE_APP_ROLLBAR_ACCESS_TOKEN)
+console.log(process.env.VUE_APP_ROLLBAR_ENV)
 import Rollbar from 'rollbar' // クライアント側で起きたエラーを収集してSlackに通知を飛ばす
 
 if (process.env.NODE_ENV === 'production') {
