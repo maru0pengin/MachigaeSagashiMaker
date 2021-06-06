@@ -2,7 +2,7 @@
   <div class="min-h-screen pb-10">
     <Loading v-bind:loading="loading" />
     <transition>
-      <div v-show="!loading" class="mt-24 mx-auto w-11/12">
+      <div v-show="!loading" class="mt-24 mb-20 mx-auto w-11/12">
         <img
           src="@/assets/logo/logo_large.png"
           class="w-[600px] mt-4 mb-8 mx-auto"
@@ -149,6 +149,7 @@ h2
   margin-top: 20px
 h3
   font-size: 20px
+
 .v-leave-active,
 .v-enter-active
   transition: opacity 1.5s

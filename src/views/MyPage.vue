@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen-1/2 flex justify-center my-28">
+  <div class="min-h-screen flex justify-center my-28">
     <Loading v-bind:loading="loading" />
     <transition>
       <div
@@ -110,6 +110,7 @@ export default {
     },
   },
   mounted: async function() {
+    scrollTo(0, 0)
     if (this.user.uid) {
       // ユーザー情報から作品のリファレンスを取得
       let userRef = await this.db.collection('users').doc(this.user.uid)
@@ -179,7 +180,7 @@ export default {
 
 .v-leave-active,
 .v-enter-active
-  transition: opacity 0.5s
+  transition: opacity 1.5s
 .v-enter,
 .v-leave-to
   opacity: 0

@@ -20,7 +20,7 @@
     </div>
     <div></div>
     <hr />
-    <div class="flex items-center text-sm my-2">
+    <div class="flex font-bold items-center text-sm my-2">
       SHARE
       <div class="w-full mr-2 flex justify-end">
         <button class="block focus:outline-none" type="primary" @click="tweet">
