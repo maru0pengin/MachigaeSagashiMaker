@@ -4,7 +4,7 @@
     <transition>
       <div v-show="!loading" class="mt-24 mx-auto w-11/12">
         <img
-          src="@/assets/logo_large.png"
+          src="@/assets/logo/logo_large.png"
           class="w-[600px] mt-4 mb-8 mx-auto"
         />
         <router-link to="/upload" class="create_button">

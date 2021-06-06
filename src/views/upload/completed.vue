@@ -24,7 +24,7 @@
       SHARE
       <div class="w-full mr-2 flex justify-end">
         <button class="block focus:outline-none" type="primary" @click="tweet">
-          <img src="@/assets/Twitter.png" class="w-8 h-8" />
+          <img src="@/assets/icons/Twitter_blue.svg" class="w-8 h-8" />
         </button>
       </div>
     </div>
