@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VUE_APP_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-      VUE_APP_ROLLBAR_ENV: machigaesagashi-prod
+      VUE_APP_ROLLBAR_ENV: 'machigaesagashi-prod'
     steps:
       - uses: actions/checkout@v2
       - run: rm -rf node_modules package-lock.json && npm install
