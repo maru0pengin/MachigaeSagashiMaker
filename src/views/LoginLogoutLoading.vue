@@ -73,6 +73,9 @@ export default {
                   displayName: this.displayName,
                   twitterId: this.twitterId,
                 })
+                .catch((err) => {
+                  this.$rollbar.error(err)
+                })
               unsubscribe()
             }
           })
