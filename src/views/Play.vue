@@ -306,9 +306,13 @@ export default {
       this.removeAllGameLoops()
       this.timer = 0
       let docRef = await this.db.collection('quizzes').doc(this.id)
-      docRef.update({
-        playedCount: firebase.firestore.FieldValue.increment(1),
-      })
+      await docRef
+        .update({
+          playedCount: firebase.firestore.FieldValue.increment(1),
+        })
+        .catch((err) => {
+          this.$rollbar.error(err)
+        })
       //クリアフラグを少し遅らせ、ボタンの自動クリックを防ぐ
       await setTimeout(() => {
         this.isCrear = true

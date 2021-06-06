@@ -150,9 +150,13 @@ export default {
         .update({
           works: firebase.firestore.FieldValue.arrayRemove(quizRef),
         })
+        .catch((err) => {
+          this.$rollbar.error(err)
+        })
       //対象の間違え探しを削除
-      await quizRef.delete().catch((error) => {
-        console.error('Error removing document: ', error)
+      await quizRef.delete().catch((err) => {
+        this.$rollbar.error(err)
+        console.error('Error removing document: ', err)
       })
       this.works = this.works.filter((work) => work.id !== this.selectedWorkId)
       this.closeModal()
