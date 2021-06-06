@@ -3,12 +3,12 @@
 間違い探しクイズを、作成・シェア・プレイできるWebアプリケーションです。<br>
 2枚の画像を用意するだけで間違い探しが作成でき、他の人の投稿作品で遊ぶこともできます。<br>
 レスポンシブ対応しているため、スマホからでも利用することができます。
+![まちがいさがしメーカー](https://user-images.githubusercontent.com/75305753/120919306-d18d8f00-c6f3-11eb-836f-ebb028cd32d8.JPG)
 
-<img src=https://user-images.githubusercontent.com/75305753/118792797-f4860980-b8d2-11eb-9e02-43271be31d93.JPG width=100%>
 
 |トップページ|プレイ画面|
 |---|---|
-|![](https://user-images.githubusercontent.com/75305753/118792399-96592680-b8d2-11eb-93c3-e4ae32fad48a.jpg)|![](https://user-images.githubusercontent.com/75305753/118792292-7d507580-b8d2-11eb-8e2a-2ab165b111b1.jpg)|
+|![](https://user-images.githubusercontent.com/75305753/120919307-d5211600-c6f3-11eb-89b3-efcdf7c40018.jpg)|![](https://user-images.githubusercontent.com/75305753/120919351-17e2ee00-c6f4-11eb-8cb0-2294a125e04f.jpg)|
 
 # URL
 
