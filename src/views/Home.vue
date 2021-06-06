@@ -67,10 +67,6 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
-import Vue from 'vue'
-import VueMeta from 'vue-meta'
-Vue.use(VueMeta)
-
 export default {
   data() {
     return {
