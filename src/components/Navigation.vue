@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed left-0 right-0 top-0 z-10">
+  <div class="fixed left-0 right-0 top-0 z-20">
     <nav
       class="w-full z-20 h-[65px] md:h-[80px] flex items-center bg-blue px-4 text-white relative justify-between md:justify-start"
     >

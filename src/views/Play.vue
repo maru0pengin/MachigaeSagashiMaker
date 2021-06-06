@@ -1,8 +1,8 @@
 <template>
-  <div class="my-14 flex justify-center">
+  <div class="my-36 flex justify-center">
     <Loading v-bind:loading="loading" />
     <div v-show="!loading" class="main-card bg-white shadow">
-      <p class="font-bold text-xl pl-2 pt-2">{{ title }}</p>
+      <p class="font-bold text-xl pl-2 pt-1">{{ title }}</p>
       <p class="text-right text-sm pl-2 pr-2">{{ name }}</p>
       <div class="flex items-end">
         <div class="text-left px-2 text-xl">
@@ -31,12 +31,12 @@
           </button>
         </div>
       </div>
-      <div class="mt-4">
+      <div class="mt-2">
         <div class="mx-auto">
           <p class="text-left text-xl font-bold px-2">みほん</p>
           <img :src="correctImgPath" class="border-2 w-[400px] mx-auto" />
         </div>
-        <p class="py-2">
+        <p class="pt-2">
           <span class="font-bold">下の画像の間違い</span
           >をタップ・クリックしよう!
         </p>
@@ -134,7 +134,8 @@ export default {
   },
   mounted: async function() {
     //スクロール位置を指定
-    scrollTo(0, 110)
+    if (window.innerWidth < 770) scrollTo(0, 78)
+
     //間違え位置の取得
     let docRef = await this.db.collection('quizzes').doc(this.id)
     docRef
@@ -334,16 +335,16 @@ export default {
 .start-cover {
   background-color: rgb(50, 50, 50, 0.95);
   width: 416px;
-  height: 580px;
+  height: 565px;
   @apply absolute z-10 flex justify-center items-center;
 }
 .clear_button {
   @apply px-4 py-1 text-sm font-medium leading-6 text-center text-white bg-blue-400 rounded-full shadow hover:shadow-lg focus:bg-indigo-500 focus:outline-none;
 }
 .start_button {
-  transition: all 0.5s ease;
+  transition: all 0.25s ease;
   &:active {
-    letter-spacing: 4px;
+    letter-spacing: 8px;
   }
   cursor: pointer;
   @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 py-2 px-8 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px];
