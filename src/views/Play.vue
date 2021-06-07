@@ -16,7 +16,9 @@
       <div v-if="!isStart" class="start-cover">
         <div class="flex flex-col bg-white rounded-2xl p-6">
           <div class="my-2">
-            間違いは{{ differences.length }}個あります。<br />
+            間違いは<span class="text-lg font-bold"
+              >{{ differences.length }}個</span
+            >あります。<br />
             上の画像と見比べて、<span class="text-lg font-bold">下の画像</span
             >の間違いを<br />タップ・クリックしよう！！
           </div>
@@ -137,6 +139,7 @@ export default {
   mounted: async function() {
     //スクロール位置を指定
     if (window.innerWidth < 770) scrollTo(0, 78)
+    else scrollTo(0, 0)
 
     //間違え位置の取得
     let docRef = await this.db.collection('quizzes').doc(this.id)
@@ -349,10 +352,7 @@ export default {
 }
 .start_button {
   transition: all 0.25s ease;
-  &:active {
-    letter-spacing: 8px;
-  }
   cursor: pointer;
-  @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 py-2 px-8 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px];
+  @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 py-2 px-8 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none md:hover:tracking-widest;
 }
 </style>

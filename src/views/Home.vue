@@ -7,9 +7,9 @@
           src="@/assets/logo/logo_large.png"
           class="w-[600px] mt-4 mb-8 mx-auto"
         />
-        <router-link to="/upload" class="create_button">
+        <button @click="gotoCreate" class="create_button">
           まちがいさがしを作る
-        </router-link>
+        </button>
         <div class="flex mx-3 mb-2 justify-center md:justify-start">
           <input
             type="text"
@@ -39,7 +39,7 @@
             <button
               type="primary"
               @click="gotoGame(quizze.id)"
-              class="focus:outline-none m-1 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              class="focus:outline-none m-1 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
             >
               <div
                 v-show="!loading"
@@ -140,6 +140,12 @@ export default {
         params: { id: id },
       })
     },
+    gotoCreate() {
+      this.$router.push({
+        name: 'imageUpload',
+        query: this.$route.query,
+      })
+    },
   },
 }
 </script>
@@ -160,8 +166,6 @@ h3
 
 .create_button
   transition: all 0.25s ease
-  &:hover
-    letter-spacing: 8px
   cursor: pointer
-  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white active:text-white focus:outline-none
+  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 px-8 py-2 rounded-full md:hover:bg-blue-400 md:hover:text-white focus:outline-none md:hover:tracking-widest
 </style>
