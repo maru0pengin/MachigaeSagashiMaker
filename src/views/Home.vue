@@ -167,5 +167,5 @@ h3
 .create_button
   transition: all 0.25s ease
   cursor: pointer
-  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 px-8 py-2 rounded-full md:hover:bg-blue-400 md:hover:text-white focus:outline-none md:hover:tracking-widest
+  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none md:hover:tracking-widest
 </style>
