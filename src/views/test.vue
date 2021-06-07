@@ -3,7 +3,6 @@
     <div>
       <input type="file" id="file" :name="files" @change="newimg" accept="image/*"/>
       <button @click="click">Try</button>
-      <button @click="click">Try</button>
     </div>
     <div>
       <canvas id="srcimg" ref="srcimg" class="imgcanvas"></canvas>
