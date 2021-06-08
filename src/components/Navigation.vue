@@ -50,7 +50,7 @@
           class="flex font-bold hover:text-blue-100 ml-auto "
         >
           <div v-if="width < 770" class="w-10 pt-1 ">
-            <img src="@/assets/icons/login.svg" class="w-8" />
+            <img src="@/assets/icons/login.svg" class="w-[2.1rem] mx-auto" />
             <div class="text-[10px]">ログイン</div>
           </div>
 
