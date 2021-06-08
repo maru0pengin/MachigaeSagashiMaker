@@ -23,8 +23,9 @@ https://machigaesagashi.site <br>
 - Firebase
   - Cloud Firestore
   - Firebase Hosting
-  - Firebase Authentication
-- GitHub Actions CI/CD
+  - Firebase Authentication(Twitter ログイン)
+- GitHub Actions(CI/CD)
+- Rollbar(エラーモニタリング)
 
 # CI/CD
 
