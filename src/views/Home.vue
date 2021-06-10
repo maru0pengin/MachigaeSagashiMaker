@@ -2,14 +2,14 @@
   <div class="min-h-screen pb-10">
     <Loading v-bind:loading="loading" />
     <transition>
-      <div v-show="!loading" class="my-2 mx-auto w-11/12">
+      <div v-show="!loading" class="mt-24 mb-20 mx-auto w-11/12">
         <img
-          src="@/assets/logo_large.png"
+          src="@/assets/logo/logo_large.png"
           class="w-[600px] mt-4 mb-8 mx-auto"
         />
-        <router-link to="/upload" class="start_button">
+        <button @click="gotoCreate" class="create_button">
           まちがいさがしを作る
-        </router-link>
+        </button>
         <div class="flex mx-3 mb-2 justify-center md:justify-start">
           <input
             type="text"
@@ -19,9 +19,10 @@
             required
           />
         </div>
-        <!--
+
         開発途中であるため、告知なくデータの削除等を行う可能性があります。
         あらかじめご了承ください。
+        <!--
         <div class="description flex mr-auto pl-4 pt-4">お知らせ</div>
         <div class="flex flex-col pl-4 pt-4 text-sm">
           <div class="mr-auto">2021/5/19 ログイン機能を追加しました</div>
@@ -38,7 +39,7 @@
             <button
               type="primary"
               @click="gotoGame(quizze.id)"
-              class="focus:outline-none m-1 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              class="focus:outline-none m-1 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
             >
               <div
                 v-show="!loading"
@@ -66,10 +67,6 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
-import Vue from 'vue'
-import VueMeta from 'vue-meta'
-Vue.use(VueMeta)
-
 export default {
   data() {
     return {
@@ -91,6 +88,7 @@ export default {
     document.head.appendChild(script)
     //スクロール位置を指定
     scrollTo(0, 0)
+
     //const startTime = performance.now()
     //間違え問題を取得
     this.db
@@ -146,6 +144,12 @@ export default {
         params: { id: id },
       })
     },
+    gotoCreate() {
+      this.$router.push({
+        name: 'imageUpload',
+        query: this.$route.query,
+      })
+    },
   },
 }
 </script>
@@ -156,6 +160,7 @@ h2
   margin-top: 20px
 h3
   font-size: 20px
+
 .v-leave-active,
 .v-enter-active
   transition: opacity 1.5s
@@ -163,10 +168,8 @@ h3
 .v-leave-to
   opacity: 0
 
-.start_button
+.create_button
   transition: all 0.25s ease
-  &:active
-    letter-spacing: 4px
   cursor: pointer
-  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px]
+  @apply border-2 border-blue-400 text-2xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 px-8 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none md:hover:tracking-widest
 </style>

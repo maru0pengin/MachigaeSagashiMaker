@@ -1,21 +1,24 @@
 <template>
-  <div class="my-14 flex justify-center">
+  <div class="my-36 flex justify-center">
     <Loading v-bind:loading="loading" />
     <div v-show="!loading" class="main-card bg-white shadow">
-      <p class="font-bold text-xl pl-2 pt-2">{{ title }}</p>
-      <p class="text-right text-sm pl-2 pr-2">{{ name }}</p>
+      <p class="font-bold text-xl pl-2 pt-1">{{ title }}</p>
+
       <div class="flex items-end">
         <div class="text-left px-2 text-xl">
           間違い:{{ score }}/{{ differences.length }}
         </div>
         <div class="px-4">Timer:{{ displayTimer }}</div>
+        <div class="ml-auto text-sm pl-2 pr-2">{{ name }}</div>
       </div>
       <hr />
 
       <div v-if="!isStart" class="start-cover">
         <div class="flex flex-col bg-white rounded-2xl p-6">
           <div class="my-2">
-            間違いは{{ differences.length }}個あります。<br />
+            間違いは<span class="text-lg font-bold"
+              >{{ differences.length }}個</span
+            >あります。<br />
             上の画像と見比べて、<span class="text-lg font-bold">下の画像</span
             >の間違いを<br />タップ・クリックしよう！！
           </div>
@@ -31,12 +34,12 @@
           </button>
         </div>
       </div>
-      <div class="mt-4">
+      <div class="mt-2">
         <div class="mx-auto">
           <p class="text-left text-xl font-bold px-2">みほん</p>
           <img :src="correctImgPath" class="border-2 w-[400px] mx-auto" />
         </div>
-        <p class="py-2">
+        <p class="pt-2">
           <span class="font-bold">下の画像の間違い</span
           >をタップ・クリックしよう!
         </p>
@@ -52,7 +55,8 @@
         クリア！！
       </h3>
       <p class="mx-auto my-2 text-xl">
-        {{ displayTimer }}秒で見つけられました！
+        <span class="font-bold text-2xl">{{ displayTimer }}秒</span
+        >で見つけられました！
       </p>
       <div class="mx-auto flex flex-col justify-center items-center mt-2">
         <button
@@ -134,7 +138,9 @@ export default {
   },
   mounted: async function() {
     //スクロール位置を指定
-    scrollTo(0, 110)
+    if (window.innerWidth < 770) scrollTo(0, 78)
+    else scrollTo(0, 0)
+
     //間違え位置の取得
     let docRef = await this.db.collection('quizzes').doc(this.id)
     docRef
@@ -304,9 +310,13 @@ export default {
       this.removeAllGameLoops()
       this.timer = 0
       let docRef = await this.db.collection('quizzes').doc(this.id)
-      docRef.update({
-        playedCount: firebase.firestore.FieldValue.increment(1),
-      })
+      await docRef
+        .update({
+          playedCount: firebase.firestore.FieldValue.increment(1),
+        })
+        .catch((err) => {
+          this.$rollbar.error(err)
+        })
       //クリアフラグを少し遅らせ、ボタンの自動クリックを防ぐ
       await setTimeout(() => {
         this.isCrear = true
@@ -334,7 +344,7 @@ export default {
 .start-cover {
   background-color: rgb(50, 50, 50, 0.95);
   width: 416px;
-  height: 580px;
+  height: 565px;
   @apply absolute z-10 flex justify-center items-center;
 }
 .clear_button {
@@ -342,10 +352,7 @@ export default {
 }
 .start_button {
   transition: all 0.25s ease;
-  &:active {
-    letter-spacing: 4px;
-  }
   cursor: pointer;
-  @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-8 mt-4 py-2 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none active:transition hover:tracking-[10px];
+  @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 py-2 px-8 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none md:hover:tracking-widest;
 }
 </style>

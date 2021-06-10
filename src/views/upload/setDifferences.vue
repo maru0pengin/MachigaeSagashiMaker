@@ -8,7 +8,7 @@
     </transition>
     <h3 class="description">間違え位置を設定してください</h3>
     <button
-      @click="showCorrent"
+      @click="showCorrect"
       class="block py-1 ml-auto text-blue-400 font-bold focus:outline-none"
     >
       <p v-if="isShowCorrect">見本画像を閉じる</p>
@@ -49,6 +49,7 @@ export default {
     defaltIncorrect: String,
   },
   mounted: async function() {
+    scrollTo(0, 0)
     // 画像が渡されてない場合は、アップロード画面へ飛ばす
     if (!this.correctImage || !this.incorrectImage) {
       this.$router.push({ name: 'imageUpload', query: this.$route.query })
@@ -115,7 +116,7 @@ export default {
       })
       this.scene.addChild(latest.obj)
     },
-    showCorrent() {
+    showCorrect() {
       this.isShowCorrect = !this.isShowCorrect
     },
     gotoNext() {

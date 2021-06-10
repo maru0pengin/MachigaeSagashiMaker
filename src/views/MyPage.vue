@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen-1/2 flex justify-center my-16">
+  <div class="min-h-screen flex justify-center my-28">
     <Loading v-bind:loading="loading" />
     <transition>
       <div
@@ -76,8 +76,9 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 import Loading from '@/components/Loading'
-import firebase from 'firebase'
 import Modal from '@/components/Modal'
 export default {
   data() {
@@ -110,6 +111,7 @@ export default {
     },
   },
   mounted: async function() {
+    scrollTo(0, 0)
     if (this.user.uid) {
       // ユーザー情報から作品のリファレンスを取得
       let userRef = await this.db.collection('users').doc(this.user.uid)
@@ -149,9 +151,13 @@ export default {
         .update({
           works: firebase.firestore.FieldValue.arrayRemove(quizRef),
         })
+        .catch((err) => {
+          this.$rollbar.error(err)
+        })
       //対象の間違え探しを削除
-      await quizRef.delete().catch((error) => {
-        console.error('Error removing document: ', error)
+      await quizRef.delete().catch((err) => {
+        this.$rollbar.error(err)
+        console.error('Error removing document: ', err)
       })
       this.works = this.works.filter((work) => work.id !== this.selectedWorkId)
       this.closeModal()
@@ -179,7 +185,7 @@ export default {
 
 .v-leave-active,
 .v-enter-active
-  transition: opacity 0.5s
+  transition: opacity 1.5s
 .v-enter,
 .v-leave-to
   opacity: 0

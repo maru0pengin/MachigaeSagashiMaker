@@ -91,6 +91,7 @@ export default {
     incorrectImage: String,
   },
   mounted() {
+    scrollTo(0, 0)
     // 画像のアップロードが住んでいない場合は、アップロード画面へ飛ばす
     let recaptchaScript = document.createElement('script')
     recaptchaScript.setAttribute('src', 'opencv.js')

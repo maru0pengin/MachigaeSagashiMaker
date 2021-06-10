@@ -1,14 +1,11 @@
 <template>
-  <div>
-    <div class="h-screen" />
-    <div class="background">
-      <Loading v-bind:loading="true" />
-    </div>
+  <div class="h-[85vh]">
+    <FullScreenLoading v-bind:loading="true" />
   </div>
 </template>
 
 <script>
-import Loading from '@/components/Loading'
+import FullScreenLoading from '@/components/FullScreenLoading'
 import Firebase from './../firebase'
 
 import firebase from 'firebase/app'
@@ -25,7 +22,7 @@ export default {
     }
   },
   components: {
-    Loading,
+    FullScreenLoading,
   },
   props: {
     isLogin: { type: Boolean, default: false },
@@ -39,6 +36,10 @@ export default {
         Firebase.logout()
       }, 1000)
     }
+    //15秒待ってもユーザーステータスが変わらなかったらホームへ移動
+    setTimeout(() => {
+      if (this.$route.path !== '/') this.$router.push('/')
+    }, 15000)
   },
   computed: {
     user() {
@@ -76,14 +77,21 @@ export default {
                   displayName: this.displayName,
                   twitterId: this.twitterId,
                 })
+                .catch((err) => {
+                  this.$rollbar.error(err)
+                })
               unsubscribe()
             }
           })
         //Authのユーザー情報も更新(TwitterIDは更新していない)
-        this.user.updateProfile({
-          displayName: this.displayName,
-          photoURL: this.photoURL,
-        })
+        this.user
+          .updateProfile({
+            displayName: this.displayName,
+            photoURL: this.photoURL,
+          })
+          .catch((err) => {
+            this.$rollbar.error(err)
+          })
       }
       this.$router.push('/')
     },

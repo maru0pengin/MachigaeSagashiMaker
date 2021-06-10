@@ -27,18 +27,13 @@ export default {
   components: {
     Navigation,
   },
-  methods: {
-    gotoContact() {
-      window.open(`https://forms.gle/1uCV8gduy8PZu4jE9`)
-    },
-  },
 }
 </script>
 <style>
 #app {
   text-align: center;
   color: #2c3e50;
-  font-family: arial black;
+  @apply font-sans;
 }
 .description {
   @apply font-bold text-gray-900 text-xl text-blue-500;

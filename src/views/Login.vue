@@ -1,13 +1,13 @@
 <template>
   <div class="flex justify-center">
-    <div class="my-20 mx-10">
+    <div class="mt-40 mb-24 mx-10">
       <div class="bg-white rounded-xl border-4 py-6 flex flex-col items-center">
         ボタンをクリックすると<br />Twitterのログイン画面へ遷移します。
         <button
           @click="gotoLogin"
           class="button_twitter m-4 focus:outline-none"
         >
-          <img src="@/assets/Twitter_white.png" class="w-5 h-5" />
+          <img src="@/assets/icons/Twitter_white.svg" class="w-6 h-6" />
           <p class="text-white pl-2">Twitterでログイン</p>
         </button>
         <hr width="400" />

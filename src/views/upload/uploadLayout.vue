@@ -1,10 +1,10 @@
 <template>
-  <div class="h-full">
-    <div class="mt-14 w-3/4 mx-auto">
+  <div>
+    <div class="mt-28 w-3/4 mx-auto">
       <UploadSteps />
     </div>
 
-    <div class="min-w-screen flex justify-center my-16">
+    <div class="min-w-screen flex justify-center mt-10 mb-24">
       <div
         class="flex flex-col max-w-md bg-white py-6 px-10 rounded-xl items-center shadow-lg border-4"
       >

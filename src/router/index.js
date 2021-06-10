@@ -1,16 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Meta from 'vue-meta'
+
 
 Vue.use(VueRouter)
-Vue.use(Meta, {
-  keyName: 'metaInfo',
-  attribute: 'data-vue-meta',
-  ssrAttribute: 'data-vue-meta-server-rendered',
-  tagIDKeyName: 'vmid',
-  refreshOnceOnNavigation: true
-})
 
 const routes = [
   {
@@ -21,13 +14,13 @@ const routes = [
   {
     path: '/play/:id',
     name: 'Play',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Play.vue'),
+    component: () => import('@/views/Play.vue'),
     props: true,
   },
   {
     path: '/_play/:id',
     redirect: '/play/:id',
-    component: () => import(/* webpackChunkName: "about" */ '../views/_Play.vue'),
+    component: () => import('@/views/_Play.vue'),
   },
   {
     path: '/test/',
@@ -37,26 +30,23 @@ const routes = [
     path: '/_test/',
     component: () => import(/* webpackChunkName: "about" */ '../views/_test.vue'),
   },
-  {
-    path: '/_test2/',
-    component: () => import(/* webpackChunkName: "about" */ '../views/_test2.vue'),
-  },
+
   {
     path: '/login/',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue'),
+    component: () => import('@/views/Login.vue'),
     props: true,
   },
   {
     path: '/loading/',
     name: 'login_logout_loading',
-    component: () => import(/* webpackChunkName: "about" */ '../views/LoginLogoutLoading.vue'),
+    component: () => import('@/views/LoginLogoutLoading.vue'),
     props: true,
   },
   {
     path: '/my_page/',
     name: 'MyPage',
-    component: () => import(/* webpackChunkName: "about" */ '../views/MyPage.vue'),
+    component: () => import('@/views/MyPage.vue'),
   },
   // 問題アップロード画面
   {
@@ -81,6 +71,10 @@ const routes = [
         props: true,
       },
       {
+        path: 'test',
+        component: () => import('@/views/upload/test.vue'),
+      },
+      {
         path: 'setInformations',
         name: 'setInformations',
         component: () => import('@/views/upload/setInformations.vue'),
@@ -99,7 +93,13 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes:routes,
 })
+
+//自分自身を呼び出した際にエラーをキャッチ
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default router
