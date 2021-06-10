@@ -32,17 +32,17 @@
       ></canvas>
     </div>
 
-    <button @click="labelling" class="mt-20">Try</button
-    ><button @click="clear" class="mt-20">clear</button>
-    {{ differencesNum }}
-    <Modal v-bind:show="isShowModal" @close="closeModal">
-      <div class="mx-auto">
+    <button @click="clear" class="main_button mt-8">やり直す</button>
+    <button @click="labelling" class="main_button mt-8 ml-4 ">OK</button>
+  
+    <LabelModal v-bind:show="isShowModal" @close="closeModal">
+      <div class="mx-auto ">
         <h3 class="description">
-          トリミング結果
+          間違い位置は{{differencesNum}}個です
         </h3>
       </div>
-      <div class="w-[300px] mx-auto mt-10">
-        <img src="@/assets/test.png" class="border-4 absolute" />
+      <div class="w-[400px] h-[225px] mt-4">
+        <img src="@/assets/test.png" class="border-4 absolute opacity-50" />
         <canvas
           id="resultimg"
           ref="dstimg"
@@ -64,16 +64,16 @@
           </button>
         </div>
       </div>
-    </Modal>
+    </LabelModal>
   </div>
 </template>
 
 <script>
-import Modal from '@/components/Modal'
+import LabelModal from '@/components/LabelModal'
 export default {
   name: 'test',
   components: {
-    Modal,
+    LabelModal,
   },
   data() {
     return {
