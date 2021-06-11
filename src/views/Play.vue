@@ -50,7 +50,7 @@
         />
       </div>
     </div>
-    <ClearModal v-bind:show="isCrear">
+    <Modal v-bind:show="isCrear" v-bind:klass="'w-[350px]'">
       <h3 class="mx-auto mt-4 font-bold text-4xl text-yellow-400">
         クリア！！
       </h3>
@@ -81,7 +81,7 @@
           戻る
         </button>
       </div>
-    </ClearModal>
+    </Modal>
   </div>
 </template>
 
@@ -93,7 +93,7 @@ const HEIGHT = 225
 
 import * as PIXI from 'pixi.js' // node_modulesから PIXI.jsをインポート
 import Loading from '@/components/Loading'
-import ClearModal from '@/components/ClearModal'
+import Modal from '@/components/Modal'
 import { getAuthor } from '@/utils/get_author'
 
 export default {
@@ -119,7 +119,7 @@ export default {
   },
   components: {
     Loading,
-    ClearModal,
+    Modal,
   },
   created: function() {
     this.db = firebase.firestore() // dbインスタンスを初期化

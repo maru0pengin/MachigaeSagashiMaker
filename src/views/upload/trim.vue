@@ -33,7 +33,7 @@
         <canvas id="incorrect" width="100" height="100" />
       </div>
       <br />
-      <Modal v-bind:show="isShowModal" @close="closeModal">
+      <Modal v-bind:show="isShowModal" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'" @close="closeModal">
         <div class="mx-auto">
           <h3 class="description">
             トリミング結果
