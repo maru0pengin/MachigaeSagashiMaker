@@ -60,7 +60,7 @@
       </div>
     </transition>
 
-    <Modal v-bind:show="isShowModal">
+    <Modal v-bind:show="isShowModal" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'">
       <p class="text-xl">間違え探しを削除しますか？</p>
       <div class="text-sm mt-2">
         <p class="text-left">

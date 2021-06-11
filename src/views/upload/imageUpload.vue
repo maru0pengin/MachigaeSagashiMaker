@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal v-bind:show="isShowModal" @close="toggleModal">
+    <Modal v-bind:show="isShowModal" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'" @close="toggleModal">
       <p class="mx-auto description">まちがいさがしを作ろう！</p>
       <div class="text-sm mt-2">
         <div class="text-left">
