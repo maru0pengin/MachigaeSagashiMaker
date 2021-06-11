@@ -6,7 +6,7 @@
         <img src="@/assets/test.png" width="300" class="mx-auto border-2" />
       </div>
     </transition>
-    <h3 class="description">間違え位置を設定してください</h3>
+    <h3 class="description">間違え位置を塗りつぶしてください</h3>
     <button
       @click="showCorrect"
       class="block py-1 ml-auto text-blue-400 font-bold focus:outline-none"
@@ -14,6 +14,26 @@
       <p v-if="isShowCorrect">見本画像を閉じる</p>
       <p v-else>見本画像を確認</p>
     </button>
+    <div class="flex mr-auto ">
+      <button class="font-bold w-16 h-20 mr-6" @click="changeThickness(50)">
+        <p class="text-center text-2xl">
+          太
+        </p>
+        <div class="bg-red-500 rounded-full mx-auto w-[50px]  h-[50px]"></div>
+      </button>
+      <button class="font-bold w-16 h-20 mr-6" @click="changeThickness(30)">
+        <p class="text-center text-2xl">
+          中
+        </p>
+        <div class="bg-red-500 rounded-full mx-auto w-[30px] h-[30px]"></div>
+      </button>
+      <button class="font-bold w-16 h-20" @click="changeThickness(10)">
+        <p class="text-center text-2xl">
+          細
+        </p>
+        <div class="bg-red-500 rounded-full mx-auto w-[10px] h-[10px]"></div>
+      </button>
+    </div>
     <div class="w-[400px] h-[225px] mx-auto ">
       <img src="@/assets/test.png" class="border-4 absolute" />
       <canvas
@@ -32,13 +52,16 @@
       ></canvas>
     </div>
 
-    <button @click="clear" class="main_button mt-8">やり直す</button>
+    <button @click="clear" class="main_button mt-8">クリア</button>
     <button @click="labelling" class="main_button mt-8 ml-4 ">OK</button>
-  
-    <LabelModal v-bind:show="isShowModal" @close="closeModal">
+
+    <Modal v-bind:show="isShowModal" @close="closeModal">
       <div class="mx-auto ">
-        <h3 class="description">
-          間違い位置は{{differencesNum}}個です
+        <h3 class="font-bold text-gray-900 text-lg">
+          間違いは<span class="text-blue-500 text-2xl">{{
+            differencesNum
+          }}</span
+          >つ設定されています
         </h3>
       </div>
       <div class="w-[400px] h-[225px] mt-4">
@@ -60,20 +83,20 @@
         </div>
         <div class="ml-auto">
           <button class="main_button mt-4 mx-2" @click="gotoNext">
-            次へ
+            OK
           </button>
         </div>
       </div>
-    </LabelModal>
+    </Modal>
   </div>
 </template>
 
 <script>
-import LabelModal from '@/components/LabelModal'
+import Modal from '@/components/Modal'
 export default {
   name: 'test',
   components: {
-    LabelModal,
+    Modal,
   },
   data() {
     return {
@@ -209,10 +232,13 @@ export default {
     closeModal() {
       this.isShowModal = false
     },
-    showCorrect () {
+    showCorrect() {
       this.isShowCorrect = !this.isShowCorrect
     },
-    gotoNext() {}
+    changeThickness(thickness) {
+      this.context.lineWidth = thickness
+    },
+    gotoNext() {},
   },
   beforeDestroy() {
     document.removeEventListener('touchmove', this.handleTouchMove, {
