@@ -1,7 +1,7 @@
 <template>
   <transition>
     <div id="modal" v-show="show" class="modal-background" @click.self="close">
-      <div class="modal-content">
+      <div class="modal-content" v-bind:class="[klass]">
         <div class="flex flex-col items-start p-4">
           <slot />
         </div>
@@ -20,6 +20,7 @@ export default {
   },
   props: {
     show: Boolean,
+    klass: String
   },
   methods: {
     close() {
@@ -35,7 +36,7 @@ export default {
   @apply flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 z-30
 .modal-content
   max-height: 90vh
-  @apply rounded-lg bg-white w-[350px]
+  @apply rounded-lg bg-white
 
 .v-leave-active,
 .v-enter-active
