@@ -33,15 +33,18 @@
       <div class="font-bold text-lg mr-auto">太さを選択</div>
       <div class="flex items-center">
         <button
-          v-for="(buttonItem, key) in buttonItems"
+          v-for="(buttonItem, key) in [50, 40, 30, 20, 10]"
           :key="key"
           class="font-bold w-16 h-16 focus:outline-none"
           v-bind:class="{ button_border: thickness === buttonItem }"
           @click="changeThickness(buttonItem)"
         >
           <div
-            class="bg-red-500 rounded-full mx-auto"
-            v-bind:class="[`w-[${buttonItem}px]`, `h-[${buttonItem}px]`]"
+            class="rounded-full mx-auto bg-red-500"
+            v-bind:style="{
+              width: `${buttonItem}px`,
+              height: `${buttonItem}px`,
+            }"
           ></div>
         </button>
       </div>
@@ -93,7 +96,7 @@
 <script>
 import Modal from '@/components/Modal'
 export default {
-  name: 'test',
+  name: 'setDifferences',
   components: {
     Modal,
   },
@@ -108,11 +111,8 @@ export default {
       positionY: null,
       differencesNum: 0,
       isShowCorrect: false, //見本画像を表示するかのフラグ
-      test: 'aiueo',
-      buttonItems: [50, 40, 30, 20, 10],
+      buttonItems: [],
       thickness: 30,
-      labels: null,
-      centroids: [],
     }
   },
   props: {
@@ -174,7 +174,6 @@ export default {
       this.context.stroke()
     },
     touchStart(e) {
-      this.test = 'test'
       this.isMobile = true
       var x = e.changedTouches[0].clientX - this.positionX
       var y = e.changedTouches[0].clientY - this.positionY
@@ -221,7 +220,7 @@ export default {
           floatCentroids
         )) - 1
       //重心を取得
-      await this.getCenters(floatCentroids)
+      //await this.getCenters(floatCentroids)
       //ラベリングのカラー付け
       src = await this.colouring(markers, src)
       this.$cv.imshow('resultimg', src)
@@ -240,13 +239,9 @@ export default {
       } else this.isShowModal = true
     },
     async colouring(markers, src) {
-      let result = []
       for (let i = 0; i < markers.rows; i++) {
-        let col = []
         for (let j = 0; j < markers.cols; j++) {
           let num = markers.intPtr(i, j)[0]
-          col.push(num)
-
           if (num != 0) {
             //ランダムな色を割り当てる
             src.ucharPtr(i, j)[num % 3] = 200
@@ -254,19 +249,17 @@ export default {
             src.ucharPtr(i, j)[(num + 2) % 3] = num * 50
           }
         }
-        result.push(col)
       }
-      this.labels = result
       return src
     },
-    async getCenters(markers) {
-      for (let i = 1; i < markers.rows; i++) {
-        this.centroids.push({
-          x: markers.doublePtr(i, 0)[0],
-          y: markers.doublePtr(i, 1)[0],
-        })
-      }
-    },
+    // async getCenters(markers) {
+    //   for (let i = 1; i < markers.rows; i++) {
+    //     this.labels.push({
+    //       x: parseInt(markers.doublePtr(i, 0)[0]),
+    //       y: parseInt(markers.doublePtr(i, 1)[0]),
+    //     })
+    //   }
+    // },
     loadImg() {
       let src = this.$refs.drawimg
       let ctx = src.getContext('2d')
@@ -295,8 +288,6 @@ export default {
       this.positionY = clientRect.top
     },
     gotoNext() {
-      console.log(this.labels)
-      console.log(this.centroids)
       this.$router.push({
         name: 'setInformations',
         query: this.$route.query,
@@ -305,9 +296,7 @@ export default {
           incorrectImage: this.incorrectImage,
           defaltCorrect: this.defaltCorrect,
           defaltIncorrect: this.defaltIncorrect,
-          differences: this.differences,
-          labels: this.labels,
-          centroids: this.centroids,
+          differencesImage: this.canvas.toDataURL('image/jpeg'),
         },
       })
     },

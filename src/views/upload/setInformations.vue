@@ -102,8 +102,7 @@ export default {
     incorrectImage: String,
     defaltCorrect: String,
     defaltIncorrect: String,
-    labels: Array,
-    centroids: Object,
+    differencesImage: String,
   },
   created: function() {
     Firebase.onAuth()
@@ -134,8 +133,7 @@ export default {
         }
         let quiz = [
           {
-            labels: this.labels,
-            //centroids: this.centroids,
+            differencesImage: this.differencesImage,
             images: images,
           },
         ]
