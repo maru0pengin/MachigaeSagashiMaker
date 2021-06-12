@@ -23,15 +23,6 @@ const routes = [
     component: () => import('@/views/_Play.vue'),
   },
   {
-    path: '/test/',
-    component: () => import(/* webpackChunkName: "about" */ '../views/test.vue'),
-  },
-  {
-    path: '/_test/',
-    component: () => import(/* webpackChunkName: "about" */ '../views/_test.vue'),
-  },
-
-  {
     path: '/login/',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
@@ -71,13 +62,15 @@ const routes = [
         props: true,
       },
       {
-        path: 'test',
-        component: () => import('@/views/upload/test.vue'),
-      },
-      {
         path: 'setInformations',
         name: 'setInformations',
         component: () => import('@/views/upload/setInformations.vue'),
+        props: true,
+      },
+      {
+        path: '_setDifferences',
+        name: '_setDifferences',
+        component: () => import('@/views/upload/_setDifferences.vue'),
         props: true,
       },
       {

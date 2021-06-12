@@ -33,7 +33,11 @@
         <canvas id="incorrect" width="100" height="100" />
       </div>
       <br />
-      <Modal v-bind:show="isShowModal" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'" @close="closeModal">
+      <Modal
+        v-bind:show="isShowModal"
+        v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'"
+        @close="closeModal"
+      >
         <div class="mx-auto">
           <h3 class="description">
             トリミング結果
@@ -93,11 +97,6 @@ export default {
   mounted() {
     scrollTo(0, 0)
     // 画像のアップロードが住んでいない場合は、アップロード画面へ飛ばす
-    let recaptchaScript = document.createElement('script')
-    recaptchaScript.setAttribute('src', 'opencv.js')
-    document.head.appendChild(recaptchaScript)
-    //let mat = cv.imread(this.correctImage)
-    //console.log(mat)
     if (!this.correctImage || !this.incorrectImage) this.gotoBack()
   },
   data() {

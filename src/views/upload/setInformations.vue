@@ -41,7 +41,11 @@
           保存して投稿完了
         </button>
       </div>
-      <Modal v-bind:show="isShowModal" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'" @close="description">
+      <Modal
+        v-bind:show="isShowModal"
+        v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'"
+        @close="description"
+      >
         <p class="text-xl">公開とは?</p>
         <div class="text-sm mt-2">
           <p class="text-left">
@@ -98,7 +102,8 @@ export default {
     incorrectImage: String,
     defaltCorrect: String,
     defaltIncorrect: String,
-    differences: Array,
+    labels: Array,
+    centroids: Object,
   },
   created: function() {
     Firebase.onAuth()
@@ -122,11 +127,6 @@ export default {
           uid = this.user?.uid
           userRef = this.db.collection('users').doc(uid)
         }
-
-        let submitDifferences = this.differences.map((element) => {
-          delete element.obj
-          return element
-        })
         let quizzesCollection = this.db.collection('quizzes')
         let images = {
           correct: this.correctImage,
@@ -134,7 +134,8 @@ export default {
         }
         let quiz = [
           {
-            differences: submitDifferences,
+            labels: this.labels,
+            //centroids: this.centroids,
             images: images,
           },
         ]
