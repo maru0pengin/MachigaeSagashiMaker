@@ -5,7 +5,13 @@
     <router-view />
 
     <div class="bg-blue font-sans h-44 text-white p-10">
-      <p class="text-sm">開発・運営 © 2021 @pengin_enginner ペンギン丸</p>
+      <router-link to="/faq" class="px-1">
+        FAQ
+      </router-link>
+      <button @click="gotoContact" class="px-1 focus:outline-none">
+        お問い合わせ
+      </button>
+      <p class="text-xs">開発・運営 © 2021 @pengin_enginner ペンギン丸</p>
     </div>
   </div>
 </template>
@@ -26,6 +32,11 @@ export default {
   },
   components: {
     Navigation,
+  },
+  methods: {
+    gotoContact() {
+      window.open(`https://forms.gle/1uCV8gduy8PZu4jE9`)
+    },
   },
 }
 </script>
