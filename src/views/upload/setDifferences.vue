@@ -112,7 +112,7 @@ export default {
       differencesNum: 0,
       isShowCorrect: false, //見本画像を表示するかのフラグ
       buttonItems: [],
-      thickness: 30,
+      thickness: 30,//ペンの太さ
     }
   },
   props: {

@@ -23,6 +23,12 @@ const routes = [
     component: () => import('@/views/_Play.vue'),
   },
   {
+    path: '/play_test/:id',
+    name: 'Play_test',
+    component: () => import('@/views/Play_test.vue'),
+    props: true,
+  },
+  {
     path: '/login/',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
