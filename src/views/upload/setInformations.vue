@@ -211,6 +211,7 @@ export default {
         params: {
           completedFlag: true,
           id: this.id,
+          title: this.title,
         },
       })
     },

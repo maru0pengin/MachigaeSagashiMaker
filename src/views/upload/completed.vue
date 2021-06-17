@@ -23,6 +23,14 @@
     <div class="flex font-bold items-center text-sm my-2">
       SHARE
       <div class="w-full mr-2 flex justify-end">
+        <ShareNetwork
+          network="line"
+          :url="location"
+          :title="title"
+          description="まちがいさがしメーカーで間違い探しを作成しました！是非遊んでみましょう！"
+        >
+          <img src="@/assets/icons/line.svg" class="w-8 h-8 mr-2" />
+        </ShareNetwork>
         <button class="block focus:outline-none" type="primary" @click="tweet">
           <img src="@/assets/icons/Twitter_blue.svg" class="w-8 h-8" />
         </button>
@@ -38,11 +46,14 @@
 </template>
 
 <script>
+import { ShareNetwork } from '/node_modules/vue-social-sharing/dist/vue-social-sharing'
+
 export default {
   name: 'completed',
   props: {
     completedFlag: Boolean,
     id: String,
+    title: String,
   },
   data() {
     return {
@@ -50,6 +61,7 @@ export default {
       message: 'Copy These Text',
     }
   },
+  components: { ShareNetwork },
   computed: {
     tweetURL: function() {
       const url = encodeURI(`${this.location}`)
@@ -61,7 +73,7 @@ export default {
     if (!this.completedFlag) {
       this.$router.push({ name: 'imageUpload', query: this.$route.query })
     } else {
-      this.location = `${location.protocol}//${location.host}/play/${this.id}`
+      this.location = `https://machigaesagashi.site/play/${this.id}`
     }
   },
   methods: {

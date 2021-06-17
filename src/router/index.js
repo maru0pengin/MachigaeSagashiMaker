@@ -45,6 +45,11 @@ const routes = [
     name: 'MyPage',
     component: () => import('@/views/MyPage.vue'),
   },
+  {
+    path: '/faq/',
+    name: 'FAQ',
+    component: () => import('@/views/FAQ.vue'),
+  },
   // 問題アップロード画面
   {
     path: '/upload',
