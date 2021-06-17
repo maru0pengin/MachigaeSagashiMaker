@@ -1,5 +1,6 @@
 <template>
   <div class="my-36 flex justify-center">
+    {{ classObject }}
     <Loading v-bind:loading="loading" />
     <div v-show="!loading" class="main-card bg-white shadow">
       <p class="font-bold text-xl pl-2 pt-1">{{ title }}</p>
@@ -16,8 +17,7 @@
       <div v-if="!isStart" class="start-cover">
         <div class="flex flex-col bg-white rounded-2xl p-6">
           <div class="my-2">
-            間違いは<span class="text-lg font-bold"
-              >{{ differencesNum }}個</span
+            間違いは<span class="text-lg font-bold">{{ differencesNum }}個</span
             >あります。<br />
             上の画像と見比べて、<span class="text-lg font-bold">下の画像</span
             >の間違いを<br />タップ・クリックしよう！！
@@ -46,23 +46,25 @@
         <div class="mx-auto relative">
           <p class="text-left text-xl font-bold px-2">まちがい</p>
           <div class="relative border-2 w-[400px] mx-auto">
-            
-            <div 
-              class="absolute border-red-400 border-[6px] rounded-full mx-auto w-10 h-10 top-[150px] left-[150px]"
-              v-bind:style="{
-                top: `${centroids[0].y}px`,
-                left: `${centroids[0].x}px`,
-              }"
+            <div
+              class="absolute border-red-400 border-[6px] rounded-full mx-auto w-[40px] h-[40px]"
+              v-bind:style="classObject[0]"
+            ></div>
+            <div
+              class="absolute border-red-400 border-[6px] rounded-full mx-auto w-10 h-10"
+              v-bind:style="classObject[1]"
+            ></div>
+            <div
+              class="absolute border-red-400 border-[6px] rounded-full mx-auto w-10 h-10"
+              v-bind:style="classObject[2]"
             ></div>
             <img :src="incorrectImgPath" />
-            
           </div>
-          
+
           <canvas v-show="false" id="srcimg" ref="srcimg"></canvas>
           <div v-show="false">
-            <img src="" ref="img" class=""/>
+            <img src="" ref="img" class="" />
           </div>
-  
         </div>
       </div>
     </div>
@@ -82,10 +84,7 @@
         >
           ツイートする
         </button>
-        <button
-          class="clear_button w-40 mt-1"
-          v-bind:disabled="!isCrear"
-        >
+        <button class="clear_button w-40 mt-1" v-bind:disabled="!isCrear">
           もう一度遊ぶ
         </button>
         <button
@@ -130,7 +129,7 @@ export default {
       score: 0,
       isCrear: false,
       isStart: false,
-      centroids: []
+      centroids: [],
     }
   },
   components: {
@@ -150,6 +149,22 @@ export default {
     tweetURL: function() {
       const url = encodeURI(`${location.href}`)
       return `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！%20%23まちがいさがしメーカー&url=${url}`
+    },
+    classObject: function() {
+      return [
+        {
+          top: `${this.centroids[0]?.x}px`,
+          left: `${this.centroids[0]?.y}px`,
+        },
+        {
+          top: `${this.centroids[1]?.x}px`,
+          left: `${this.centroids[1]?.y}px`,
+        },
+        {
+          top: `${this.centroids[2]?.x}px`,
+          left: `${this.centroids[2]?.y}px`,
+        },
+      ]
     },
   },
   mounted: async function() {
@@ -265,7 +280,6 @@ export default {
       //ラベリングのカラー付け
       this.getDifferences(markers)
 
-      
       src.delete()
       dst.delete()
       gray.delete()
@@ -286,19 +300,19 @@ export default {
     async getCenters(markers) {
       for (let i = 1; i < markers.rows; i++) {
         this.centroids.push({
-          x: parseInt(markers.doublePtr(i, 0)[0]),
-          y: parseInt(markers.doublePtr(i, 1)[0]),
+          x: parseInt(markers.doublePtr(i, 1)[0]) - 20,
+          y: parseInt(markers.doublePtr(i, 0)[0]) - 20,
         })
       }
       console.log(this.centroids[0].x)
       console.log(this.centroids[0].y)
     },
-    loadImg(){
+    loadImg() {
       let src = this.$refs.srcimg
       let ctx = src.getContext('2d')
       let img = this.$refs.img //new Image()
-      ctx.drawImage(img, 0 ,0) 
-    }
+      ctx.drawImage(img, 0, 0)
+    },
   },
   beforeDestroy() {
     //キャッシュからすべてのテクスチャを削除
