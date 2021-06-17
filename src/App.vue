@@ -20,16 +20,10 @@
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 import Navigation from '@/components/Navigation.vue'
-import VueMeta from 'vue-meta'
-Vue.use(VueMeta, {
-  tagIDKeyName: 'hid',
-})
-Vue.use(VueClipboard)
+import VueSocialSharing from 'vue-social-sharing'
 
+Vue.use(VueClipboard, VueSocialSharing)
 export default {
-  metaInfo: {
-    meta: [{ name: 'viewport', content: 'width=420,user-scalable=no' }],
-  },
   components: {
     Navigation,
   },
