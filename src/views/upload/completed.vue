@@ -23,6 +23,16 @@
     <div class="flex font-bold items-center text-sm my-2">
       SHARE
       <div class="w-full mr-2 flex justify-end">
+        <ShareNetwork
+          network="line"
+          :url="location"
+          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
+          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
+          quote="The hot reload is so fast it\'s near instant. - Evan You"
+          hashtags="vuejs,vite"
+        >
+          <img src="@/assets/icons/line.svg" class="w-8 h-8" />
+        </ShareNetwork>
         <button class="block focus:outline-none" type="primary" @click="tweet">
           <img src="@/assets/icons/Twitter_blue.svg" class="w-8 h-8" />
         </button>
@@ -38,6 +48,8 @@
 </template>
 
 <script>
+import { ShareNetwork } from '/node_modules/vue-social-sharing/dist/vue-social-sharing'
+
 export default {
   name: 'completed',
   props: {
@@ -50,6 +62,7 @@ export default {
       message: 'Copy These Text',
     }
   },
+  components: { ShareNetwork },
   computed: {
     tweetURL: function() {
       const url = encodeURI(`${this.location}`)
@@ -58,11 +71,11 @@ export default {
   },
   mounted() {
     //完了フラグが渡されてない場合は、アップロード画面へ飛ばす
-    if (!this.completedFlag) {
-      this.$router.push({ name: 'imageUpload', query: this.$route.query })
-    } else {
-      this.location = `${location.protocol}//${location.host}/play/${this.id}`
-    }
+    // if (!this.completedFlag) {
+    //   this.$router.push({ name: 'imageUpload', query: this.$route.query })
+    // } else {
+    //   this.location = `${location.protocol}//${location.host}/play/${this.id}`
+    // }
   },
   methods: {
     onCopy: function(e) {
