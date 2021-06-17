@@ -26,12 +26,10 @@
         <ShareNetwork
           network="line"
           :url="location"
-          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
-          quote="The hot reload is so fast it\'s near instant. - Evan You"
-          hashtags="vuejs,vite"
+          :title="title"
+          description="まちがいさがしメーカーで間違い探しを作成しました！是非遊んでみましょう！"
         >
-          <img src="@/assets/icons/line.svg" class="w-8 h-8" />
+          <img src="@/assets/icons/line.svg" class="w-8 h-8 mr-2" />
         </ShareNetwork>
         <button class="block focus:outline-none" type="primary" @click="tweet">
           <img src="@/assets/icons/Twitter_blue.svg" class="w-8 h-8" />
@@ -55,6 +53,7 @@ export default {
   props: {
     completedFlag: Boolean,
     id: String,
+    title: String,
   },
   data() {
     return {
@@ -71,11 +70,11 @@ export default {
   },
   mounted() {
     //完了フラグが渡されてない場合は、アップロード画面へ飛ばす
-    // if (!this.completedFlag) {
-    //   this.$router.push({ name: 'imageUpload', query: this.$route.query })
-    // } else {
-    //   this.location = `${location.protocol}//${location.host}/play/${this.id}`
-    // }
+    if (!this.completedFlag) {
+      this.$router.push({ name: 'imageUpload', query: this.$route.query })
+    } else {
+      this.location = `https://machigaesagashi.site/play/${this.id}`
+    }
   },
   methods: {
     onCopy: function(e) {
