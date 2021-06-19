@@ -55,7 +55,7 @@
 
           <canvas v-show="false" id="srcimg" ref="srcimg"></canvas>
           <div v-show="false">
-            <img src="" ref="img" class="" />
+            <img src="" ref="img" class="" width="400" height="225" />
           </div>
         </div>
       </div>
