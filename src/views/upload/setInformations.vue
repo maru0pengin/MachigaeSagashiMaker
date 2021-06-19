@@ -13,6 +13,7 @@
           placeholder="作品名"
           required
         />
+        <p class="px-4 text-left pt-2">制限時間を入力してください</p>
 
         <div v-if="!userStatus">
           <p class="px-4 text-left pt-2">ハンドルネームを入力してください</p>
@@ -41,7 +42,11 @@
           保存して投稿完了
         </button>
       </div>
-      <Modal v-bind:show="isShowModal" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'" @close="description">
+      <Modal
+        v-bind:show="isShowModal"
+        v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'"
+        @close="description"
+      >
         <p class="text-xl">公開とは?</p>
         <div class="text-sm mt-2">
           <p class="text-left">
