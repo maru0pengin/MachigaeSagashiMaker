@@ -1,13 +1,12 @@
 <template>
   <div class="my-36 flex justify-center">
-    {{ classObject }}
     <Loading v-bind:loading="loading" />
     <div v-show="!loading" class="main-card bg-white shadow">
       <p class="font-bold text-xl pl-2 pt-1">{{ title }}</p>
 
       <div class="flex items-end">
         <div class="text-left px-2 text-xl">
-          間違い:{{ score }}/{{ differencesNum }}
+          間違い:{{ clearedCountArray.length }}/{{ differencesNum }}
         </div>
         <div class="px-4">Timer:{{ displayTimer }}</div>
         <div class="ml-auto text-sm pl-2 pr-2">{{ name }}</div>
@@ -22,14 +21,7 @@
             上の画像と見比べて、<span class="text-lg font-bold">下の画像</span
             >の間違いを<br />タップ・クリックしよう！！
           </div>
-          <button
-            class="start_button"
-            @click="
-              () => {
-                isStart = !isStart
-              }
-            "
-          >
+          <button class="start_button" @click="gameStart">
             スタート
           </button>
         </div>
@@ -47,18 +39,18 @@
           <p class="text-left text-xl font-bold px-2">まちがい</p>
           <div class="relative border-2 w-[400px] mx-auto">
             <div
+              v-for="(classObject, index, key) in classObjects"
+              :key="key"
+              v-show="clearedCountArray.includes(index + 1)"
               class="absolute border-red-400 border-[6px] rounded-full mx-auto w-[40px] h-[40px]"
-              v-bind:style="classObject[0]"
+              v-bind:style="classObject"
             ></div>
-            <div
-              class="absolute border-red-400 border-[6px] rounded-full mx-auto w-10 h-10"
-              v-bind:style="classObject[1]"
-            ></div>
-            <div
-              class="absolute border-red-400 border-[6px] rounded-full mx-auto w-10 h-10"
-              v-bind:style="classObject[2]"
-            ></div>
-            <img :src="incorrectImgPath" />
+
+            <img
+              id="incorrectImg"
+              :src="incorrectImgPath"
+              @mousedown="downStart"
+            />
           </div>
 
           <canvas v-show="false" id="srcimg" ref="srcimg"></canvas>
@@ -84,7 +76,11 @@
         >
           ツイートする
         </button>
-        <button class="clear_button w-40 mt-1" v-bind:disabled="!isCrear">
+        <button
+          class="clear_button w-40 mt-1"
+          @click="resetGame"
+          v-bind:disabled="!isCrear"
+        >
           もう一度遊ぶ
         </button>
         <button
@@ -103,7 +99,6 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-import * as PIXI from 'pixi.js' // node_modulesから PIXI.jsをインポート
 import Loading from '@/components/Loading'
 import Modal from '@/components/Modal'
 import { getAuthor } from '@/utils/get_author'
@@ -114,22 +109,23 @@ export default {
       correctImgPath: '', //正解画像のパスを入れる
       incorrectImgPath: '', //不正解画像のパスを入れる
       differencesImage: '', //間違い位置の画像
-      app: null,
       gameLoops: [], // 毎フレーム毎に実行する関数たち
       title: null,
       name: null,
-      differences: [],
+      differences: [], //ラベリングされた配列
       differencesNum: 0,
-      textTimer: '',
-      resources: null,
       db: null,
       loading: true,
       timer: 0.0,
+      timerId: null,
       displayTimer: '0.00',
       score: 0,
       isCrear: false,
       isStart: false,
       centroids: [],
+      clearedCountArray: [],
+      ImgPositionX: null, //間違い画像の位置(x)
+      ImgPositionY: null, //間違い画像の位置(y)
     }
   },
   components: {
@@ -150,21 +146,16 @@ export default {
       const url = encodeURI(`${location.href}`)
       return `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！%20%23まちがいさがしメーカー&url=${url}`
     },
-    classObject: function() {
-      return [
-        {
-          top: `${this.centroids[0]?.x}px`,
-          left: `${this.centroids[0]?.y}px`,
-        },
-        {
-          top: `${this.centroids[1]?.x}px`,
-          left: `${this.centroids[1]?.y}px`,
-        },
-        {
-          top: `${this.centroids[2]?.x}px`,
-          left: `${this.centroids[2]?.y}px`,
-        },
-      ]
+    //正解の〇を出すためのクラス
+    classObjects: function() {
+      let array = []
+      for (let i = 0; i < this.centroids.length; i++) {
+        array.push({
+          top: `${this.centroids[i]?.x}px`,
+          left: `${this.centroids[i]?.y}px`,
+        })
+      }
+      return array
     },
   },
   mounted: async function() {
@@ -172,7 +163,6 @@ export default {
     //スクロール位置を指定
     if (window.innerWidth < 770) scrollTo(0, 78)
     else scrollTo(0, 0)
-
     //間違え位置の取得
     let docRef = await this.db.collection('quizzes').doc(this.id)
     docRef
@@ -213,20 +203,7 @@ export default {
     /**
      * 毎フレーム処理を追加する関数
      */
-    addGameLoop(gameLoopFunction) {
-      this.app.ticker.add(gameLoopFunction) // 毎フレーム処理として指定した関数を追加
-      this.gameLoops.push(gameLoopFunction) // 追加した関数は配列に保存する（後で登録を解除する時に使う）
-    },
-    removeAllScene() {
-      this.app.stage.removeChildren()
-    },
-    removeAllGameLoops() {
-      // gameLoopsに追加した関数を全部tickerから解除する
-      for (const gameLoop of this.gameLoops) {
-        this.app.ticker.remove(gameLoop)
-      }
-      this.gameLoops = [] // gameLoopsを空にする
-    },
+
     gameLoop() {
       // 毎フレームごとに処理するゲームループ
       // スコアテキストを毎フレームアップデートする
@@ -296,6 +273,7 @@ export default {
         }
         this.differences.push(col)
       }
+      console.log(this.differences)
     },
     async getCenters(markers) {
       for (let i = 1; i < markers.rows; i++) {
@@ -313,10 +291,39 @@ export default {
       let img = this.$refs.img //new Image()
       ctx.drawImage(img, 0, 0)
     },
-  },
-  beforeDestroy() {
-    //キャッシュからすべてのテクスチャを削除
-    PIXI.utils.clearTextureCache()
+    downStart(e) {
+      let x = e.layerX
+      let y = e.layerY
+      console.log(`x:${x},y:${y}`)
+      let label = this.differences[y][x]
+      console.log(label)
+      //ラベルが0では無く、回答済みでない場合に追加
+      if (label !== 0 && !this.clearedCountArray.includes(label)) {
+        this.clearedCountArray.push(label)
+        //ゲームクリア判定
+        if (this.clearedCountArray.length === this.differencesNum) {
+          this.stopTimer()
+          this.isCrear = true
+        }
+      }
+    },
+    gameStart() {
+      this.isStart = true
+      this.timerId = setInterval(() => {
+        this.timer += 0.01
+        this.displayTimer = this.timer.toFixed(2)
+      }, 10)
+    },
+    stopTimer() {
+      clearInterval(this.timerId)
+    },
+    resetGame() {
+      this.isCrear = false
+      this.isStart = false
+      this.timer = 0.0
+      this.displayTimer = '0.00'
+      this.clearedCountArray = []
+    },
   },
 }
 </script>

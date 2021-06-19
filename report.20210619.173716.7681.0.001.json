@@ -1,0 +1,388 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20210619.173716.7681.0.001.json",
+    "dumpEventTime": "2021-06-19T17:37:16Z",
+    "dumpEventTimeStamp": "1624091836167",
+    "processId": 7681,
+    "cwd": "/home/iuchi/develop/MachigaeSagashiMaker",
+    "commandLine": [
+      "/home/iuchi/.nodebrew/node/v12.16.1/bin/node",
+      "/home/iuchi/develop/MachigaeSagashiMaker/node_modules/jest-worker/build/workers/processChild.js"
+    ],
+    "nodejsVersion": "v12.16.1",
+    "glibcVersionRuntime": "2.31",
+    "glibcVersionCompiler": "2.17",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "linux",
+    "componentVersions": {
+      "node": "12.16.1",
+      "v8": "7.8.279.23-node.31",
+      "uv": "1.34.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.40.0",
+      "napi": "5",
+      "llhttp": "2.0.4",
+      "http_parser": "2.9.3",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.16.1/node-v12.16.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.16.1/node-v12.16.1.tar.gz"
+    },
+    "osName": "Linux",
+    "osRelease": "4.19.128-microsoft-standard",
+    "osVersion": "#1 SMP Tue Jun 23 12:58:10 UTC 2020",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i3-9100 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 1910600,
+        "nice": 0,
+        "sys": 259300,
+        "idle": 201779100,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i3-9100 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 1957100,
+        "nice": 0,
+        "sys": 618000,
+        "idle": 201471800,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i3-9100 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 1949200,
+        "nice": 0,
+        "sys": 709400,
+        "idle": 201392100,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i3-9100 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 1942900,
+        "nice": 0,
+        "sys": 386100,
+        "idle": 201699500,
+        "irq": 0
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "lo",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "eth0",
+        "internal": false,
+        "mac": "00:15:5d:d7:d1:d9",
+        "address": "172.28.112.245",
+        "netmask": "255.255.240.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "lo",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "eth0",
+        "internal": false,
+        "mac": "00:15:5d:d7:d1:d9",
+        "address": "fe80::215:5dff:fed7:d1d9",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 4
+      }
+    ],
+    "host": "MyComputer"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x0000000000b278f5",
+      "symbol": "report::TriggerNodeReport(v8::Isolate*, node::Environment*, char const*, char const*, std::string const&, v8::Local<v8::String>) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x00000000009f13ec",
+      "symbol": "node::OnFatalError(char const*, char const*) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000b5da9e",
+      "symbol": "v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000b5de19",
+      "symbol": "v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d0a765",
+      "symbol": " [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d0adf6",
+      "symbol": "v8::internal::Heap::RecomputeLimits(v8::internal::GarbageCollector) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d1760a",
+      "symbol": "v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d18515",
+      "symbol": "v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d1afcc",
+      "symbol": "v8::internal::Heap::AllocateRawWithRetryOrFail(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000ce19bb",
+      "symbol": "v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationType, v8::internal::AllocationOrigin) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x00000000010246ce",
+      "symbol": "v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    },
+    {
+      "pc": "0x00000000013a71b9",
+      "symbol": " [/home/iuchi/.nodebrew/node/v12.16.1/bin/node]"
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2151010304,
+    "totalCommittedMemory": 2149381216,
+    "usedMemory": 2135916360,
+    "availableMemory": 48889776,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 33088,
+        "capacity": 32808,
+        "used": 32808,
+        "available": 0
+      },
+      "new_space": {
+        "memorySize": 2097152,
+        "committedMemory": 1106856,
+        "capacity": 1047456,
+        "used": 57224,
+        "available": 990232
+      },
+      "old_space": {
+        "memorySize": 1687306240,
+        "committedMemory": 1687138656,
+        "capacity": 1677244168,
+        "used": 1677197072,
+        "available": 47096
+      },
+      "code_space": {
+        "memorySize": 954368,
+        "committedMemory": 712512,
+        "capacity": 668448,
+        "used": 668448,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 2625536,
+        "committedMemory": 2625240,
+        "capacity": 299600,
+        "used": 299600,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 457715712,
+        "committedMemory": 457715712,
+        "capacity": 457658424,
+        "used": 457658424,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 2784,
+        "used": 2784,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1047456,
+        "used": 0,
+        "available": 1047456
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 123.519,
+    "kernelCpuSeconds": 4.68672,
+    "cpuConsumptionPercent": 185.806,
+    "maxRss": 2296807424,
+    "pageFaults": {
+      "IORequired": 0,
+      "IONotRequired": 694138
+    },
+    "fsActivity": {
+      "reads": 0,
+      "writes": 0
+    }
+  },
+  "uvthreadResourceUsage": {
+    "userCpuSeconds": 57.08,
+    "kernelCpuSeconds": 1.85338,
+    "cpuConsumptionPercent": 85.4107,
+    "fsActivity": {
+      "reads": 0,
+      "writes": 0
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "LESSOPEN": "| /usr/bin/lesspipe %s",
+    "USER": "iuchi",
+    "npm_config_user_agent": "npm/7.9.0 node/v12.16.1 linux x64",
+    "npm_node_execpath": "/home/iuchi/.nodebrew/node/v12.16.1/bin/node",
+    "SHLVL": "1",
+    "npm_config_noproxy": "",
+    "HOME": "/home/iuchi",
+    "OLDPWD": "/home/iuchi/develop",
+    "PYTHON": "/usr/bin/python3",
+    "NVM_BIN": "/home/iuchi/.nvm/versions/node/v12.16.1/bin",
+    "npm_package_json": "/home/iuchi/develop/MachigaeSagashiMaker/package.json",
+    "HOMEBREW_PREFIX": "/home/linuxbrew/.linuxbrew",
+    "npm_config_userconfig": "/home/iuchi/.npmrc",
+    "WSL_DISTRO_NAME": "Ubuntu",
+    "COLOR": "1",
+    "NVM_DIR": "/home/iuchi/.nvm",
+    "npm_config_metrics_registry": "https://registry.npmjs.org/",
+    "INFOPATH": "/home/linuxbrew/.linuxbrew/share/info:",
+    "LOGNAME": "iuchi",
+    "NAME": "MyComputer",
+    "WSL_INTEROP": "/run/WSL/1781_interop",
+    "_": "/home/iuchi/.nodebrew/current/bin/npm",
+    "npm_config_prefix": "/home/iuchi/.nodebrew/node/v12.16.1",
+    "TERM": "xterm-256color",
+    "npm_config_cache": "/home/iuchi/.npm",
+    "npm_config_node_gyp": "/home/iuchi/.nodebrew/node/v12.16.1/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js",
+    "PATH": "/home/iuchi/develop/MachigaeSagashiMaker/node_modules/.bin:/home/iuchi/develop/node_modules/.bin:/home/iuchi/node_modules/.bin:/home/node_modules/.bin:/node_modules/.bin:/home/iuchi/.nodebrew/node/v12.16.1/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/iuchi/.nodebrew/current/bin:/home/iuchi/.nvm/versions/node/v12.16.1/bin:/home/iuchi/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files/WindowsApps/CanonicalGroupLimited.UbuntuonWindows_2004.2021.222.0_x64__79rhkp1fndgsc:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v10.2/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v10.2/libnvvp:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files/Microsoft SQL Server/130/Tools/Binn/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2019.5.0/:/mnt/c/Program Files/dotnet/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/Java/jdk-14.0.2/bin:/mnt/c/Program Files (x86)/QuickTime/QTSystem/:/mnt/c/opencv430/build/x64/vc15/bin:/mnt/c/Users/ryouo/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/ryouo/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/usr/local/go/bin",
+    "HOMEBREW_CELLAR": "/home/linuxbrew/.linuxbrew/Cellar",
+    "NODE": "/home/iuchi/.nodebrew/node/v12.16.1/bin/node",
+    "npm_package_name": "vue_pixi_js_sample",
+    "LANG": "C.UTF-8",
+    "LS_COLORS": "rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:",
+    "npm_lifecycle_script": "vue-cli-service build",
+    "SHELL": "/bin/bash",
+    "npm_package_version": "0.1.0",
+    "npm_lifecycle_event": "build",
+    "LESSCLOSE": "/usr/bin/lesspipe %s %s",
+    "npm_config_globalconfig": "/home/iuchi/.nodebrew/node/v12.16.1/etc/npmrc",
+    "npm_config_init_module": "/home/iuchi/.npm-init.js",
+    "PWD": "/home/iuchi/develop/MachigaeSagashiMaker",
+    "npm_execpath": "/home/iuchi/.nodebrew/node/v12.16.1/lib/node_modules/npm/bin/npm-cli.js",
+    "NVM_CD_FLAGS": "",
+    "XDG_DATA_DIRS": "/usr/local/share:/usr/share:/var/lib/snapd/desktop",
+    "HOMEBREW_REPOSITORY": "/home/linuxbrew/.linuxbrew/Homebrew",
+    "npm_command": "run-script",
+    "MANPATH": "/home/linuxbrew/.linuxbrew/share/man:",
+    "HOSTTYPE": "x86_64",
+    "WSLENV": "",
+    "INIT_CWD": "/home/iuchi/develop/MachigaeSagashiMaker",
+    "EDITOR": "vi",
+    "NODE_ENV": "production",
+    "BABEL_ENV": "production",
+    "ENV": "development",
+    "VUE_APP_BASE_API": "/dev-api",
+    "VUE_CLI_BABEL_TRANSPILE_MODULES": "true",
+    "VUE_APP_ROLLBAR_ACCESS_TOKEN": "f7d57fa9ab424093bb40775b5c4a0b1e",
+    "VUE_APP_FIREBASE_CONFIG": "{\"apiKey\": \"AIzaSyB4ZMK-t1yOlpxzJ4K0nR3EOTEioOE9TpY\",\"authDomain\": \"machigaesagashi-dev.firebaseapp.com\",\"projectId\": \"machigaesagashi-dev\",\"storageBucket\": \"machigaesagashi-dev.appspot.com\",\"messagingSenderId\": \"1088354785022\",\"appId\": \"1:1088354785022:web:c23acad09140add2ed77af\",\"measurementId\": \"G-WEJZM450VG\"}",
+    "VUE_CLI_TRANSPILE_BABEL_RUNTIME": "true",
+    "VUE_CLI_BUILD_TARGET": "app",
+    "VUE_CLI_ENTRY_FILES": "[\"/home/iuchi/develop/MachigaeSagashiMaker/src/main.js\"]",
+    "JEST_WORKER_ID": "1",
+    "FORCE_COLOR": "1"
+  },
+  "userLimits": {
+    "core_file_size_blocks": {
+      "soft": 0,
+      "hard": "unlimited"
+    },
+    "data_seg_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "file_size_blocks": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_locked_memory_bytes": {
+      "soft": 65536,
+      "hard": 65536
+    },
+    "max_memory_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "open_files": {
+      "soft": 4096,
+      "hard": 4096
+    },
+    "stack_size_bytes": {
+      "soft": 8388608,
+      "hard": "unlimited"
+    },
+    "cpu_time_seconds": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_user_processes": {
+      "soft": 50869,
+      "hard": 50869
+    },
+    "virtual_memory_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    }
+  },
+  "sharedObjects": [
+    "linux-vdso.so.1",
+    "/lib/x86_64-linux-gnu/libdl.so.2",
+    "/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "/lib/x86_64-linux-gnu/libm.so.6",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "/lib/x86_64-linux-gnu/libpthread.so.0",
+    "/lib/x86_64-linux-gnu/libc.so.6",
+    "/lib64/ld-linux-x86-64.so.2"
+  ]
+}
