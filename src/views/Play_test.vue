@@ -108,7 +108,7 @@ export default {
     return {
       correctImgPath: '', //正解画像のパスを入れる
       incorrectImgPath: '', //不正解画像のパスを入れる
-      differencesImage: '', //間違い位置の画像
+      differencesImagePath: '', //間違い位置の画像
       gameLoops: [], // 毎フレーム毎に実行する関数たち
       title: null,
       name: null,
@@ -159,7 +159,6 @@ export default {
     },
   },
   mounted: async function() {
-    this.loadImg()
     //スクロール位置を指定
     if (window.innerWidth < 770) scrollTo(0, 78)
     else scrollTo(0, 0)
@@ -179,11 +178,13 @@ export default {
           this.title = doc.data().title
           this.correctImgPath = doc.data().quiz[0].images.correct
           this.incorrectImgPath = doc.data().quiz[0].images.incorrect
-          this.differencesImage = doc.data().quiz[0].differencesImage //間違い位置の画像
+          this.differencesImagePath = doc.data().quiz[0].differencesImage //間違い位置の画像
 
+          this.differencesImage
           let img = this.$refs.img
-          img.src = this.differencesImage
+          img.src = this.differencesImagePath
 
+          await this.loadImg()
           this.labelling()
         } else {
           // doc.data() が未定義の場合
@@ -289,7 +290,12 @@ export default {
       let src = this.$refs.srcimg
       let ctx = src.getContext('2d')
       let img = this.$refs.img //new Image()
-      ctx.drawImage(img, 0, 0)
+
+      img.onload = function() {
+        src.height = img.height
+        src.width = img.width
+        ctx.drawImage(img, 0, 0)
+      }
     },
     downStart(e) {
       let x = e.layerX
