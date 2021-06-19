@@ -37,7 +37,9 @@
         </p>
         <div class="mx-auto relative">
           <p class="text-left text-xl font-bold px-2">まちがい</p>
-          <div class="relative border-2 w-[400px] mx-auto">
+          <div
+            class="relative border-double border-8 border-yellow-300 w-[400px] mx-auto"
+          >
             <div
               v-for="(classObject, index, key) in classObjects"
               :key="key"
@@ -185,7 +187,7 @@ export default {
           img.src = this.differencesImagePath
 
           await this.loadImg()
-          this.labelling()
+          await this.labelling()
         } else {
           // doc.data() が未定義の場合
           console.log('No such document!')
@@ -274,7 +276,6 @@ export default {
         }
         this.differences.push(col)
       }
-      console.log(this.differences)
     },
     async getCenters(markers) {
       for (let i = 1; i < markers.rows; i++) {
@@ -283,8 +284,6 @@ export default {
           y: parseInt(markers.doublePtr(i, 0)[0]) - 20,
         })
       }
-      console.log(this.centroids[0].x)
-      console.log(this.centroids[0].y)
     },
     loadImg() {
       let src = this.$refs.srcimg
@@ -300,9 +299,7 @@ export default {
     downStart(e) {
       let x = e.layerX
       let y = e.layerY
-      console.log(`x:${x},y:${y}`)
       let label = this.differences[y][x]
-      console.log(label)
       //ラベルが0では無く、回答済みでない場合に追加
       if (label !== 0 && !this.clearedCountArray.includes(label)) {
         this.clearedCountArray.push(label)

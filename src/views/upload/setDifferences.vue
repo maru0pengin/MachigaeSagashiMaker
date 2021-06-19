@@ -112,7 +112,7 @@ export default {
       differencesNum: 0,
       isShowCorrect: false, //見本画像を表示するかのフラグ
       buttonItems: [],
-      thickness: 30,//ペンの太さ
+      thickness: 30, //ペンの太さ
     }
   },
   props: {
@@ -219,8 +219,6 @@ export default {
           stats,
           floatCentroids
         )) - 1
-      //重心を取得
-      //await this.getCenters(floatCentroids)
       //ラベリングのカラー付け
       src = await this.colouring(markers, src)
       this.$cv.imshow('resultimg', src)
@@ -252,14 +250,6 @@ export default {
       }
       return src
     },
-    // async getCenters(markers) {
-    //   for (let i = 1; i < markers.rows; i++) {
-    //     this.labels.push({
-    //       x: parseInt(markers.doublePtr(i, 0)[0]),
-    //       y: parseInt(markers.doublePtr(i, 1)[0]),
-    //     })
-    //   }
-    // },
     loadImg() {
       let src = this.$refs.drawimg
       let ctx = src.getContext('2d')
