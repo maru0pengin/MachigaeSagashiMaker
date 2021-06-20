@@ -13,7 +13,6 @@
           placeholder="作品名"
           required
         />
-        <p class="px-4 text-left pt-2">制限時間を入力してください</p>
 
         <div v-if="!userStatus">
           <p class="px-4 text-left pt-2">ハンドルネームを入力してください</p>
@@ -25,6 +24,8 @@
             required
           />
         </div>
+
+        <p class="px-4 text-left pt-2">制限時間を入力してください</p>
         <p class="mt-4">問題を公開するか選択してください</p>
         <el-radio v-model="radio" label="1">公開</el-radio>
         <el-radio v-model="radio" label="2">非公開</el-radio>
