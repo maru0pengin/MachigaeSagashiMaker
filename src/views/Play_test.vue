@@ -55,9 +55,9 @@
             />
           </div>
 
-          <canvas v-show="false" id="srcimg" ref="srcimg"></canvas>
+          <canvas v-show="false" id="labelCanvas" ref="labelCanvas"></canvas>
           <div v-show="false">
-            <img src="" ref="img" class="" width="400" height="225" />
+            <img ref="labelImg" class="" width="400" height="225" />
           </div>
         </div>
       </div>
@@ -111,7 +111,6 @@ export default {
       correctImgPath: '', //正解画像のパスを入れる
       incorrectImgPath: '', //不正解画像のパスを入れる
       differencesImagePath: '', //間違い位置の画像
-      gameLoops: [], // 毎フレーム毎に実行する関数たち
       title: null,
       name: null,
       differences: [], //ラベリングされた配列
@@ -182,12 +181,18 @@ export default {
           this.incorrectImgPath = doc.data().quiz[0].images.incorrect
           this.differencesImagePath = doc.data().quiz[0].differencesImage //間違い位置の画像
 
-          this.differencesImage
-          let img = this.$refs.img
-          img.src = this.differencesImagePath
+          let labelImg = this.$refs.labelImg
 
-          await this.loadImg()
-          await this.labelling()
+          let src = this.$refs.labelCanvas
+          let ctx = src.getContext('2d')
+          let self = this
+          labelImg.onload = await function() {
+            src.height = labelImg.height
+            src.width = labelImg.width
+            ctx.drawImage(labelImg, 0, 0)
+            self.labelling()
+          }
+          labelImg.src = this.differencesImagePath
         } else {
           // doc.data() が未定義の場合
           console.log('No such document!')
@@ -203,26 +208,6 @@ export default {
       })
   },
   methods: {
-    /**
-     * 毎フレーム処理を追加する関数
-     */
-
-    gameLoop() {
-      // 毎フレームごとに処理するゲームループ
-      // スコアテキストを毎フレームアップデートする
-      if (this.isStart) {
-        this.score = this.differences.filter(function(difference) {
-          return difference.status === 1
-        }).length
-
-        this.timer += 1 / 60
-        this.displayTimer = this.timer.toFixed(2)
-
-        if (this.score === this.differences.length) {
-          this.createEndScene() // 結果画面を表示する
-        }
-      }
-    },
     tweet() {
       location.href = this.tweetURL
     },
@@ -230,7 +215,7 @@ export default {
       this.$router.push({ name: 'Home', query: this.$route.query })
     },
     async labelling() {
-      let src = this.$cv.imread(this.$refs.img)
+      let src = await this.$cv.imread(this.$refs.labelImg)
       let dst = new this.$cv.Mat()
       let gray = new this.$cv.Mat()
       let markers = new this.$cv.Mat()
@@ -283,17 +268,6 @@ export default {
           x: parseInt(markers.doublePtr(i, 1)[0]) - 20,
           y: parseInt(markers.doublePtr(i, 0)[0]) - 20,
         })
-      }
-    },
-    loadImg() {
-      let src = this.$refs.srcimg
-      let ctx = src.getContext('2d')
-      let img = this.$refs.img //new Image()
-
-      img.onload = function() {
-        src.height = img.height
-        src.width = img.width
-        ctx.drawImage(img, 0, 0)
       }
     },
     downStart(e) {

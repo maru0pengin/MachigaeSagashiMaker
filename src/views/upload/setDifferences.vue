@@ -70,7 +70,6 @@
         <img :src="incorrectImage" class="border-4 absolute" />
         <canvas
           id="resultimg"
-          ref="dstimg"
           width="400"
           height="225"
           class="border-2 z-10 absolute opacity-50"
