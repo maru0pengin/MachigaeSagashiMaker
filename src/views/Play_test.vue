@@ -55,7 +55,6 @@
             />
           </div>
 
-          <canvas v-show="false" id="labelCanvas" ref="labelCanvas"></canvas>
           <div v-show="false">
             <img ref="labelImg" class="" width="400" height="225" />
           </div>
@@ -182,17 +181,11 @@ export default {
           this.differencesImagePath = doc.data().quiz[0].differencesImage //間違い位置の画像
 
           let labelImg = this.$refs.labelImg
-
-          let src = this.$refs.labelCanvas
-          let ctx = src.getContext('2d')
           let self = this
-          labelImg.onload = await function() {
-            src.height = labelImg.height
-            src.width = labelImg.width
-            ctx.drawImage(labelImg, 0, 0)
+          //画像を読み込んだ後にラベリングを行う
+          await this.loadImage(this.differencesImagePath, labelImg).then(() => {
             self.labelling()
-          }
-          labelImg.src = this.differencesImagePath
+          })
         } else {
           // doc.data() が未定義の場合
           console.log('No such document!')
@@ -261,6 +254,13 @@ export default {
         }
         this.differences.push(col)
       }
+    },
+    loadImage(src, img) {
+      return new Promise((resolve, reject) => {
+        img.onload = () => resolve(img)
+        img.onerror = (e) => reject(e)
+        img.src = src
+      })
     },
     async getCenters(markers) {
       for (let i = 1; i < markers.rows; i++) {
