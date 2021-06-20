@@ -114,7 +114,7 @@ export default {
     scrollTo(0, 0)
     //画像が渡されてない場合は、アップロード画面へ飛ばす
     if (!this.correctImage || !this.incorrectImage) {
-      this.$router.push({ name: 'imageUpload', query: this.$route.query })
+      //this.$router.push({ name: 'imageUpload', query: this.$route.query })
     }
   },
   methods: {
