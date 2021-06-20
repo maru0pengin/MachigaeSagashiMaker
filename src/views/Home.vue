@@ -84,7 +84,6 @@ export default {
   mounted: async function() {
     //スクロール位置を指定
     scrollTo(0, 0)
-
     //const startTime = performance.now()
     //間違え問題を取得
     this.db

@@ -20,7 +20,7 @@ export default {
   },
   props: {
     show: Boolean,
-    klass: String
+    klass: String,
   },
   methods: {
     close() {
