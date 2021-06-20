@@ -19,6 +19,7 @@ export default {
       twitterId: '',
       displayNmae: '',
       photoURL: '',
+      gotoHomeTimer: null,
     }
   },
   components: {
@@ -37,7 +38,7 @@ export default {
       }, 1000)
     }
     //15秒待ってもユーザーステータスが変わらなかったらホームへ移動
-    setTimeout(() => {
+    this.gotoHomeTimer = setTimeout(() => {
       if (this.$route.path !== '/') this.$router.push('/')
     }, 15000)
   },
@@ -93,6 +94,7 @@ export default {
             this.$rollbar.error(err)
           })
       }
+      clearTimeout(this.gotoHomeTimer)
       this.$router.push('/')
     },
   },
