@@ -73,12 +73,6 @@ const routes = [
         props: true,
       },
       {
-        path: '_setDifferences',
-        name: '_setDifferences',
-        component: () => import('@/views/upload/_setDifferences.vue'),
-        props: true,
-      },
-      {
         path: 'completed',
         name: 'completed',
         component: () => import('@/views/upload/completed.vue'),
