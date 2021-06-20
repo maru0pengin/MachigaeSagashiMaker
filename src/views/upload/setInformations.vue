@@ -103,7 +103,7 @@ export default {
     incorrectImage: String,
     defaltCorrect: String,
     defaltIncorrect: String,
-    differences: Array,
+    differencesImage: String,
   },
   created: function() {
     Firebase.onAuth()
@@ -127,11 +127,6 @@ export default {
           uid = this.user?.uid
           userRef = this.db.collection('users').doc(uid)
         }
-
-        let submitDifferences = this.differences.map((element) => {
-          delete element.obj
-          return element
-        })
         let quizzesCollection = this.db.collection('quizzes')
         let images = {
           correct: this.correctImage,
@@ -139,7 +134,7 @@ export default {
         }
         let quiz = [
           {
-            differences: submitDifferences,
+            differencesImage: this.differencesImage,
             images: images,
           },
         ]
@@ -217,6 +212,7 @@ export default {
         params: {
           completedFlag: true,
           id: this.id,
+          title: this.title,
         },
       })
     },
