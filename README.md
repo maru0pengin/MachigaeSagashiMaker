@@ -18,7 +18,7 @@ https://machigaesagashi.site <br>
 
 # 使用技術
 - Vue.js 2.6.12
-- pixi.js 5.3.7
+- opencv.js
 - tailwind
 - Firebase
   - Cloud Firestore
