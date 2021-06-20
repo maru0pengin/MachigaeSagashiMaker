@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      location: String,
+      location: '',
       message: 'Copy These Text',
     }
   },
