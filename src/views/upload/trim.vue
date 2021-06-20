@@ -33,7 +33,11 @@
         <canvas id="incorrect" width="100" height="100" />
       </div>
       <br />
-      <Modal v-bind:show="isShowModal" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'" @close="closeModal">
+      <Modal
+        v-bind:show="isShowModal"
+        v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'"
+        @close="closeModal"
+      >
         <div class="mx-auto">
           <h3 class="description">
             トリミング結果
@@ -78,6 +82,8 @@
 import VueCropper from 'vue-cropperjs'
 import Modal from '@/components/Modal'
 import 'cropperjs/dist/cropper.css'
+//import Opencv from '@/opencv'
+
 export default {
   name: 'trim',
   components: {

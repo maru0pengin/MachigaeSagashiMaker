@@ -18,7 +18,7 @@ https://machigaesagashi.site <br>
 
 # 使用技術
 - Vue.js 2.6.12
-- pixi.js 5.3.7
+- opencv.js
 - tailwind
 - Firebase
   - Cloud Firestore
@@ -44,7 +44,7 @@ GitHub Actions を用いて以下のことを行っています。
 - 投稿作品で遊ぶ機能(pixijs)
 - Twitterアカウントを用いたログイン機能
 - 投稿作品の削除機能
-
+- 動的OGP機能
 # 今後実装予定の機能
 
 - 間違い位置を点では無く、手書き範囲で設定できる機能(色々な形の間違いに判定を持たせる為)

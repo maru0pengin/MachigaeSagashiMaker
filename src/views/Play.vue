@@ -6,7 +6,7 @@
 
       <div class="flex items-end">
         <div class="text-left px-2 text-xl">
-          間違い:{{ score }}/{{ differences.length }}
+          間違い:{{ clearedCountArray.length }}/{{ differencesNum }}
         </div>
         <div class="px-4">Timer:{{ displayTimer }}</div>
         <div class="ml-auto text-sm pl-2 pr-2">{{ name }}</div>
@@ -16,20 +16,12 @@
       <div v-if="!isStart" class="start-cover">
         <div class="flex flex-col bg-white rounded-2xl p-6">
           <div class="my-2">
-            間違いは<span class="text-lg font-bold"
-              >{{ differences.length }}個</span
+            間違いは<span class="text-lg font-bold">{{ differencesNum }}個</span
             >あります。<br />
             上の画像と見比べて、<span class="text-lg font-bold">下の画像</span
             >の間違いを<br />タップ・クリックしよう！！
           </div>
-          <button
-            class="start_button"
-            @click="
-              () => {
-                isStart = !isStart
-              }
-            "
-          >
+          <button class="start_button" @click="gameStart">
             スタート
           </button>
         </div>
@@ -37,17 +29,36 @@
       <div class="mt-2">
         <div class="mx-auto">
           <p class="text-left text-xl font-bold px-2">みほん</p>
-          <img :src="correctImgPath" class="border-2 w-[400px] mx-auto" />
+          <img :src="correctImgPath" class="border-2 w-[404px] mx-auto" />
         </div>
         <p class="pt-2">
           <span class="font-bold">下の画像の間違い</span
           >をタップ・クリックしよう!
         </p>
-        <p class="text-left text-xl font-bold px-2">まちがい</p>
-        <div
-          id="canvas"
-          class="canvas bg-white w-[416px] border-double border-8 border-yellow-300"
-        />
+        <div class="mx-auto relative">
+          <p class="text-left text-xl font-bold px-2">まちがい</p>
+          <div
+            class="relative border-double border-8 border-yellow-300 w-[416px] mx-auto"
+          >
+            <div
+              v-for="(classObject, index, key) in classObjects"
+              :key="key"
+              v-show="clearedCountArray.includes(index + 1)"
+              class="absolute border-red-400 border-[6px] rounded-full mx-auto w-[40px] h-[40px]"
+              v-bind:style="classObject"
+            ></div>
+
+            <img
+              id="incorrectImg"
+              :src="incorrectImgPath"
+              @mousedown="downStart"
+            />
+          </div>
+
+          <div v-show="false">
+            <img ref="labelImg" class="" width="400" height="225" />
+          </div>
+        </div>
       </div>
     </div>
     <Modal v-bind:show="isCrear" v-bind:klass="'w-[350px]'">
@@ -68,7 +79,7 @@
         </button>
         <button
           class="clear_button w-40 mt-1"
-          @click="createGameScene"
+          @click="resetGame"
           v-bind:disabled="!isCrear"
         >
           もう一度遊ぶ
@@ -88,10 +99,7 @@
 <script>
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-const WIDTH = 400
-const HEIGHT = 225
 
-import * as PIXI from 'pixi.js' // node_modulesから PIXI.jsをインポート
 import Loading from '@/components/Loading'
 import Modal from '@/components/Modal'
 import { getAuthor } from '@/utils/get_author'
@@ -101,20 +109,23 @@ export default {
     return {
       correctImgPath: '', //正解画像のパスを入れる
       incorrectImgPath: '', //不正解画像のパスを入れる
-      app: null,
-      gameLoops: [], // 毎フレーム毎に実行する関数たち
+      differencesImagePath: '', //間違い位置の画像
       title: null,
       name: null,
-      differences: [],
-      textTimer: '',
-      resources: null,
+      differences: [], //ラベリングされた配列
+      differencesNum: 0,
       db: null,
       loading: true,
       timer: 0.0,
+      timerId: null,
       displayTimer: '0.00',
       score: 0,
       isCrear: false,
       isStart: false,
+      centroids: [],
+      clearedCountArray: [],
+      ImgPositionX: null, //間違い画像の位置(x)
+      ImgPositionY: null, //間違い画像の位置(y)
     }
   },
   components: {
@@ -135,12 +146,22 @@ export default {
       const url = encodeURI(`${location.href}`)
       return `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！%20%23まちがいさがしメーカー&url=${url}`
     },
+    //正解の〇を出すためのクラス
+    classObjects: function() {
+      let array = []
+      for (let i = 0; i < this.centroids.length; i++) {
+        array.push({
+          top: `${this.centroids[i]?.x}px`,
+          left: `${this.centroids[i]?.y}px`,
+        })
+      }
+      return array
+    },
   },
   mounted: async function() {
     //スクロール位置を指定
     if (window.innerWidth < 770) scrollTo(0, 78)
     else scrollTo(0, 0)
-
     //間違え位置の取得
     let docRef = await this.db.collection('quizzes').doc(this.id)
     docRef
@@ -157,36 +178,13 @@ export default {
           this.title = doc.data().title
           this.correctImgPath = doc.data().quiz[0].images.correct
           this.incorrectImgPath = doc.data().quiz[0].images.incorrect
-          //間違えの位置を取得し、ステータス情報等を追加してdifferencesへ保存
-          for (let i = 0; i < doc.data().quiz[0].differences.length; i++) {
-            this.differences[i] = {
-              ...doc.data().quiz[0].differences[i],
-              status: 0,
-              obj: null,
-              circleObj: null,
-            }
-          }
-          this.app = new PIXI.Application({ width: WIDTH, height: HEIGHT })
-          let el = document.getElementById('canvas')
-          el.appendChild(this.app.view)
+          this.differencesImagePath = doc.data().quiz[0].differencesImage //間違い位置の画像
 
-          // ゲームcanvasのcssを定義する
-          // ここで定義した画面サイズ(width,height)は実際に画面に表示するサイズ
-          this.app.renderer.view.style.position = 'relative'
-          this.app.renderer.view.style.width = '400px'
-          this.app.renderer.view.style.height = '225px'
-          this.app.renderer.view.style.display = 'block'
-
-          // canvasの背景色
-          this.app.renderer.backgroundColor = 0xffffff
-
-          PIXI.Loader.shared.reset().add(this.incorrectImgPath)
-
-          // プリロード処理が終わったら呼び出されるイベント
-          PIXI.Loader.shared.load((loader, resources) => {
-            //resources["../assets/crear.mp3"].sound.play() // クリックで音が鳴る
-            this.resources = resources
-            this.createGameScene()
+          let labelImg = this.$refs.labelImg
+          let self = this
+          //画像を読み込んだ後にラベリングを行う
+          await this.loadImage(this.differencesImagePath, labelImg).then(() => {
+            self.labelling()
           })
         } else {
           // doc.data() が未定義の場合
@@ -203,135 +201,106 @@ export default {
       })
   },
   methods: {
-    createGameScene() {
-      this.timmer = 0
-      this.displayTimer = '0.00'
-      this.score = 0
-
-      this.isCrear = false
-      this.isStart = false
-
-      this.differences.forEach((difference) => {
-        difference.status = 0
-      })
-      this.removeAllScene()
-      this.removeAllGameLoops()
-
-      // ゲーム用のシーンを生成
-      const gameScene = new PIXI.Container()
-      // ゲームシーンを画面に追加
-      this.app.stage.addChild(gameScene)
-
-      const image = new PIXI.Sprite(
-        this.resources[this.incorrectImgPath].texture
-      )
-
-      image.x = 0
-      image.y = 0
-      gameScene.addChild(image) // 間違え画像をシーンに追加
-
-      //ヒットエリアの描画
-      const length = 30 //ヒットエリアの幅
-      const radius = 20 //正解時に出す縁の半径
-
-      this.differences.forEach((difference) => {
-        difference.obj = new PIXI.Graphics()
-        let rect = new PIXI.Rectangle(
-          difference.x - length / 2,
-          difference.y - length / 2,
-          length,
-          length
-        )
-        difference.obj.beginFill(0xfff000, 0.0) //ヒットエリアは透明
-        difference.obj.drawShape(rect)
-        difference.obj.endFill()
-
-        difference.obj.interactive = true // クリック可能にする
-        difference.obj.hitArea = rect
-
-        difference.obj.on('pointerdown', function() {
-          // クリック時に発動する関数
-          if (difference.status === 0) {
-            //正解を示す円を表示させる
-            difference.CircleObj = new PIXI.Graphics()
-            difference.CircleObj.lineStyle(5, 0xec6d71, 1)
-            difference.CircleObj.drawCircle(
-              difference.x,
-              difference.y - radius / 2 + 10,
-              radius,
-              radius
-            )
-            gameScene.addChild(difference.CircleObj)
-            //正解数を増やす
-            //this.upScore()
-            //正解済みの間違えに設定
-            difference.status = 1
-          }
-        })
-        gameScene.addChild(difference.obj) //間違い範囲の図形をシーンに追加
-      })
-      this.addGameLoop(this.gameLoop)
-    },
-    /**
-     * 毎フレーム処理を追加する関数
-     */
-    addGameLoop(gameLoopFunction) {
-      this.app.ticker.add(gameLoopFunction) // 毎フレーム処理として指定した関数を追加
-      this.gameLoops.push(gameLoopFunction) // 追加した関数は配列に保存する（後で登録を解除する時に使う）
-    },
-    removeAllScene() {
-      this.app.stage.removeChildren()
-    },
-    removeAllGameLoops() {
-      // gameLoopsに追加した関数を全部tickerから解除する
-      for (const gameLoop of this.gameLoops) {
-        this.app.ticker.remove(gameLoop)
-      }
-      this.gameLoops = [] // gameLoopsを空にする
-    },
-    gameLoop() {
-      // 毎フレームごとに処理するゲームループ
-      // スコアテキストを毎フレームアップデートする
-      if (this.isStart) {
-        this.score = this.differences.filter(function(difference) {
-          return difference.status === 1
-        }).length
-
-        this.timer += 1 / 60
-        this.displayTimer = this.timer.toFixed(2)
-
-        if (this.score === this.differences.length) {
-          this.createEndScene() // 結果画面を表示する
-        }
-      }
-    },
-    async createEndScene() {
-      // 毎フレームイベントを削除
-      this.removeAllGameLoops()
-      this.timer = 0
-      let docRef = await this.db.collection('quizzes').doc(this.id)
-      await docRef
-        .update({
-          playedCount: firebase.firestore.FieldValue.increment(1),
-        })
-        .catch((err) => {
-          this.$rollbar.error(err)
-        })
-      //クリアフラグを少し遅らせ、ボタンの自動クリックを防ぐ
-      await setTimeout(() => {
-        this.isCrear = true
-      }, 100)
-    },
     tweet() {
       location.href = this.tweetURL
     },
     gotoHome() {
       this.$router.push({ name: 'Home', query: this.$route.query })
     },
-  },
-  beforeDestroy() {
-    //キャッシュからすべてのテクスチャを削除
-    PIXI.utils.clearTextureCache()
+    async labelling() {
+      let src = await this.$cv.imread(this.$refs.labelImg)
+      let dst = new this.$cv.Mat()
+      let gray = new this.$cv.Mat()
+      let markers = new this.$cv.Mat()
+      let stats = new this.$cv.Mat()
+      let floatCentroids = new this.$cv.Mat()
+      // gray and threshold image
+      this.$cv.cvtColor(src, gray, this.$cv.COLOR_RGBA2GRAY, 0)
+      this.$cv.threshold(
+        gray,
+        gray,
+        0,
+        255,
+        this.$cv.THRESH_BINARY_INV + this.$cv.THRESH_OTSU
+      )
+      //白黒を反転
+      this.$cv.bitwise_not(gray, gray)
+      //ラベリング
+      this.differencesNum =
+        this.$cv.connectedComponentsWithStats(
+          gray,
+          markers,
+          stats,
+          floatCentroids
+        ) - 1
+      //重心を取得
+      await this.getCenters(floatCentroids)
+      //ラベリングのカラー付け
+      this.getDifferences(markers)
+
+      src.delete()
+      dst.delete()
+      gray.delete()
+      markers.delete()
+      stats.delete()
+      floatCentroids.delete()
+    },
+    getDifferences(markers) {
+      for (let i = 0; i < markers.rows; i++) {
+        let col = []
+        for (let j = 0; j < markers.cols; j++) {
+          let num = markers.intPtr(i, j)[0]
+          col.push(num)
+        }
+        this.differences.push(col)
+      }
+    },
+    loadImage(src, img) {
+      return new Promise((resolve, reject) => {
+        img.onload = () => resolve(img)
+        img.onerror = (e) => reject(e)
+        img.src = src
+      })
+    },
+    async getCenters(markers) {
+      for (let i = 1; i < markers.rows; i++) {
+        this.centroids.push({
+          x: parseInt(markers.doublePtr(i, 1)[0]) - 20,
+          y: parseInt(markers.doublePtr(i, 0)[0]) - 20,
+        })
+      }
+    },
+    downStart(e) {
+      let x = e.layerX
+      let y = e.layerY
+      let label = this.differences[y][x]
+      //ラベルが0では無く、回答済みでない場合に追加
+      if (label !== 0 && !this.clearedCountArray.includes(label)) {
+        this.clearedCountArray.push(label)
+        //ゲームクリア判定
+        if (this.clearedCountArray.length === this.differencesNum) {
+          this.stopTimer()
+          this.isCrear = true
+        }
+      }
+    },
+    gameStart() {
+      this.isStart = true
+      this.timerId = setInterval(() => {
+        this.timer += 0.01
+        this.displayTimer = this.timer.toFixed(2)
+      }, 10)
+    },
+    stopTimer() {
+      clearInterval(this.timerId)
+    },
+    resetGame() {
+      this.isCrear = false
+      this.isStart = false
+      this.timer = 0.0
+      this.displayTimer = '0.00'
+      this.clearedCountArray = []
+    },
   },
 }
 </script>
