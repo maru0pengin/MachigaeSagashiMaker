@@ -19,7 +19,7 @@ https://machigaesagashi.site <br>
 # 使用技術
 - Vue.js 2.6.12
 - opencv.js
-- tailwind
+- Tailwind
 - Firebase
   - Cloud Firestore
   - Firebase Hosting
