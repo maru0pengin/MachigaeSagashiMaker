@@ -29,7 +29,7 @@
       <div class="mt-2">
         <div class="mx-auto">
           <p class="text-left text-xl font-bold px-2">みほん</p>
-          <img :src="correctImgPath" class="border-2 w-[404px] mx-auto" />
+          <img :src="correctImgPath" class="border-2 w-[400px] mx-auto" />
         </div>
         <p class="pt-2">
           <span class="font-bold">下の画像の間違い</span
@@ -37,24 +37,25 @@
         </p>
         <div class="mx-auto relative">
           <p class="text-left text-xl font-bold px-2">まちがい</p>
-          <div
-            class="relative border-double border-8 border-yellow-300 w-[416px] mx-auto"
-          >
+          <div class="bg-yellow-300 flex items-center w-[416px] h-[240px] mx-auto">
             <div
-              v-for="(classObject, index, key) in classObjects"
-              :key="key"
-              v-show="clearedCountArray.includes(index + 1)"
-              class="absolute border-red-400 border-[6px] rounded-full mx-auto w-[40px] h-[40px]"
-              v-bind:style="classObject"
-            ></div>
+              class="relative w-[400px] h-[225px] mx-auto"
+            >
+              <div
+                v-for="(classObject, index, key) in classObjects"
+                :key="key"
+                v-show="clearedCountArray.includes(index + 1)"
+                class="absolute border-red-400 border-[6px] rounded-full mx-auto w-[40px] h-[40px]"
+                v-bind:style="classObject"
+              ></div>
 
-            <img
-              id="incorrectImg"
-              :src="incorrectImgPath"
-              @mousedown="downStart"
-            />
+              <img
+                id="incorrectImg"
+                :src="incorrectImgPath"
+                @mousedown="downStart"
+              />
+            </div>
           </div>
-
           <div v-show="false">
             <img ref="labelImg" class="" width="400" height="225" />
           </div>
@@ -273,14 +274,17 @@ export default {
     downStart(e) {
       let x = e.layerX
       let y = e.layerY
-      let label = this.differences[y][x]
-      //ラベルが0では無く、回答済みでない場合に追加
-      if (label !== 0 && !this.clearedCountArray.includes(label)) {
-        this.clearedCountArray.push(label)
-        //ゲームクリア判定
-        if (this.clearedCountArray.length === this.differencesNum) {
-          this.stopTimer()
-          this.isCrear = true
+      //console.log(`x:${x},y:${y}`)
+      if(x<=399 && x>=0 && y<=224 && y>=0){
+        let label = this.differences[y][x]
+        //ラベルが0では無く、回答済みでない場合に追加
+        if (label !== 0 && !this.clearedCountArray.includes(label)) {
+          this.clearedCountArray.push(label)
+          //ゲームクリア判定
+          if (this.clearedCountArray.length === this.differencesNum) {
+            this.stopTimer()
+            this.isCrear = true
+          }
         }
       }
     },
