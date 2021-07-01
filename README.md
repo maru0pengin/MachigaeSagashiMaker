@@ -1,10 +1,10 @@
+
 # まちがいさがしメーカー
 
 間違い探しクイズを、作成・投稿・シェア・プレイできるWebアプリケーションです。<br>
 正解画像と間違い画像を用意するだけで間違い探しが作成でき、他の人の投稿作品で遊ぶこともできます。<br>
 レスポンシブ対応しているため、スマホからでも利用することができます。
-![まちがいさがしメーカー](https://user-images.githubusercontent.com/75305753/120919306-d18d8f00-c6f3-11eb-836f-ebb028cd32d8.JPG)
-
+![まちがいさがしメーカー](https://user-images.githubusercontent.com/75305753/122679072-5dd7a000-d224-11eb-92b6-5de9b6b55beb.gif)
 
 |トップページ|プレイ画面|
 |---|---|
@@ -19,7 +19,7 @@ https://machigaesagashi.site <br>
 # 使用技術
 - Vue.js 2.6.12
 - opencv.js
-- tailwind
+- Tailwind
 - Firebase
   - Cloud Firestore
   - Firebase Hosting
@@ -47,5 +47,4 @@ GitHub Actions を用いて以下のことを行っています。
 - 動的OGP機能
 # 今後実装予定の機能
 
-- 間違い位置を点では無く、手書き範囲で設定できる機能(色々な形の間違いに判定を持たせる為)
 - ライフや時間制限の機能を実装し、ゲームオーバーの概念を導入する
