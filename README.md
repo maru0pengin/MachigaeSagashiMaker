@@ -37,8 +37,8 @@ GitHub Actions を用いて以下のことを行っています。
 
 - 間違い探しの投稿機能
   - 2枚の画像(正解画像と間違え画像)を投稿
-  - 画像のトリミング(coropperjs)
-  - 間違え位置の設定(pixijs)
+  - 画像のトリミング(coropper.js)
+  - 間違え位置の設定(opencv.js)
 - Twitterシェア機能
 - 検索機能
 - 投稿作品で遊ぶ機能(pixijs)
