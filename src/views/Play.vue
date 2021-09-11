@@ -21,9 +21,7 @@
             上の画像と見比べて、<span class="text-lg font-bold">下の画像</span
             >の間違いを<br />タップ・クリックしよう！！
           </div>
-          <button class="start_button" @click="gameStart">
-            スタート
-          </button>
+          <button class="start_button" @click="gameStart">スタート</button>
         </div>
       </div>
       <div class="mt-2">
@@ -37,15 +35,22 @@
         </p>
         <div class="mx-auto relative">
           <p class="text-left text-xl font-bold px-2">まちがい</p>
-          <div class="bg-yellow-300 flex items-center w-[416px] h-[240px] mx-auto">
-            <div
-              class="relative w-[400px] h-[225px] mx-auto"
-            >
+          <div
+            class="bg-yellow-300 flex items-center w-[416px] h-[240px] mx-auto"
+          >
+            <div class="relative w-[400px] h-[225px] mx-auto">
               <div
                 v-for="(classObject, index, key) in classObjects"
                 :key="key"
                 v-show="clearedCountArray.includes(index + 1)"
-                class="absolute border-red-400 border-[6px] rounded-full mx-auto w-[40px] h-[40px]"
+                class="
+                  absolute
+                  border-red-400 border-[6px]
+                  rounded-full
+                  mx-auto
+                  w-[40px]
+                  h-[40px]
+                "
                 v-bind:style="classObject"
               ></div>
 
@@ -60,6 +65,9 @@
             <img ref="labelImg" class="" width="400" height="225" />
           </div>
         </div>
+      </div>
+      <div class="flex justify-end">
+        <QRCode :QRCodeTitle="title" :url="location" />
       </div>
     </div>
     <Modal v-bind:show="isCrear" v-bind:klass="'w-[350px]'">
@@ -103,10 +111,11 @@ import 'firebase/firestore'
 
 import Loading from '@/components/Loading'
 import Modal from '@/components/Modal'
+import QRCode from '@/components/QRCode'
 import { getAuthor } from '@/utils/get_author'
 
 export default {
-  data: function() {
+  data: function () {
     return {
       correctImgPath: '', //正解画像のパスを入れる
       incorrectImgPath: '', //不正解画像のパスを入れる
@@ -132,23 +141,24 @@ export default {
   components: {
     Loading,
     Modal,
+    QRCode,
   },
-  created: function() {
+  created: function () {
     this.db = firebase.firestore() // dbインスタンスを初期化
   },
   computed: {
-    id: function() {
+    id: function () {
       return this.$route.params.id
     },
-    location: function() {
+    location: function () {
       return location.href
     },
-    tweetURL: function() {
+    tweetURL: function () {
       const url = encodeURI(`${location.href}`)
       return `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！%20%23まちがいさがしメーカー&url=${url}`
     },
     //正解の〇を出すためのクラス
-    classObjects: function() {
+    classObjects: function () {
       let array = []
       for (let i = 0; i < this.centroids.length; i++) {
         array.push({
@@ -159,7 +169,7 @@ export default {
       return array
     },
   },
-  mounted: async function() {
+  mounted: async function () {
     //スクロール位置を指定
     if (window.innerWidth < 770) scrollTo(0, 78)
     else scrollTo(0, 0)
@@ -275,7 +285,7 @@ export default {
       let x = e.layerX
       let y = e.layerY
       //console.log(`x:${x},y:${y}`)
-      if(x<=399 && x>=0 && y<=224 && y>=0){
+      if (x <= 399 && x >= 0 && y <= 224 && y >= 0) {
         let label = this.differences[y][x]
         //ラベルが0では無く、回答済みでない場合に追加
         if (label !== 0 && !this.clearedCountArray.includes(label)) {

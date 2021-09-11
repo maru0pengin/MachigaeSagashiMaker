@@ -3,13 +3,41 @@
     <h3 class="description">投稿が完了しました!!</h3>
     <div class="flex items-center px-2 py-1">
       <input
-        class="w-60 text-sm font-sans border border-blue-200 rounded-l-lg px-2 py-1 border hover:border-blue-400 outline-none"
+        class="
+          w-60
+          text-sm
+          font-sans
+          border border-blue-200
+          rounded-l-lg
+          px-2
+          py-1
+          border
+          hover:border-blue-400
+          outline-none
+        "
         type="text"
         v-model="location"
         readonly
       />
       <button
-        class="text-sm inline-block px-1 py-1 w-24 font-medium leading-6 text-center text-white uppercase transition bg-blue-400 rounded-r-lg shadow hover:shadow-lg hover:bg-indigo-500 focus:outline-none"
+        class="
+          text-sm
+          inline-block
+          px-1
+          py-1
+          w-24
+          font-medium
+          leading-6
+          text-center text-white
+          uppercase
+          transition
+          bg-blue-400
+          rounded-r-lg
+          shadow
+          hover:shadow-lg
+          hover:bg-indigo-500
+          focus:outline-none
+        "
         type="button"
         v-clipboard:copy="location"
         v-clipboard:success="onCopy"
@@ -31,9 +59,14 @@
         >
           <img src="@/assets/icons/line.svg" class="w-8 h-8 mr-2" />
         </ShareNetwork>
-        <button class="block focus:outline-none" type="primary" @click="tweet">
+        <button
+          class="block focus:outline-none mr-2"
+          type="primary"
+          @click="tweet"
+        >
           <img src="@/assets/icons/Twitter_blue.svg" class="w-8 h-8" />
         </button>
+        <QRCode :url="location" :QRCodeTitle="title" />
       </div>
     </div>
     <hr />
@@ -47,7 +80,7 @@
 
 <script>
 import { ShareNetwork } from '/node_modules/vue-social-sharing/dist/vue-social-sharing'
-
+import QRCode from '@/components/QRCode'
 export default {
   name: 'completed',
   props: {
@@ -61,9 +94,9 @@ export default {
       message: 'Copy These Text',
     }
   },
-  components: { ShareNetwork },
+  components: { ShareNetwork, QRCode },
   computed: {
-    tweetURL: function() {
+    tweetURL: function () {
       const url = encodeURI(`${this.location}`)
       return `http://twitter.com/intent/tweet?text=間違い探しを作成しました！%20%23まちがいさがしメーカー&url=${url}`
     },
@@ -77,7 +110,7 @@ export default {
     }
   },
   methods: {
-    onCopy: function(e) {
+    onCopy: function (e) {
       this.$message.success('URLのコピーに成功しました！:' + e.text)
     },
     onError() {
