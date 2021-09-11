@@ -21,9 +21,7 @@
             上の画像と見比べて、<span class="text-lg font-bold">下の画像</span
             >の間違いを<br />タップ・クリックしよう！！
           </div>
-          <button class="start_button" @click="gameStart">
-            スタート
-          </button>
+          <button class="start_button" @click="gameStart">スタート</button>
         </div>
       </div>
       <div class="mt-2">
@@ -37,15 +35,22 @@
         </p>
         <div class="mx-auto relative">
           <p class="text-left text-xl font-bold px-2">まちがい</p>
-          <div class="bg-yellow-300 flex items-center w-[416px] h-[240px] mx-auto">
-            <div
-              class="relative w-[400px] h-[225px] mx-auto"
-            >
+          <div
+            class="bg-yellow-300 flex items-center w-[416px] h-[240px] mx-auto"
+          >
+            <div class="relative w-[400px] h-[225px] mx-auto">
               <div
                 v-for="(classObject, index, key) in classObjects"
                 :key="key"
                 v-show="clearedCountArray.includes(index + 1)"
-                class="absolute border-red-400 border-[6px] rounded-full mx-auto w-[40px] h-[40px]"
+                class="
+                  absolute
+                  border-red-400 border-[6px]
+                  rounded-full
+                  mx-auto
+                  w-[40px]
+                  h-[40px]
+                "
                 v-bind:style="classObject"
               ></div>
 
@@ -60,6 +65,9 @@
             <img ref="labelImg" class="" width="400" height="225" />
           </div>
         </div>
+      </div>
+      <div class="flex justify-end">
+        <QRCode :QRCodeTitle="title" :url="location" />
       </div>
     </div>
     <Modal v-bind:show="isCrear" v-bind:klass="'w-[350px]'">
@@ -98,19 +106,20 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import firebase from "firebase/app";
+import "firebase/firestore";
 
-import Loading from '@/components/Loading'
-import Modal from '@/components/Modal'
-import { getAuthor } from '@/utils/get_author'
+import Loading from "@/components/Loading";
+import Modal from "@/components/Modal";
+import QRCode from "@/components/QRCode";
+import { getAuthor } from "@/utils/get_author";
 
 export default {
-  data: function() {
+  data: function () {
     return {
-      correctImgPath: '', //正解画像のパスを入れる
-      incorrectImgPath: '', //不正解画像のパスを入れる
-      differencesImagePath: '', //間違い位置の画像
+      correctImgPath: "", //正解画像のパスを入れる
+      incorrectImgPath: "", //不正解画像のパスを入れる
+      differencesImagePath: "", //間違い位置の画像
       title: null,
       name: null,
       differences: [], //ラベリングされた配列
@@ -119,7 +128,7 @@ export default {
       loading: true,
       timer: 0.0,
       timerId: null,
-      displayTimer: '0.00',
+      displayTimer: "0.00",
       score: 0,
       isCrear: false,
       isStart: false,
@@ -127,105 +136,106 @@ export default {
       clearedCountArray: [],
       ImgPositionX: null, //間違い画像の位置(x)
       ImgPositionY: null, //間違い画像の位置(y)
-    }
+    };
   },
   components: {
     Loading,
     Modal,
+    QRCode,
   },
-  created: function() {
-    this.db = firebase.firestore() // dbインスタンスを初期化
+  created: function () {
+    this.db = firebase.firestore(); // dbインスタンスを初期化
   },
   computed: {
-    id: function() {
-      return this.$route.params.id
+    id: function () {
+      return this.$route.params.id;
     },
-    location: function() {
-      return location.href
+    location: function () {
+      return location.href;
     },
-    tweetURL: function() {
-      const url = encodeURI(`${location.href}`)
-      return `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！%20%23まちがいさがしメーカー&url=${url}`
+    tweetURL: function () {
+      const url = encodeURI(`${location.href}`);
+      return `http://twitter.com/intent/tweet?text=${this.displayTimer}秒で間違えを\n見つけられました！%20%23まちがいさがしメーカー&url=${url}`;
     },
     //正解の〇を出すためのクラス
-    classObjects: function() {
-      let array = []
+    classObjects: function () {
+      let array = [];
       for (let i = 0; i < this.centroids.length; i++) {
         array.push({
           top: `${this.centroids[i]?.x}px`,
           left: `${this.centroids[i]?.y}px`,
-        })
+        });
       }
-      return array
+      return array;
     },
   },
-  mounted: async function() {
+  mounted: async function () {
     //スクロール位置を指定
-    if (window.innerWidth < 770) scrollTo(0, 78)
-    else scrollTo(0, 0)
+    if (window.innerWidth < 770) scrollTo(0, 78);
+    else scrollTo(0, 0);
     //間違え位置の取得
-    let docRef = await this.db.collection('quizzes').doc(this.id)
+    let docRef = await this.db.collection("quizzes").doc(this.id);
     docRef
       .get()
       .then(async (doc) => {
         if (doc.exists) {
           if (doc.data().authorRef) {
-            let author = await getAuthor(doc)
-            this.name = author.displayName
+            let author = await getAuthor(doc);
+            this.name = author.displayName;
           } else {
-            this.name = doc.data().name
+            this.name = doc.data().name;
           }
 
-          this.title = doc.data().title
-          this.correctImgPath = doc.data().quiz[0].images.correct
-          this.incorrectImgPath = doc.data().quiz[0].images.incorrect
-          this.differencesImagePath = doc.data().quiz[0].differencesImage //間違い位置の画像
+          this.title = doc.data().title;
+          this.correctImgPath = doc.data().quiz[0].images.correct;
+          this.incorrectImgPath = doc.data().quiz[0].images.incorrect;
+          this.differencesImagePath = doc.data().quiz[0].differencesImage; //間違い位置の画像
 
-          let labelImg = this.$refs.labelImg
-          let self = this
+          let labelImg = this.$refs.labelImg;
+          let self = this;
           //画像を読み込んだ後にラベリングを行う
           await this.loadImage(this.differencesImagePath, labelImg).then(() => {
-            self.labelling()
-          })
+            self.labelling();
+          });
         } else {
           // doc.data() が未定義の場合
-          console.log('No such document!')
-          this.$router.push({ name: 'Home', query: this.$route.query })
+          console.log("No such document!");
+          this.$router.push({ name: "Home", query: this.$route.query });
         }
       })
       .catch((error) => {
-        console.log('Error getting document:', error)
-        this.$router.push({ name: 'Home', query: this.$route.query })
+        console.log("Error getting document:", error);
+        this.$router.push({ name: "Home", query: this.$route.query });
       })
       .finally(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
   },
   methods: {
     tweet() {
-      location.href = this.tweetURL
+      location.href = this.tweetURL;
     },
     gotoHome() {
-      this.$router.push({ name: 'Home', query: this.$route.query })
+      this.$router.push({ name: "Home", query: this.$route.query });
     },
     async labelling() {
-      let src = await this.$cv.imread(this.$refs.labelImg)
-      let dst = new this.$cv.Mat()
-      let gray = new this.$cv.Mat()
-      let markers = new this.$cv.Mat()
-      let stats = new this.$cv.Mat()
-      let floatCentroids = new this.$cv.Mat()
+      let src = await this.$cv.imread(this.$refs.labelImg);
+      let dst = new this.$cv.Mat();
+      let gray = new this.$cv.Mat();
+      let markers = new this.$cv.Mat();
+      let stats = new this.$cv.Mat();
+      let floatCentroids = new this.$cv.Mat();
       // gray and threshold image
-      this.$cv.cvtColor(src, gray, this.$cv.COLOR_RGBA2GRAY, 0)
+      this.$cv.cvtColor(src, gray, this.$cv.COLOR_RGBA2GRAY, 0);
       this.$cv.threshold(
         gray,
         gray,
         0,
         255,
         this.$cv.THRESH_BINARY_INV + this.$cv.THRESH_OTSU
-      )
+      );
       //白黒を反転
-      this.$cv.bitwise_not(gray, gray)
+      this.$cv.bitwise_not(gray, gray);
       //ラベリング
       this.differencesNum =
         this.$cv.connectedComponentsWithStats(
@@ -233,80 +243,80 @@ export default {
           markers,
           stats,
           floatCentroids
-        ) - 1
+        ) - 1;
       //重心を取得
-      await this.getCenters(floatCentroids)
+      await this.getCenters(floatCentroids);
       //ラベリングのカラー付け
-      this.getDifferences(markers)
+      this.getDifferences(markers);
 
-      src.delete()
-      dst.delete()
-      gray.delete()
-      markers.delete()
-      stats.delete()
-      floatCentroids.delete()
+      src.delete();
+      dst.delete();
+      gray.delete();
+      markers.delete();
+      stats.delete();
+      floatCentroids.delete();
     },
     getDifferences(markers) {
       for (let i = 0; i < markers.rows; i++) {
-        let col = []
+        let col = [];
         for (let j = 0; j < markers.cols; j++) {
-          let num = markers.intPtr(i, j)[0]
-          col.push(num)
+          let num = markers.intPtr(i, j)[0];
+          col.push(num);
         }
-        this.differences.push(col)
+        this.differences.push(col);
       }
     },
     loadImage(src, img) {
       return new Promise((resolve, reject) => {
-        img.onload = () => resolve(img)
-        img.onerror = (e) => reject(e)
-        img.src = src
-      })
+        img.onload = () => resolve(img);
+        img.onerror = (e) => reject(e);
+        img.src = src;
+      });
     },
     async getCenters(markers) {
       for (let i = 1; i < markers.rows; i++) {
         this.centroids.push({
           x: parseInt(markers.doublePtr(i, 1)[0]) - 20,
           y: parseInt(markers.doublePtr(i, 0)[0]) - 20,
-        })
+        });
       }
     },
     downStart(e) {
-      let x = e.layerX
-      let y = e.layerY
+      let x = e.layerX;
+      let y = e.layerY;
       //console.log(`x:${x},y:${y}`)
-      if(x<=399 && x>=0 && y<=224 && y>=0){
-        let label = this.differences[y][x]
+      if (x <= 399 && x >= 0 && y <= 224 && y >= 0) {
+        let label = this.differences[y][x];
         //ラベルが0では無く、回答済みでない場合に追加
         if (label !== 0 && !this.clearedCountArray.includes(label)) {
-          this.clearedCountArray.push(label)
+          this.clearedCountArray.push(label);
           //ゲームクリア判定
           if (this.clearedCountArray.length === this.differencesNum) {
-            this.stopTimer()
-            this.isCrear = true
+            this.stopTimer();
+            this.isCrear = true;
           }
         }
       }
     },
     gameStart() {
-      this.isStart = true
+      this.isStart = true;
       this.timerId = setInterval(() => {
-        this.timer += 0.01
-        this.displayTimer = this.timer.toFixed(2)
-      }, 10)
+        this.timer += 0.01;
+        this.displayTimer = this.timer.toFixed(2);
+      }, 10);
     },
     stopTimer() {
-      clearInterval(this.timerId)
+      clearInterval(this.timerId);
     },
     resetGame() {
-      this.isCrear = false
-      this.isStart = false
-      this.timer = 0.0
-      this.displayTimer = '0.00'
-      this.clearedCountArray = []
+      this.isCrear = false;
+      this.isStart = false;
+      this.timer = 0.0;
+      this.displayTimer = "0.00";
+      this.clearedCountArray = [];
     },
   },
-}
+};
 </script>
 
 <style>

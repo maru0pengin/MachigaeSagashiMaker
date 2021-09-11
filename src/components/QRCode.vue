@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="mt-32">
-      <button class="main_button mt-4" @click="dl">QRコードダウンロード</button>
+    <div>
+      <button class="upload_button text-xs" @click="dl">
+        QRコードをダウンロード
+      </button>
     </div>
     <div v-show="false">
       <vue-qrcode
@@ -18,12 +20,13 @@
 <script>
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 export default {
+  name: "QRCode",
   components: {
     VueQrcode,
   },
   props: {
     url: String,
-    QRCodeTilte: String,
+    QRCodeTitle: String,
   },
   data() {
     return {
@@ -42,7 +45,7 @@ export default {
     };
   },
   methods: {
-    dl: () => {
+    dl() {
       // img要素としてQRコードを取得
       const img = document.getElementById("QR");
       if (img) {
@@ -52,7 +55,7 @@ export default {
         let link = document.createElement("a");
         // a要素のリンク先をimg要素のurlに指定
         link.href = url;
-        link.download = "test.png";
+        link.download = `${this.QRCodeTitle}.png`;
         link.click();
       }
     },
