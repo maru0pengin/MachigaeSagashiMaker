@@ -66,11 +66,46 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-end">
+      <div class="flex justify-end mt-1">
         <QRCode :QRCodeTitle="title" :url="location" />
       </div>
     </div>
-    <Modal v-bind:show="isCrear" v-bind:klass="'w-[350px]'">
+    <!-- <ResultDisplay v-bind:show="isIncorrect">
+      <h3
+        class="
+          mx-auto
+          my-4
+          font-bold
+          text-8xl text-blue-400
+          border-2 border-white
+        "
+      >
+        不正解
+      </h3>
+      <div
+        :style="{
+          width: `${100 - progress}px`,
+          backgroundColor: 'blue',
+          height: '10px',
+          borderRadius: '0.375rem',
+          margin: '0 auto',
+        }"
+      ></div>
+    </ResultDisplay>
+    <ResultDisplay v-bind:show="isCorrect">
+      <h3
+        class="
+          mx-auto
+          my-4
+          font-bold
+          text-8xl text-red-400
+          border-2 border-white
+        "
+      >
+        正解！
+      </h3>
+    </ResultDisplay> -->
+    <Modal v-bind:show="isCrear" v-bind:class="'w-[350px]'">
       <h3 class="mx-auto mt-4 font-bold text-4xl text-yellow-400">
         クリア！！
       </h3>
@@ -111,6 +146,7 @@ import 'firebase/firestore'
 
 import Loading from '@/components/Loading'
 import Modal from '@/components/Modal'
+//import ResultDisplay from '@/components/ResultDisplay'
 import QRCode from '@/components/QRCode'
 import { getAuthor } from '@/utils/get_author'
 
@@ -132,6 +168,9 @@ export default {
       score: 0,
       isCrear: false,
       isStart: false,
+      isIncorrect: false,
+      incorrectTime: 0,
+      isCorrect: false,
       centroids: [],
       clearedCountArray: [],
       ImgPositionX: null, //間違い画像の位置(x)
@@ -142,6 +181,7 @@ export default {
     Loading,
     Modal,
     QRCode,
+    //ResultDisplay,
   },
   created: function () {
     this.db = firebase.firestore() // dbインスタンスを初期化
@@ -167,6 +207,9 @@ export default {
         })
       }
       return array
+    },
+    progress: function () {
+      return Math.floor((this.timer - this.incorrectTime) * (100 / 3))
     },
   },
   mounted: async function () {
@@ -288,13 +331,26 @@ export default {
       if (x <= 399 && x >= 0 && y <= 224 && y >= 0) {
         let label = this.differences[y][x]
         //ラベルが0では無く、回答済みでない場合に追加
-        if (label !== 0 && !this.clearedCountArray.includes(label)) {
-          this.clearedCountArray.push(label)
-          //ゲームクリア判定
-          if (this.clearedCountArray.length === this.differencesNum) {
-            this.stopTimer()
-            this.isCrear = true
+        if (label !== 0) {
+          if (!this.clearedCountArray.includes(label)) {
+            this.clearedCountArray.push(label)
+            //ゲームクリア判定
+            if (this.clearedCountArray.length === this.differencesNum) {
+              this.stopTimer()
+              this.isCrear = true
+            } else {
+              this.isCorrect = true
+              setTimeout(() => {
+                this.isCorrect = false
+              }, 1000)
+            }
           }
+        } else {
+          this.isIncorrect = true
+          this.incorrectTime = this.timer
+          setTimeout(() => {
+            this.isIncorrect = false
+          }, 3000)
         }
       }
     },

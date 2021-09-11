@@ -1,7 +1,20 @@
 <template>
   <div class="fixed left-0 right-0 top-0 z-20">
     <nav
-      class="w-full z-20 h-[65px] md:h-[80px] flex items-center bg-blue px-4 text-white relative justify-between md:justify-start"
+      class="
+        w-full
+        z-20
+        h-[55px]
+        md:h-[70px]
+        flex
+        items-center
+        bg-blue
+        px-4
+        text-white
+        relative
+        justify-between
+        md:justify-start
+      "
     >
       <div class="tracking-tighter md:w-60">
         <router-link to="/">
@@ -16,29 +29,43 @@
           <div class="flex mx-auto">
             <router-link
               to="/upload"
-              class="flex items-center font-bold px-2 lg:px-4 hover:text-blue-100"
+              class="
+                flex
+                items-center
+                font-bold
+                px-2
+                lg:px-4
+                hover:text-blue-100
+              "
             >
               <div v-if="width < 770" class="w-18 pt-1 pl-4">
-                <img src="@/assets/icons/create.svg" class="w-8 mx-auto" />
+                <img src="@/assets/icons/create.svg" class="w-6 mx-auto" />
                 <div class="text-[10px]">つくる</div>
               </div>
 
               <div v-else class="flex flex-row items-center">
-                <img src="@/assets/icons/create.svg" class="w-8 mx-4" />
+                <img src="@/assets/icons/create.svg" class="w-6 mx-4" />
                 <p class="text-lg">まちがいさがしをつくる</p>
               </div>
             </router-link>
             <button
               @click="gotoContact"
-              class="flex items-center font-bold px-4 hover:text-blue-100 focus:outline-none"
+              class="
+                flex
+                items-center
+                font-bold
+                px-4
+                hover:text-blue-100
+                focus:outline-none
+              "
             >
               <div v-if="width < 770" class="w-18 pt-1">
-                <img src="@/assets/icons/contact.svg" class="w-8 mx-auto" />
+                <img src="@/assets/icons/contact.svg" class="w-6 mx-auto" />
                 <div class="text-[10px]">お問い合わせ</div>
               </div>
 
               <div v-else class="flex flex-row items-center">
-                <img src="@/assets/icons/contact.svg" class="w-8 mx-4" />
+                <img src="@/assets/icons/contact.svg" class="w-6 mx-4" />
                 <p class="text-lg">お問い合わせ</p>
               </div>
             </button>
@@ -47,15 +74,15 @@
         <router-link
           to="/login"
           v-if="!userStatus"
-          class="flex font-bold hover:text-blue-100 ml-auto "
+          class="flex font-bold hover:text-blue-100 ml-auto"
         >
-          <div v-if="width < 770" class="w-10 pt-1 ">
-            <img src="@/assets/icons/login.svg" class="w-[2.1rem] mx-auto" />
+          <div v-if="width < 770" class="w-10 pt-1">
+            <img src="@/assets/icons/login.svg" class="w-[1.4rem] mx-auto" />
             <div class="text-[10px]">ログイン</div>
           </div>
 
           <div v-else class="flex flex-row pr-4 items-center">
-            <img src="@/assets/icons/login.svg" class="md:w-8 md:mx-4" />
+            <img src="@/assets/icons/login.svg" class="md:w-6 md:mx-4" />
             <p class="md:text-lg">ログイン</p>
           </div>
         </router-link>
@@ -66,10 +93,25 @@
     <div v-show="userStatus" v-click-outside="hide">
       <div
         @click="toggle"
-        class="flex items-center z-20 pt-[0.95rem] px-4 text-white font-bold  ml-auto my-auto absolute -top-2 md:top-2 right-0"
+        class="
+          flex
+          items-center
+          z-20
+          pt-[0.85rem]
+          md:pt-[0.70rem]
+          px-4
+          text-white
+          font-bold
+          ml-auto
+          my-auto
+          absolute
+          -top-2
+          md:top-2
+          right-0
+        "
       >
-        <div v-if="width < 770" class="w-10 pt-[0.15rem] cursor-pointer">
-          <img src="@/assets/icons/menu.png" class="w-[2.1rem] mx-auto" />
+        <div v-if="width < 770" class="w-10 pt-[0.10rem] cursor-pointer">
+          <img src="@/assets/icons/menu.png" class="w-[1.8rem] mx-auto" />
           <div class="text-[10px]">メニュー</div>
         </div>
 
@@ -81,18 +123,51 @@
       <transition name="menu">
         <div
           v-show="isMenuOpen && userStatus"
-          class="bg-blue mx-auto px-4 pb-4 h-auto absolute right-0 top-16 p-2 rounded-b-lg font-bold text-white z-10"
+          class="
+            bg-blue
+            mx-auto
+            px-4
+            pb-4
+            h-auto
+            absolute
+            right-0
+            top-12
+            p-2
+            rounded-b-lg
+            font-bold
+            text-white
+            z-10
+          "
         >
           <button
             @click="gotoLogout"
-            class="mx-auto p-2 flex items-center mt-2 hover:text-blue-100 focus:outline-none ml-auto font-bold"
+            class="
+              mx-auto
+              p-2
+              flex
+              items-center
+              mt-2
+              hover:text-blue-100
+              focus:outline-none
+              ml-auto
+              font-bold
+            "
           >
             <img src="@/assets/icons/logout.svg" class="w-6 mr-4" />
             ログアウト
           </button>
           <button
             @click="gotoMyPage"
-            class="mx-auto p-2 flex items-center hover:text-blue-100 focus:outline-none ml-auto font-bold"
+            class="
+              mx-auto
+              p-2
+              flex
+              items-center
+              hover:text-blue-100
+              focus:outline-none
+              ml-auto
+              font-bold
+            "
           >
             <img src="@/assets/icons/mypage.svg" class="w-6 mr-4" />
             マイページ
@@ -108,7 +183,7 @@ import Firebase from './../firebase'
 import ClickOutside from 'vue-click-outside'
 
 export default {
-  created: function() {
+  created: function () {
     Firebase.onAuth()
   },
   data() {
@@ -127,11 +202,11 @@ export default {
     },
   },
   watch: {
-    $route: function() {
+    $route: function () {
       this.isMenuOpen = false
     },
   },
-  mounted: function() {
+  mounted: function () {
     window.addEventListener('resize', this.handleResize)
   },
   methods: {
@@ -161,14 +236,14 @@ export default {
     hide() {
       this.isMenuOpen = false
     },
-    handleResize: function() {
+    handleResize: function () {
       this.width = window.innerWidth
     },
   },
   directives: {
     ClickOutside,
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     window.removeEventListener('resize', this.handleResize)
   },
 }
