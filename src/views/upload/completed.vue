@@ -79,10 +79,10 @@
 </template>
 
 <script>
-import { ShareNetwork } from "/node_modules/vue-social-sharing/dist/vue-social-sharing";
-import QRCode from "@/components/QRCode";
+import { ShareNetwork } from '/node_modules/vue-social-sharing/dist/vue-social-sharing'
+import QRCode from '@/components/QRCode'
 export default {
-  name: "completed",
+  name: 'completed',
   props: {
     completedFlag: Boolean,
     id: String,
@@ -90,40 +90,40 @@ export default {
   },
   data() {
     return {
-      location: "",
-      message: "Copy These Text",
-    };
+      location: '',
+      message: 'Copy These Text',
+    }
   },
   components: { ShareNetwork, QRCode },
   computed: {
     tweetURL: function () {
-      const url = encodeURI(`${this.location}`);
-      return `http://twitter.com/intent/tweet?text=間違い探しを作成しました！%20%23まちがいさがしメーカー&url=${url}`;
+      const url = encodeURI(`${this.location}`)
+      return `http://twitter.com/intent/tweet?text=間違い探しを作成しました！%20%23まちがいさがしメーカー&url=${url}`
     },
   },
   mounted() {
     //完了フラグが渡されてない場合は、アップロード画面へ飛ばす
     if (!this.completedFlag) {
-      this.$router.push({ name: "imageUpload", query: this.$route.query });
+      this.$router.push({ name: 'imageUpload', query: this.$route.query })
     } else {
-      this.location = `https://machigaesagashi.site/play/${this.id}`;
+      this.location = `https://machigaesagashi.site/play/${this.id}`
     }
   },
   methods: {
     onCopy: function (e) {
-      this.$message.success("URLのコピーに成功しました！:" + e.text);
+      this.$message.success('URLのコピーに成功しました！:' + e.text)
     },
     onError() {
-      this.$message.warning("URLのコピーに失敗しました");
+      this.$message.warning('URLのコピーに失敗しました')
     },
     tweet() {
-      location.href = this.tweetURL;
+      location.href = this.tweetURL
     },
     gotoNext() {
-      this.$router.push({ name: "Home", query: this.$route.query });
+      this.$router.push({ name: 'Home', query: this.$route.query })
     },
   },
-};
+}
 </script>
 
 <style scoped>

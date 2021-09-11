@@ -76,10 +76,10 @@
 </template>
 
 <script>
-import Modal from "@/components/Modal";
-const reader = new FileReader();
+import Modal from '@/components/Modal'
+const reader = new FileReader()
 export default {
-  name: "imageUpload",
+  name: 'imageUpload',
   data: () => ({
     correctUploadFlag: false,
     incorrectUploadFlag: false,
@@ -89,17 +89,17 @@ export default {
   }),
   mounted() {
     setTimeout(() => {
-      this.isShowModal = true;
-    }, 100);
+      this.isShowModal = true
+    }, 100)
   },
   components: { Modal },
   methods: {
     upload({ file }) {
-      const image = new Image();
+      const image = new Image()
       return new Promise((resolve, reject) => {
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
+        reader.readAsDataURL(file)
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = reject
       })
         .then((imageSrc) => {
           image.onload = () => {
@@ -107,68 +107,68 @@ export default {
               // 見本画像のupの際、間違え画像がupされていて、かつサイズが異なったらエラー表示
               if (this.incorrectImage) {
                 if (this.JudgementSize(image, this.incorrectImage)) {
-                  this.correctImage = image;
+                  this.correctImage = image
                 } else
                   this.$message.error(
-                    "見本画像と間違え画像は同じサイズにしてください"
-                  );
-              } else this.correctImage = image;
+                    '見本画像と間違え画像は同じサイズにしてください'
+                  )
+              } else this.correctImage = image
             } else if (this.incorrectUploadFlag) {
               if (this.correctImage) {
                 if (this.JudgementSize(image, this.correctImage)) {
-                  this.incorrectImage = image;
+                  this.incorrectImage = image
                 } else
                   this.$message.error(
-                    "見本画像と間違え画像は同じサイズにしてください",
-                    { showClose: false, type: "error" }
-                  );
-              } else this.incorrectImage = image;
+                    '見本画像と間違え画像は同じサイズにしてください',
+                    { showClose: false, type: 'error' }
+                  )
+              } else this.incorrectImage = image
             }
-            this.correctUploadFlag = false;
-            this.incorrectUploadFlag = false;
-          };
-          image.src = imageSrc;
+            this.correctUploadFlag = false
+            this.incorrectUploadFlag = false
+          }
+          image.src = imageSrc
         })
         .catch(() => {
-          this.correctUploadFlag = false;
-          this.incorrectUploadFlag = false;
+          this.correctUploadFlag = false
+          this.incorrectUploadFlag = false
           this.$notify({
-            type: "error",
-            title: "Error",
+            type: 'error',
+            title: 'Error',
             message:
-              "画像の読み込みに失敗しました。時間をおいて再度お試しください",
-          });
-        });
+              '画像の読み込みに失敗しました。時間をおいて再度お試しください',
+          })
+        })
     },
     JudgementSize(image1, image2) {
       return (
         image1.naturalWidth == image2.naturalWidth &&
         image1.naturalHeight == image2.naturalHeight
-      );
+      )
     },
     gotoNext() {
       if (this.correctImage && this.incorrectImage) {
         this.$router.push({
-          name: "trim",
+          name: 'trim',
           query: this.$route.query,
           params: {
             correctImage: this.correctImage.src,
             incorrectImage: this.incorrectImage.src,
           },
-        });
+        })
       } else {
         this.$message.warning(
-          "見本画像と間違え画像をアップロードしてください",
+          '見本画像と間違え画像をアップロードしてください',
           {
             showClose: false,
-            type: "error",
+            type: 'error',
           }
-        );
+        )
       }
     },
     toggleModal() {
-      this.isShowModal = !this.isShowModal;
+      this.isShowModal = !this.isShowModal
     },
   },
-};
+}
 </script>

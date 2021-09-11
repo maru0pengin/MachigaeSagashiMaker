@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import VueQrcode from "@chenfengyuan/vue-qrcode";
+import VueQrcode from '@chenfengyuan/vue-qrcode'
 export default {
-  name: "QRCode",
+  name: 'QRCode',
   components: {
     VueQrcode,
   },
@@ -30,37 +30,37 @@ export default {
   },
   data() {
     return {
-      targetText: "https://github.com/maru0pengin/MachigaeSagashiMaker",
+      targetText: 'https://github.com/maru0pengin/MachigaeSagashiMaker',
       option: {
-        errorCorrectionLevel: "M",
+        errorCorrectionLevel: 'M',
         maskPattern: 0,
         margin: 10,
         scale: 2,
         width: 300,
         color: {
-          dark: "#000000FF",
-          light: "#FFFFFFFF",
+          dark: '#000000FF',
+          light: '#FFFFFFFF',
         },
       },
-    };
+    }
   },
   methods: {
     dl() {
       // img要素としてQRコードを取得
-      const img = document.getElementById("QR");
+      const img = document.getElementById('QR')
       if (img) {
         // img要素のurlを取得(base64)
-        let url = img.src;
+        let url = img.src
         // a要素を作成
-        let link = document.createElement("a");
+        let link = document.createElement('a')
         // a要素のリンク先をimg要素のurlに指定
-        link.href = url;
-        link.download = `${this.QRCodeTitle}.png`;
-        link.click();
+        link.href = url
+        link.download = `${this.QRCodeTitle}.png`
+        link.click()
       }
     },
   },
-};
+}
 </script>
 <style scoped>
 </style>
