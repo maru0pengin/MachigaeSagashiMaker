@@ -3,5 +3,6 @@
     "default": "machigaesagashi-dev",
     "dev": "machigaesagashi-dev",
     "prod": "game-test-project-3785f"
-  }
+  },
+  "targets": {}
 }
