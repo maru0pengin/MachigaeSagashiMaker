@@ -102,8 +102,8 @@
         </div>
       </div>
     </ResultDisplay>
-    <Modal v-bind:show="isCrear">
-      <img class="lg:w-1/3 md:w-2/3 mx-auto px-8" src="@/assets/CLEAR.png" />
+    <Modal v-bind:show="isCrear" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'">
+      <img src="@/assets/CLEAR.png" />
 
       <p class="mx-auto my-2 text-xl">
         <span class="font-bold text-2xl">{{ displayTimer }}秒</span
