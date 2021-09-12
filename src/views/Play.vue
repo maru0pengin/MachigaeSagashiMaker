@@ -70,45 +70,39 @@
         <QRCode :QRCodeTitle="title" :url="location" />
       </div>
     </div>
-    <!-- <ResultDisplay v-bind:show="isIncorrect">
-      <h3
-        class="
-          mx-auto
-          my-4
-          font-bold
-          text-8xl text-blue-400
-          border-2 border-white
-        "
-      >
-        不正解
-      </h3>
-      <div
-        :style="{
-          width: `${100 - progress}px`,
-          backgroundColor: 'blue',
-          height: '10px',
-          borderRadius: '0.375rem',
-          margin: '0 auto',
-        }"
-      ></div>
+    <ResultDisplay v-bind:show="isIncorrect">
+      <div class="lg:w-1/3 md:w-2/3 mx-auto px-8">
+        <img class="relative" src="@/assets/incorrect.png" />
+        <div class="absolute left-1/2 bottom-[30%] transform -translate-x-1/2">
+          <div class="text-3xl font-bold text-stroke">
+            残り{{ differencesNum - clearedCountArray.length }}個
+          </div>
+          <div
+            :style="{
+              borderWidth: '5px',
+              width: `${(100 - progress) * 2}px`,
+              backgroundColor: '#3366CC',
+              height: '30px',
+              borderRadius: '0.375rem',
+              margin: '0 auto',
+            }"
+          ></div>
+        </div>
+      </div>
     </ResultDisplay>
     <ResultDisplay v-bind:show="isCorrect">
-      <h3
-        class="
-          mx-auto
-          my-4
-          font-bold
-          text-8xl text-red-400
-          border-2 border-white
-        "
-      >
-        正解！
-      </h3>
-    </ResultDisplay> -->
-    <Modal v-bind:show="isCrear" v-bind:class="'w-[350px]'">
-      <h3 class="mx-auto mt-4 font-bold text-4xl text-yellow-400">
-        クリア！！
-      </h3>
+      <div class="lg:w-1/3 md:w-2/3 mx-auto px-8">
+        <img class="relative" src="@/assets/correct.png" />
+        <div class="absolute left-1/2 bottom-[30%] transform -translate-x-1/2">
+          <div class="text-3xl font-bold text-stroke">
+            残り{{ differencesNum - clearedCountArray.length }}個
+          </div>
+        </div>
+      </div>
+    </ResultDisplay>
+    <Modal v-bind:show="isCrear">
+      <img class="lg:w-1/3 md:w-2/3 mx-auto px-8" src="@/assets/CLEAR.png" />
+
       <p class="mx-auto my-2 text-xl">
         <span class="font-bold text-2xl">{{ displayTimer }}秒</span
         >で見つけられました！
@@ -146,7 +140,7 @@ import 'firebase/firestore'
 
 import Loading from '@/components/Loading'
 import Modal from '@/components/Modal'
-//import ResultDisplay from '@/components/ResultDisplay'
+import ResultDisplay from '@/components/ResultDisplay'
 import QRCode from '@/components/QRCode'
 import { getAuthor } from '@/utils/get_author'
 
@@ -181,7 +175,7 @@ export default {
     Loading,
     Modal,
     QRCode,
-    //ResultDisplay,
+    ResultDisplay,
   },
   created: function () {
     this.db = firebase.firestore() // dbインスタンスを初期化
@@ -342,7 +336,7 @@ export default {
               this.isCorrect = true
               setTimeout(() => {
                 this.isCorrect = false
-              }, 1000)
+              }, 500)
             }
           }
         } else {
@@ -393,5 +387,8 @@ export default {
   transition: all 0.25s ease;
   cursor: pointer;
   @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 py-2 px-8 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none md:hover:tracking-widest;
+}
+.text-stroke {
+  text-shadow: 1px 0 0 white, 0 1px 0 white, -1px 0 0 white, 0 -1px 0 white;
 }
 </style>

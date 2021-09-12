@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'ResultDisplay',
+  name: 'Modal',
   data() {
     return {
       showContent: false,
@@ -36,7 +36,6 @@ export default {
   @apply flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 z-30
 .modal-content
   max-height: 90vh
-  @apply rounded-lg bg-white
 
 .v-leave-active,
 .v-enter-active
