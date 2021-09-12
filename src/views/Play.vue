@@ -22,6 +22,7 @@
             >の間違いを<br />タップ・クリックしよう！！
           </div>
           <button class="start_button" @click="gameStart">スタート</button>
+          <p class="font-bold text-red-400">※ 音が鳴ります</p>
         </div>
       </div>
       <div class="mt-2">
@@ -66,6 +67,7 @@
           </div>
         </div>
       </div>
+      <div class="flex justify-end mt-1 text-xs">音源：OtoLogic</div>
       <div class="flex justify-end mt-1">
         <QRCode :QRCodeTitle="title" :url="location" />
       </div>
@@ -100,8 +102,8 @@
         </div>
       </div>
     </ResultDisplay>
-    <Modal v-bind:show="isCrear">
-      <img class="lg:w-1/3 md:w-2/3 mx-auto px-8" src="@/assets/CLEAR.png" />
+    <Modal v-bind:show="isCrear" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'">
+      <img src="@/assets/CLEAR.png" />
 
       <p class="mx-auto my-2 text-xl">
         <span class="font-bold text-2xl">{{ displayTimer }}秒</span
@@ -330,9 +332,13 @@ export default {
             this.clearedCountArray.push(label)
             //ゲームクリア判定
             if (this.clearedCountArray.length === this.differencesNum) {
+              const audio = new Audio(require('@/assets/crear.mp3'))
+              audio.play()
               this.stopTimer()
               this.isCrear = true
             } else {
+              const audio = new Audio(require('@/assets/correct.mp3'))
+              audio.play()
               this.isCorrect = true
               setTimeout(() => {
                 this.isCorrect = false
@@ -340,6 +346,8 @@ export default {
             }
           }
         } else {
+          const audio = new Audio(require('@/assets/incorrect.mp3'))
+          audio.play()
           this.isIncorrect = true
           this.incorrectTime = this.timer
           setTimeout(() => {
