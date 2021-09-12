@@ -66,6 +66,7 @@
           </div>
         </div>
       </div>
+      <div class="flex justify-end mt-1 text-xs">音源：OtoLogic</div>
       <div class="flex justify-end mt-1">
         <QRCode :QRCodeTitle="title" :url="location" />
       </div>
@@ -330,9 +331,13 @@ export default {
             this.clearedCountArray.push(label)
             //ゲームクリア判定
             if (this.clearedCountArray.length === this.differencesNum) {
+              const audio = new Audio(require('@/assets/crear.mp3'))
+              audio.play()
               this.stopTimer()
               this.isCrear = true
             } else {
+              const audio = new Audio(require('@/assets/correct.mp3'))
+              audio.play()
               this.isCorrect = true
               setTimeout(() => {
                 this.isCorrect = false
@@ -340,6 +345,8 @@ export default {
             }
           }
         } else {
+          const audio = new Audio(require('@/assets/incorrect.mp3'))
+          audio.play()
           this.isIncorrect = true
           this.incorrectTime = this.timer
           setTimeout(() => {
