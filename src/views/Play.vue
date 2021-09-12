@@ -22,6 +22,7 @@
             >の間違いを<br />タップ・クリックしよう！！
           </div>
           <button class="start_button" @click="gameStart">スタート</button>
+          <p class="font-bold text-red-400">※ 音が鳴ります</p>
         </div>
       </div>
       <div class="mt-2">
