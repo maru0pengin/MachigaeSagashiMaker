@@ -66,14 +66,43 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-end">
+      <div class="flex justify-end mt-1">
         <QRCode :QRCodeTitle="title" :url="location" />
       </div>
     </div>
-    <Modal v-bind:show="isCrear" v-bind:klass="'w-[350px]'">
-      <h3 class="mx-auto mt-4 font-bold text-4xl text-yellow-400">
-        クリア！！
-      </h3>
+    <ResultDisplay v-bind:show="isIncorrect">
+      <div class="lg:w-1/3 md:w-2/3 mx-auto px-8">
+        <img class="relative" src="@/assets/incorrect.png" />
+        <div class="absolute left-1/2 bottom-[30%] transform -translate-x-1/2">
+          <div class="text-3xl font-bold text-stroke">
+            残り{{ differencesNum - clearedCountArray.length }}個
+          </div>
+          <div
+            :style="{
+              borderWidth: '5px',
+              width: `${(100 - progress) * 2}px`,
+              backgroundColor: '#3366CC',
+              height: '30px',
+              borderRadius: '0.375rem',
+              margin: '0 auto',
+            }"
+          ></div>
+        </div>
+      </div>
+    </ResultDisplay>
+    <ResultDisplay v-bind:show="isCorrect">
+      <div class="lg:w-1/3 md:w-2/3 mx-auto px-8">
+        <img class="relative" src="@/assets/correct.png" />
+        <div class="absolute left-1/2 bottom-[30%] transform -translate-x-1/2">
+          <div class="text-3xl font-bold text-stroke">
+            残り{{ differencesNum - clearedCountArray.length }}個
+          </div>
+        </div>
+      </div>
+    </ResultDisplay>
+    <Modal v-bind:show="isCrear">
+      <img class="lg:w-1/3 md:w-2/3 mx-auto px-8" src="@/assets/CLEAR.png" />
+
       <p class="mx-auto my-2 text-xl">
         <span class="font-bold text-2xl">{{ displayTimer }}秒</span
         >で見つけられました！
@@ -111,6 +140,7 @@ import 'firebase/firestore'
 
 import Loading from '@/components/Loading'
 import Modal from '@/components/Modal'
+import ResultDisplay from '@/components/ResultDisplay'
 import QRCode from '@/components/QRCode'
 import { getAuthor } from '@/utils/get_author'
 
@@ -132,6 +162,9 @@ export default {
       score: 0,
       isCrear: false,
       isStart: false,
+      isIncorrect: false,
+      incorrectTime: 0,
+      isCorrect: false,
       centroids: [],
       clearedCountArray: [],
       ImgPositionX: null, //間違い画像の位置(x)
@@ -142,6 +175,7 @@ export default {
     Loading,
     Modal,
     QRCode,
+    ResultDisplay,
   },
   created: function () {
     this.db = firebase.firestore() // dbインスタンスを初期化
@@ -167,6 +201,9 @@ export default {
         })
       }
       return array
+    },
+    progress: function () {
+      return Math.floor((this.timer - this.incorrectTime) * (100 / 3))
     },
   },
   mounted: async function () {
@@ -288,13 +325,26 @@ export default {
       if (x <= 399 && x >= 0 && y <= 224 && y >= 0) {
         let label = this.differences[y][x]
         //ラベルが0では無く、回答済みでない場合に追加
-        if (label !== 0 && !this.clearedCountArray.includes(label)) {
-          this.clearedCountArray.push(label)
-          //ゲームクリア判定
-          if (this.clearedCountArray.length === this.differencesNum) {
-            this.stopTimer()
-            this.isCrear = true
+        if (label !== 0) {
+          if (!this.clearedCountArray.includes(label)) {
+            this.clearedCountArray.push(label)
+            //ゲームクリア判定
+            if (this.clearedCountArray.length === this.differencesNum) {
+              this.stopTimer()
+              this.isCrear = true
+            } else {
+              this.isCorrect = true
+              setTimeout(() => {
+                this.isCorrect = false
+              }, 500)
+            }
           }
+        } else {
+          this.isIncorrect = true
+          this.incorrectTime = this.timer
+          setTimeout(() => {
+            this.isIncorrect = false
+          }, 3000)
         }
       }
     },
@@ -337,5 +387,8 @@ export default {
   transition: all 0.25s ease;
   cursor: pointer;
   @apply border-2 border-blue-400 text-5xl text-blue-400 font-extrabold font-sans bg-white mx-auto mt-4 py-2 px-8 rounded-full hover:bg-blue-400 hover:text-white focus:outline-none md:hover:tracking-widest;
+}
+.text-stroke {
+  text-shadow: 1px 0 0 white, 0 1px 0 white, -1px 0 0 white, 0 -1px 0 white;
 }
 </style>
