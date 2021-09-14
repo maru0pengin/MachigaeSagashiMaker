@@ -5,9 +5,7 @@
     <router-view />
 
     <div class="bg-blue font-sans h-44 text-white p-10">
-      <router-link to="/faq" class="px-1">
-        FAQ
-      </router-link>
+      <router-link to="/faq" class="px-1"> FAQ </router-link>
       <button @click="gotoContact" class="px-1 focus:outline-none">
         お問い合わせ
       </button>
