@@ -174,7 +174,7 @@ import Modal from '@/components/Modal'
 import ResultDisplay from '@/components/ResultDisplay'
 import QRCode from '@/components/QRCode'
 import { getAuthor } from '@/utils/get_author'
-import { getFunctions, httpsCallable } from 'firebase/functions'
+//import { getFunctions, httpsCallable } from 'firebase/functions'
 
 export default {
   data: function () {
@@ -416,16 +416,29 @@ export default {
     },
     deleteQuiz() {
       if (this.password) {
-        const functions = getFunctions()
-        const onDeleteQuiz = httpsCallable(functions, 'onDeleteQuiz')
+        var onDeleteQuiz = firebase.functions().httpsCallable('onDeleteQuiz')
         onDeleteQuiz().then((result) => {
           // Read result of the Cloud Function.
-          /** @type {any} */
-          const data = result.data
-          const sanitizedMessage = data.text
-          console.log(data)
+          var sanitizedMessage = result.data.text
           console.log(sanitizedMessage)
         })
+        console.log('1')
+
+        // const functions = getFunctions()
+        // const onDeleteQuiz = httpsCallable(functions, 'onDeleteQuiz')
+        // console.log('2')
+        // onDeleteQuiz()
+        //   .then((result) => {
+        //     // Read result of the Cloud Function.
+        //     /** @type {any} */
+        //     const data = result.data
+        //     const sanitizedMessage = data.text
+        //     console.log(data)
+        //     console.log(sanitizedMessage)
+        //   })
+        //   .catch((err) => {
+        //     console.log(err)
+        //   })
       } else {
         this.$message.warning('パスワードを入力してください', {
           showClose: false,
