@@ -415,6 +415,8 @@ export default {
       this.isShowDeleteModal = true
     },
     deleteQuiz() {
+      const functions = firebase.app().functions('asia-northeast1')
+      console.log(functions)
       if (this.password) {
         var onDeleteQuiz = firebase.functions().httpsCallable('onDeleteQuiz')
         onDeleteQuiz().then((result) => {
@@ -422,7 +424,6 @@ export default {
           var sanitizedMessage = result.data.text
           console.log(sanitizedMessage)
         })
-        console.log('1')
 
         // const functions = getFunctions()
         // const onDeleteQuiz = httpsCallable(functions, 'onDeleteQuiz')
