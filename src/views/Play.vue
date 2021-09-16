@@ -1,5 +1,6 @@
 <template>
   <div class="my-36 flex justify-center">
+    {{ isShowDeleteModal }}
     <Loading v-bind:loading="loading" />
     <div v-show="!loading" class="main-card bg-white shadow">
       <p class="font-bold text-xl pl-2 pt-1">{{ title }}</p>
@@ -67,8 +68,11 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-end mt-1 text-xs">音源：OtoLogic</div>
-      <div class="flex justify-end mt-1">
+      <div class="flex justify-end mt-1 mx-2 text-xs">音源：OtoLogic</div>
+      <div class="flex justify-end items-center mt-1">
+        <button class="delete-button" @click="openDeleteModal">
+          この問題を削除
+        </button>
         <QRCode :QRCodeTitle="title" :url="location" />
       </div>
     </div>
@@ -102,6 +106,21 @@
         </div>
       </div>
     </ResultDisplay>
+    <Modal
+      v-bind:show="isShowDeleteModal"
+      v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'"
+    >
+      <p class="text-xl">間違え探しを削除しますか？</p>
+      <div class="text-sm mt-2">
+        <p class="text-left">削除した作品は復元できません。</p>
+      </div>
+      <div class="ml-auto">
+        <button class="main_button mx-2">OK</button>
+        <button class="main_button mx-2" @click="closeDeleteModal">
+          キャンセル
+        </button>
+      </div>
+    </Modal>
     <Modal v-bind:show="isCrear" v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'">
       <img src="@/assets/CLEAR.png" />
 
@@ -169,8 +188,10 @@ export default {
       isCorrect: false,
       centroids: [],
       clearedCountArray: [],
-      ImgPositionX: null, //間違い画像の位置(x)
-      ImgPositionY: null, //間違い画像の位置(y)
+      ImgPositionX: null, // 間違い画像の位置(x)
+      ImgPositionY: null, // 間違い画像の位置(y)
+      isLoggedQuiz: false, // ログインされた状態で投稿されたクイズかどうか
+      isShowDeleteModal: false,
     }
   },
   components: {
@@ -221,8 +242,10 @@ export default {
           if (doc.data().authorRef) {
             let author = await getAuthor(doc)
             this.name = author.displayName
+            this.isLoggedQuiz = true
           } else {
             this.name = doc.data().name
+            this.isLoggedQuiz = false
           }
 
           this.title = doc.data().title
@@ -372,6 +395,12 @@ export default {
       this.timer = 0.0
       this.displayTimer = '0.00'
       this.clearedCountArray = []
+    },
+    closeDeleteModal() {
+      this.isShowDeleteModal = false
+    },
+    openDeleteModal() {
+      this.isShowDeleteModal = true
     },
   },
 }
