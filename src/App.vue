@@ -53,4 +53,7 @@ export default {
 .upload_button {
   @apply inline-block px-4 py-2 font-medium leading-6 text-center text-blue-500 uppercase transition bg-transparent border-2 border-blue-500 rounded-md hover:bg-blue-100 focus:outline-none;
 }
+.input-form {
+  @apply px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none;
+}
 </style>

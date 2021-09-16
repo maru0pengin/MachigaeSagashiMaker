@@ -289,8 +289,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.input-form {
-  @apply px-2 py-1 border border-blue-200 hover:border-blue-400 rounded-sm placeholder-gray-300 outline-none;
-}
-</style>

@@ -1,6 +1,5 @@
 <template>
   <div class="my-36 flex justify-center">
-    {{ isShowDeleteModal }}
     <Loading v-bind:loading="loading" />
     <div v-show="!loading" class="main-card bg-white shadow">
       <p class="font-bold text-xl pl-2 pt-1">{{ title }}</p>
@@ -110,12 +109,23 @@
       v-bind:show="isShowDeleteModal"
       v-bind:klass="'w-5/6 md:w-2/3 lg:w-1/3'"
     >
-      <p class="text-xl">間違え探しを削除しますか？</p>
-      <div class="text-sm mt-2">
-        <p class="text-left">削除した作品は復元できません。</p>
+      <p class="text-xl">削除パスワードを入力してください</p>
+      <div class="mx-auto my-4">
+        <input
+          type="text"
+          v-model="password"
+          class="input-form"
+          placeholder="削除用パスワード"
+          required
+        />
+        <div class="text-sm mt-2">
+          <p class="text-left text-red-500">※削除した作品は復元できません。</p>
+        </div>
       </div>
       <div class="ml-auto">
-        <button class="main_button mx-2">OK</button>
+        <button class="delete-button" @click="deleteQuiz">
+          この問題を削除
+        </button>
         <button class="main_button mx-2" @click="closeDeleteModal">
           キャンセル
         </button>
@@ -164,6 +174,7 @@ import Modal from '@/components/Modal'
 import ResultDisplay from '@/components/ResultDisplay'
 import QRCode from '@/components/QRCode'
 import { getAuthor } from '@/utils/get_author'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 
 export default {
   data: function () {
@@ -192,6 +203,7 @@ export default {
       ImgPositionY: null, // 間違い画像の位置(y)
       isLoggedQuiz: false, // ログインされた状態で投稿されたクイズかどうか
       isShowDeleteModal: false,
+      password: '',
     }
   },
   components: {
@@ -401,6 +413,25 @@ export default {
     },
     openDeleteModal() {
       this.isShowDeleteModal = true
+    },
+    deleteQuiz() {
+      if (this.password) {
+        const functions = getFunctions()
+        const onDeleteQuiz = httpsCallable(functions, 'onDeleteQuiz')
+        onDeleteQuiz().then((result) => {
+          // Read result of the Cloud Function.
+          /** @type {any} */
+          const data = result.data
+          const sanitizedMessage = data.text
+          console.log(data)
+          console.log(sanitizedMessage)
+        })
+      } else {
+        this.$message.warning('パスワードを入力してください', {
+          showClose: false,
+          type: 'error',
+        })
+      }
     },
   },
 }
