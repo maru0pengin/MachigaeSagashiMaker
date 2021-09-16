@@ -79,16 +79,6 @@
           <div class="text-3xl font-bold text-stroke">
             残り{{ differencesNum - clearedCountArray.length }}個
           </div>
-          <div
-            :style="{
-              borderWidth: '5px',
-              width: `${(100 - progress) * 2}px`,
-              backgroundColor: '#3366CC',
-              height: '30px',
-              borderRadius: '0.375rem',
-              margin: '0 auto',
-            }"
-          ></div>
         </div>
       </div>
     </ResultDisplay>
@@ -203,9 +193,6 @@ export default {
         })
       }
       return array
-    },
-    progress: function () {
-      return Math.floor((this.timer - this.incorrectTime) * (100 / 3))
     },
   },
   mounted: async function () {
@@ -342,17 +329,16 @@ export default {
               this.isCorrect = true
               setTimeout(() => {
                 this.isCorrect = false
-              }, 500)
+              }, 600)
             }
           }
         } else {
           const audio = new Audio(require('@/assets/incorrect.mp3'))
           audio.play()
           this.isIncorrect = true
-          this.incorrectTime = this.timer
           setTimeout(() => {
             this.isIncorrect = false
-          }, 3000)
+          }, 600)
         }
       }
     },
