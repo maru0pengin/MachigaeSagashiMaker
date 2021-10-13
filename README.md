@@ -16,6 +16,14 @@ https://machigaesagashi.site <br>
 開発途中であるため、不具合等があるかもしれません。<br>
 お気づきの際は[問い合わせフォーム](https://docs.google.com/forms/d/e/1FAIpQLSdHpcv83hmHh9XvRN5a35k-aEQ7UbGYJ93s5YDHQkUNkwERkw/viewform)等へ連絡頂けると幸いです。
 
+# こだわりポイント
+
+間違い探し投稿時に、間違い範囲を指定する際、面として塗りつぶして指定できるようにOpenCV.jsというライブラリを用いて実装しました。
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/75305753/137131752-78411365-bc19-4674-93b2-42ca83e72dae.gif" />
+</p>
+
 # 使用技術
 - Vue.js 2.6.12
 - opencv.js
