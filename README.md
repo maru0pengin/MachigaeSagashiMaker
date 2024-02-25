@@ -12,7 +12,8 @@
 
 # URL
 
-https://machigaesagashi.site <br>
+~https://machigaesagashi.site~ <br>
+※ [2024/02追記]　メンテナンスできていなかった為、一旦閉鎖しました 🙇 <br>
 開発途中であるため、不具合等があるかもしれません。<br>
 お気づきの際は[問い合わせフォーム](https://docs.google.com/forms/d/e/1FAIpQLSdHpcv83hmHh9XvRN5a35k-aEQ7UbGYJ93s5YDHQkUNkwERkw/viewform)等へ連絡頂けると幸いです。
 
